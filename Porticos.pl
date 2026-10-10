@@ -77,7 +77,7 @@ if(defined $ARGV[1]){
 system ("clear");
 titulo("Se procesa InitServidor.sh");
 
-system ("cd maple; sh InitServidor.sh");
+system ("cd maple/server; sh InitServidor.sh");
 if ($opcion==0) {exit(0);};
 
 
@@ -95,7 +95,8 @@ foreach $NP (split(',',$modelos)) {#};
     }
     #-------------------------Maple en VirtualBox-------------------------------
     titulo("Se hace sh rmTmpMimapleScp.sh aux.mws");
-    system ("ssh localhost -p 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 'cd vigas1vano; pwd;".
+                                   
+    system ("ssh localhost -p 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa 'cd vigas1vano; pwd;".
 	    "grep ^NP aux.mws;  ".
 	    "sh rmTmpMimapleScp.sh aux.mws;".
 	    "echo 'El error anterior, lost connection, es intrascendente';".
@@ -103,7 +104,7 @@ foreach $NP (split(',',$modelos)) {#};
     #-------------------------Se copian los ficheros de VirtualBox--------------
     titulo ("Se copian los ficheros de VirtualBox a /tmp/tmp");
     system ("rm -rf /tmp/tmp;".
-	    "scp -r  -P 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 localhost:/tmp /tmp");
+	    "scp -r  -P 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa localhost:/tmp /tmp");
 
     if ($opcion>=1) {
     #-------------------------Se procesan resultados de Maple-------------------
