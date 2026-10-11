@@ -106,14 +106,15 @@ sub ejecutar_proceso {
     titulo("Se procesa InitServidor.sh");
     
     my $cmd0="(cd maple/server; sh InitServidor.sh)";
-    my $salida=system("$cmd0");
-    my $codigo_retorno=$? >> 8; # Peculiaridades de perl
-    if ($codigo_retorno !=0) {
-	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
-	print "          Se sale completamente el script '$0'\n";
-	exit(1);
-    }	    
-	    
+    #my $salida=system("$cmd0");
+    #my $codigo_retorno=$? >> 8; # Peculiaridades de perl
+    #if ($codigo_retorno !=0) {
+#	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
+#	print "          Se sale completamente el script '$0'\n";
+#	exit(1);
+ #   }	    
+
+    ejecutar_comando ($cmd0);
 	
 
     # Configurar parámetros desde la GUI
@@ -148,13 +149,14 @@ sub preparar_lanzar_y_recuperarSalida_maple {
     titulo("Se prepara newPortico.mws > aux.mws para procesar $NP");
     $dirMaple = "$dir/maple";
     
-    $salida=system("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
-    $codigo_retorno=$? >> 8; # Peculiaridades de perl
-    if ($codigo_retorno !=0) {
-	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
-	print "          Se sale completamente el script '$0'\n";
-	exit(1);
-    }	    
+    #$salida=system("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
+    #$codigo_retorno=$? >> 8; # Peculiaridades de perl
+    #if ($codigo_retorno !=0) {
+#	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
+#	print "          Se sale completamente el script '$0'\n";
+#	exit(1);
+    #   }
+    ejecutar_comando("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
     #-------------------------Maple en VirtualBox-------------------------------
     titulo("Se hace sh rmTmpMimapleScp.sh aux.mws");
     system("ssh localhost -p 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa 'cd vigas1vano; pwd; grep ^NP aux.mws; sh rmTmpMimapleScp.sh aux.mws; echo \"El error anterior, lost connection, es intrascendente\";'");
@@ -243,6 +245,22 @@ sub listar_archivos_ps {
         } else {
             print "\n[ERROR] No se encontro ningún emulador de terminal instalado (x-terminal-emulator, gnome-terminal, xterm).\n";
         }
+}
+
+# --- SUBRUTINA PARA EJECUTAR Y VALIDAR COMANDOS DE SYSTEM ---
+sub ejecutar_comando {
+    my ($cmd) = @_;
+    
+    my $salida = system($cmd);
+    my $codigo_retorno = $? >> 8; # Obtener el codigo de salida real de Perl
+    
+    if ($codigo_retorno != 0) {
+        print "\n[AVISO] El comando '$cmd' fallo con código $codigo_retorno\n";
+        print "          Se sale completamente del script '$0'\n";
+        exit(1);
+    }
+    
+    return $codigo_retorno;
 }
 
 sub titulo {
