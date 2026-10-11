@@ -104,7 +104,17 @@ sub ejecutar_proceso {
 
     system("clear");
     titulo("Se procesa InitServidor.sh");
-    system("cd maple/server; sh InitServidor.sh");
+    
+    my $cmd0="(cd maple/server; sh InitServidor.sh)";
+    my $salida=system("$cmd0");
+    my $codigo_retorno=$? >> 8; # Peculiaridades de perl
+    if ($codigo_retorno !=0) {
+	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
+	print "          Se sale completamente el script '$0'\n";
+	exit(1);
+    }	    
+	    
+	
 
     # Configurar parámetros desde la GUI
     $joinH5P     =$extra_entry;
@@ -138,8 +148,13 @@ sub preparar_lanzar_y_recuperarSalida_maple {
     titulo("Se prepara newPortico.mws > aux.mws para procesar $NP");
     $dirMaple = "$dir/maple";
     
-    system("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
-    
+    $salida=system("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
+    $codigo_retorno=$? >> 8; # Peculiaridades de perl
+    if ($codigo_retorno !=0) {
+	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
+	print "          Se sale completamente el script '$0'\n";
+	exit(1);
+    }	    
     #-------------------------Maple en VirtualBox-------------------------------
     titulo("Se hace sh rmTmpMimapleScp.sh aux.mws");
     system("ssh localhost -p 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa 'cd vigas1vano; pwd; grep ^NP aux.mws; sh rmTmpMimapleScp.sh aux.mws; echo \"El error anterior, lost connection, es intrascendente\";'");

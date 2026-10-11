@@ -31,7 +31,9 @@ show_setup_instructions() {
     local texto_ssh=" ssh sin passwd:
    ssh-keygen -t rsa (intro)(intro)...
    copiar contenido de .ssh/id_rsa.pub
-   en .ssh/authorized_keys de la máquina virtual"
+   en .ssh/authorized_keys de la máquina virtual
+   chmod 700 ~/.ssh
+   chmod 600 ~/.ssh/authorized_keys"
 
     local texto_sudo=" sudo:
     añadir a sudoers
@@ -132,7 +134,7 @@ function_nat() {
     if [ -z "$puerto" ]; then
         
         echo "Error: No se encontró ninguna regla de port forwarding para SSH (puerto 22) en la VM '$vm'." >&2
-        show_setup_instructions puertos
+        show_setup_instructions puertos >&2
         return 1
     fi
 
@@ -150,7 +152,7 @@ get_ssh_options() {
     echo "    [II] Comprobando tipo de red de '$vm'...${red}" >&2
     case "$red" in
 	nat)
-            PORT=$(function_nat "$vm") || return 1 
+            PORT=$(function_nat "$vm") || return 1
             echo $PORT
             ;;
 	*)
@@ -171,7 +173,7 @@ test_ssh_vm_connection() {
 
     local max_reintentos="${5:-20}"
     local contador=0
-    local log_error="/tmp/virtualboxcorriendo"
+    local log_error="/tmp/${USER}virtualboxcorriendo"
     local salida=""
     local status=1
 
@@ -239,7 +241,7 @@ check_ssh_key_auth() {
     test_ssh_vm_connection "$port" "true" \
         "Conexión SSH por clave pública correcta (sin contraseña)." \
         "No se pudo autenticar mediante clave pública SSH." "$intentos"  || { 
-            show_setup_instructions ssh
+            show_setup_instructions ssh >&2
             return 1
         }
     return 0
@@ -251,41 +253,54 @@ create_mount_vigas_script() {
 
     titulo "    Creando/Actualizando $script_name..." >&2
 
+    EXPORT=`cat /etc/exports`
+    DIRNAME=`dirname $PWD`
+    
     cat > "$script_name" <<EOF
     #!/bin/sh
 
-    echo "         ............................................................"
-    echo "         \$0 corriendo en \$(uname -n)"
-    echo "         the name of the script is \$0"
+    echo "         ............................................................" >&2
+    echo "         \$0 corriendo en \$(uname -n)" >&2
+    echo "         Fichero creado por $0 en $(uname -n)" >&2
+    echo "         the name of the script is \$0" >&2
 
     # Obtener la dirección IP de la interfaz usando ifconfig
     addr=\`/sbin/ifconfig | grep addr:10 | sed s/Bcast.*// | sed s/.*addr://\`
 
-    echo "         addr \$addr"
+    echo "         addr \$addr" >&2
 
     # Garantizar que el directorio exista 
     mkdir -p vigas1vano
 
     if [ -n "\$1" ]; then
         if mountpoint -q vigas1vano; then
-            echo "         vigas1vano is mounted"
+            echo "         vigas1vano is mounted" >&2
         else
-            echo "    vigas1vano isn't mounted ..."
+            echo "    vigas1vano isn't mounted ..." >&2
             sudo mount \$1:${PWD%/*} vigas1vano
             if mountpoint -q vigas1vano; then
-                echo "         vigas1vano is mounted"
+                echo "         vigas1vano is mounted" >&2
             else
-                echo "Error: No se ha podido montar vigas1vano"
-                echo "            Probar sudo apt install -y nfs-common"
+                echo "Error: No se ha podido montar vigas1vano" >&2
+                echo "            Probar sudo apt install -y nfs-common" >&2
+		echo "            Comprobar permisos en $(uname -n) "  >&2
+                echo "            El fichero /etc/exports" >&2
+                echo "            debe incluir $DIRNAME *(rw,insecure,sync,no_subtree_check)" >&2
+		echo "            Su contenido actual es: cat /etc/exports"  >&2
+                echo "            ******************************"  >&2
+                echo "$EXPORT"  >&2
+                echo "            ******************************"  >&2
+                echo "            Una vez modificado /etc/exports debe hacerse"  >&2
+                echo "            sudo systemctl restart nfs-kernel-server"  >&2
                 exit 1;
             fi    
         fi
     else
-        echo "         falta dirección de servidor" 
+        echo "         falta dirección de servidor" >&2 
     fi
 
-    echo "         Fin de \$0"
-    echo "         ............................................................"
+    echo "         Fin de \$0" >&2
+    echo "         ............................................................" >&2
 EOF
 }
 
@@ -293,7 +308,7 @@ EOF
 copy_mount_vigas_script() {
     local script_name="mountVigas1vano.sh"
     local puerto="$1"
-    local log_error="/tmp/virtualboxcorriendo"
+    local log_error="/tmp/${USER}virtualboxcorriendo"
     local salida=""
     local status=1
 
@@ -347,7 +362,7 @@ execute_mount_vigas_script() {
     local msg_err="Falló la ejecución de '$script_remote' en la máquina virtual."
 
     titulo "    Ejecutando '$script_remote $server_ip' en la máquina virtual..." >&2
-    echo "    [WW] sudo visudo y añadir johernan ALL=(ALL) NOPASSWD: ALL" >&2
+    echo "    [WW] sudo visudo y añadir '$USER ALL=(ALL) NOPASSWD: ALL'" >&2
 
     # Reutilizar la función centralizada de SSH pasando el comando
     test_ssh_vm_connection "$puerto" "$cmd_remoto" "$msg_ok" "$msg_err"
