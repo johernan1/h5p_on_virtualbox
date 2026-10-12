@@ -6,10 +6,15 @@ use Term::ANSIColor;
 use Cwd qw(cwd);
 
 my $dir = cwd();
-
+# ---------------------------------------------------------------------
 # Variables globales que persisten a lo largo de las ejecuciones
 our ($joinH5P,$NP_1, $NP_2,$NP_join2);
 our ($opcion, $NP,$Porticos, $dirMaple,$dd, $dondeestoy,$tituloPoster);
+our $NOMBRE_VM       ="debian vigas1vanoMaple";
+our $SSH_COMMON_OPTS = " -o ConnectTimeout=2 -o ServerAliveInterval=2 -o ServerAliveCountMax=1 -o KexAlgorithms=+diffie-hellman-group1-sha1";
+our $SSH_LEGACY_OPTS = " -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa";
+our $SSH_BATCH_OPTS  = " -n -o BatchMode=yes";
+# ---------------------------------------------------------------------
 
 # --- INTERFAZ GRÁFICA (Tk) ---
 my $mw = MainWindow->new;
@@ -17,13 +22,13 @@ $mw->title("Gestor Pórticos - Interfaz Gráfica");
 $mw->geometry("500x550");
 
 # Variables vinculadas a la GUI
-my $modelos_entry = "70";
+my $modelos_entry = "2001";
 my $extra_entry   = "";
 
 # Configuración de subrutinas a ejecutar (Checkboxes)
 my %ejecutar = (
-    opcion_1        => 1, # [x] Preparar ficheros TeX
-    opcion_2        => 1, # [x] Generar imágenes GIF
+    opcion_1        => 0, # [x] Preparar ficheros TeX
+    opcion_2        => 0, # [x] Generar imágenes GIF
     opcion_dragdrop => 0, # [ ] Generar datos Drag&Drop
     opcion_3        => 0, # [ ] Compilar ejercicios H5P
     opcion_4        => 0, # [ ] Subir preguntas MultiChoice
@@ -49,7 +54,7 @@ $f_entry_btn->Entry(
 $f_entry_btn->Button(
     -text    => 'Listar NP',
     -command => sub {
-        my $cmd = "grep 'NP=[0-9]*' maple/newPortico.mws";
+        #my $cmd = "grep 'NP=[0-9]*' maple/newPortico.mws";
         my $cmd = "sed -n 's/.*NP=\\([0-9]*\\).*/\\1/p' maple/newPortico.mws | sort -n -u";
 
         # Opción A: Abrir una terminal xterm para ver la lista y pausar al terminar
@@ -105,16 +110,9 @@ sub ejecutar_proceso {
     system("clear");
     titulo("Se procesa InitServidor.sh");
     
-    my $cmd0="(cd maple/server; sh InitServidor.sh)";
-    #my $salida=system("$cmd0");
-    #my $codigo_retorno=$? >> 8; # Peculiaridades de perl
-    #if ($codigo_retorno !=0) {
-#	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
-#	print "          Se sale completamente el script '$0'\n";
-#	exit(1);
- #   }	    
-
-    ejecutar_comando ($cmd0);
+    my $cmd0="(cd maple/server; sh InitServidor.sh '$NOMBRE_VM'  '$SSH_COMMON_OPTS' '$SSH_LEGACY_OPTS' '$SSH_BATCH_OPTS')";
+    #my $cmd0="(cd maple/server; sh InitServidor.sh )";
+    ejecutar_comando ("($cmd0)");
 	
 
     # Configurar parámetros desde la GUI
@@ -156,10 +154,13 @@ sub preparar_lanzar_y_recuperarSalida_maple {
 #	print "          Se sale completamente el script '$0'\n";
 #	exit(1);
     #   }
-    ejecutar_comando("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
+    #ejecutar_comando("(cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws)");
+    ejecutar_comando("(sed 's/NP:=.*/NP:=$NP;/'< $dirMaple/newPortico.mws > $dirMaple/aux.mws)");
     #-------------------------Maple en VirtualBox-------------------------------
     titulo("Se hace sh rmTmpMimapleScp.sh aux.mws");
-    system("ssh localhost -p 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa 'cd vigas1vano; pwd; grep ^NP aux.mws; sh rmTmpMimapleScp.sh aux.mws; echo \"El error anterior, lost connection, es intrascendente\";'");
+    my $puerto = get_vm_port("'$NOMBRE_VM'");
+    ejecutar_comando("ssh localhost -p $puerto $SSH_COMMON_OPTS $SSH_LEGACY_OPTS 'cd vigas1vano; pwd; grep ^NP aux.mws; sh rmTmpMimapleScp.sh aux.mws'");
+    print "El -posible- error anterior, lost connection, es intrascendente";
             
     #-------------------------Se copian los ficheros de VirtualBox--------------
     titulo("Se copian los ficheros de VirtualBox a /tmp/tmp");
@@ -228,7 +229,7 @@ sub generar_poster_pdf {
 sub listar_archivos_ps {
         # Extraer el primer modelo si hay varios separados por comas
         my ($primer_modelo) = split(',',$modelos_entry);
-        $primer_modelo =~ s/^\s+\vert{}\s+$//g; # Limpiar espacios
+        $primer_modelo =~ s/^\s+\vert\{\}\s+$//g; # Limpiar espacios
         
         my $ruta_tex = "newPorticos_${primer_modelo}/tex";
         
@@ -250,17 +251,31 @@ sub listar_archivos_ps {
 # --- SUBRUTINA PARA EJECUTAR Y VALIDAR COMANDOS DE SYSTEM ---
 sub ejecutar_comando {
     my ($cmd) = @_;
-    
-    my $salida = system($cmd);
+
+    my $salida = qx/$cmd/;
+    #my $salida = system($cmd 2>&1);
     my $codigo_retorno = $? >> 8; # Obtener el codigo de salida real de Perl
     
     if ($codigo_retorno != 0) {
-        print "\n[AVISO] El comando '$cmd' fallo con código $codigo_retorno\n";
+        system("xterm -title 'SALIDA DE ERROR' -bg red -fg white -e \"echo '$salida'; echo ''; read -p 'Pulsa ENTER para cerrar...'\" &");
+        print "\n[AVISO] El comando >>>>$cmd<<<< fallo con código $codigo_retorno\n";
         print "          Se sale completamente del script '$0'\n";
         exit(1);
     }
     
     return $codigo_retorno;
+}
+
+sub get_vm_port {
+    my ($vm) = @_;
+    my $puerto;
+
+    my $cmd = "VBoxManage showvminfo $vm --machinereadable | grep '^Forwarding' |	 grep ',22\"' | cut -d',' -f4";
+    print "Buscando el puerto de $vm...";
+    $puerto = qx/$cmd/;
+    chomp($puerto);
+    print "$puerto\n";
+    return $puerto;
 }
 
 sub titulo {

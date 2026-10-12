@@ -3,9 +3,9 @@
 # ==============================================================================
 # CONFIGURACIÓN GLOBAL SSH / SCP
 # ==============================================================================
-SSH_COMMON_OPTS="-o ConnectTimeout=2 -o ServerAliveInterval=2 -o ServerAliveCountMax=1 -o KexAlgorithms=+diffie-hellman-group1-sha1"
-SSH_LEGACY_OPTS="-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa"
-SSH_BATCH_OPTS="-n -o BatchMode=yes"
+SSH_COMMON_OPTS="${2:- -o ConnectTimeout=2 -o ServerAliveInterval=2 -o ServerAliveCountMax=1 -o KexAlgorithms=+diffie-hellman-group1-sha1}"
+SSH_LEGACY_OPTS="${3:- -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa}"
+SSH_BATCH_OPTS="${4:- -n -o BatchMode=yes}"
 
 # Funcion titulo --------------------------------------------------------------
 titulo() {
@@ -262,6 +262,9 @@ create_mount_vigas_script() {
     echo "         ............................................................" >&2
     echo "         \$0 corriendo en \$(uname -n)" >&2
     echo "         Fichero creado por $0 en $(uname -n)" >&2
+    echo "         >>>> NO EDITAR, SE SOBREESCRIBIRA <<<<" >&2
+    echo "         los cambios deben hacerse en $0->create_mount_vigas_script" >&2
+    echo "         >>>> NO EDITAR, SE SOBREESCRIBIRA <<<<" >&2
     echo "         the name of the script is \$0" >&2
 
     # Obtener la dirección IP de la interfaz usando ifconfig
