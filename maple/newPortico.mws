@@ -1,0 +1,797 @@
+##############################################################################
+#
+# Se pueden ver los modelos definidos haciendo:
+#   grep portico:= maple/newPortico.mws | grep -v '#portico' |
+#   sed 's/.*portico:=//' | sed 's/:.*//' | sort | uniq
+#
+#porticoGamma
+#portico02-> 5210
+    #                  _____
+    #                  |   ^
+    #                  |
+    #
+#porticoTApoyado    
+#portico10->5010
+    #                  ________
+    #                    |    ^
+    #                    |
+    #
+#pescante
+#portico20-> 5310
+    #                   ___
+    #                    |                 
+    #                    |
+    #
+#porticoVolPi    
+#portico30->5410
+#                   _________
+#                     |     |
+#                     |     |
+#
+#porticoPiVolI
+#portico40->5710
+#
+#                      _________
+#                     /      |
+#                    /       | 
+#
+#porticoPi
+#portico60->5610
+#
+#                     _______
+#                     |     |
+#                     |     | 
+#
+#
+#porticoGammaI
+#portico70->6010
+    #                  ________
+    #                    /    ^
+    #                   /
+    #
+#dosPlantasGamma
+#portico6210-> 6210
+    #                    _____
+    #                    |   ^
+    #                    |____
+    #                    |   ^
+    #                    |
+    #
+#dosAguas
+#portico6110 -> 6110
+    #
+    #         __/\__    
+    #      __/      \__    
+    #_____/            \____
+    #    |              |
+    #    |              | 
+    #    |              |
+    #
+#mansarda
+#mansa10 -> 1110
+    #       -------  
+    #      /       \           
+    #     /         \ 
+    #    /           \
+    #
+#PorticoAltura    
+#portico6310 -> 6310
+    #                    _______
+    #                    |   |  |
+    #                    |___|__|
+    #                    |   |  |
+    #                    |___|__| 
+    #                    |   |  |
+    #                    |   |  |
+    #
+#PorticoApoyado_T_Apoyado: ATA
+#portico50 -> 6510
+#
+    #             
+    # ----------------------
+    # ^         |          ^
+    #           |
+    #           |
+    #
+#Portico2Pmuro
+#portico6410 -> 6410
+    #                    _____
+    #                    |   |
+    #                    |___|__
+    #                    |   |  ||
+    #                    |   |  ||
+    #
+#Subestructura
+#portico6610 -> 6610
+#                   
+#                     | ____|_____|______|
+#                     |     |     |      |
+#                     |     |     |      | 
+#
+#
+#
+#
+#
+#dosPlantas
+#portico6710-> 6710
+    #                    _____
+    #                    |   |
+    #                    |___|
+    #                    |   |
+    #                    |   |
+    #
+    #
+#porticoPiDosVol
+#portico5810->5810
+#
+#                   ___________
+#                     |     |
+#                     |     | 
+#
+#  
+#  TODO
+#portico21
+#portico50
+#portico80
+#portico81
+##############################################################################
+restart:
+read("src/init0.mws");
+
+opcionC:=1; ### Se dibujan las cotas
+#opcionC:=0; ### NO se dibujan las cotas
+opcion:=1;  ### Fichero tex para procesar
+opcion:=2;  ### Fichero tex para incluir
+ER:=[9,1]; 
+#ER:=[6,3]; # Ejercicio E1 viga gerber + tensiones
+
+textoAmpliado:=1;
+FICH:=1;
+      
+#print(Misgraf[Arti]); quit;
+
+escal         :=.15;          # 0.15 OK para una Lv approx 6m
+escalP        :=1/2.5;        # La flecha 1 mide 2.5;
+escalP        :=escalP/50;    # De este modo 50 kN son 1m; (La longitud de un voladizo tipico)
+escalq        :=2.5*escalP/2; # Las cargas distribuidas se dibujan a una escala 1/2 de las puntuales
+escalM        :=1;
+
+NP:=10;
+
+			 #-poster de cargas------------------------------------
+			 # Los ficheros de datos se generan automáticamente
+			 # con prePorticos.pl
+if   NP=2001 then portico:=viga10:  CODIGO:=V10;      viga10DatosPosterCargas():
+                         # Voladizo izquierda
+elif NP=2002 then portico:=viga50:  CODIGO:=V50;      viga50DatosPosterCargas():
+     	     	  escal:=escal/2.5: escalP:=escalP/5: escalq:=escalq/5:
+elif NP=2003 then portico:=viga60:  CODIGO:=V60;      viga60DatosPosterCargas():
+     	     	  escal:=escal/2.5: escalP:=escalP/5: escalq:=escalq/5: 
+elif NP=2004 then portico:=viga70:  CODIGO:=V70;      viga70DatosPosterCargas():
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210204
+#-1vano-----------------------------------------------
+                         # Biapoyada
+elif NP=2010 then portico:=viga10:  CODIGO:=V10;      viga10Datos():
+                         # Empotrada Apoyada (OJO viga11 se usa en Misgraf)
+elif NP=2011 then portico:=viga_11: CODIGO:=V11;      viga10Datos():
+                         # M-Empotrada-Apoyada (OJO viga12 se usa en Misgraf)
+elif NP=2012 then portico:=viga_12: CODIGO:=V12;      viga10Datos():
+                         # M-Apoyada-Apoyada 
+elif NP=2013 then portico:=viga13:  CODIGO:=V13;      viga10Datos():
+                         # Apoyada Empotrada 
+elif NP=2015 then portico:=viga15:  CODIGO:=V15;      viga10Datos():
+                         # Apoyada Empotrada-M
+elif NP=2016 then portico:=viga16:  CODIGO:=V16;      viga10Datos():
+                         # Apoyada Apoyada-M
+elif NP=2017 then portico:=viga17:  CODIGO:=V17;      viga10Datos():
+                         # Empotrada Empotrada 
+elif NP=2025 then portico:=viga25:  CODIGO:=V25;      viga10Datos():
+                         # M-Empotrada Empotrada-M
+elif NP=2026 then portico:=viga26:  CODIGO:=V26;      viga10Datos():
+                         # M-Apoyada Apoyada-M
+elif NP=2027 then portico:=viga27:  CODIGO:=V27;      viga10Datos():
+                         #-voladizos-------------------------------------------
+                         # Voladizo izquierda
+elif NP=2050 then portico:=viga50:  CODIGO:=V50;      viga50Datos():
+     	     	  escal:=escal/2.5: escalP:=escalP/5: escalq:=escalq/5: 
+                         # Voladizo derecha
+elif NP=2060 then portico:=viga60:  CODIGO:=V60;      viga60Datos():
+     	     	  escal:=escal/2.5: escalP:=escalP/5: escalq:=escalq/5: 
+                         # Voladizo Vertical: Soporte
+elif NP=2070 then portico:=viga70:  CODIGO:=V70;      viga70Datos():
+                         #-1Vano+2voladizos----------------------------------- 
+                         # Biapoyada con dos voladizos
+elif NP=2020 then portico:=viga20:  CODIGO:=V20;      viga20Datos():
+     	     	         #-1vano+1voladizo-------------------------------------
+     	     	  	 # M-Emp-Apo+vol 
+elif NP=2030 then portico:=viga30:  CODIGO:=V30;      viga30Datos(0): 
+     	     	  	 # Apo-Apo+vol   Estado Iso del anterior para MC
+elif NP=2031 then portico:=viga31:  CODIGO:=V31;      viga30Datos(0): 
+                         # M-Apo-Apo+vol Estado Iso+Hiper  
+elif NP=2032 then portico:=viga32:  CODIGO:=V32;      viga30Datos(0):  
+                         # Emp-Apo+vol sin m(x=0)  
+elif NP=2033 then portico:=viga33:  CODIGO:=V33;      viga30Datos(0):
+     	     	         #-1voladizo+1vano-------------------------------------
+     	     	  	 # vol+Apoyo-Emp-M 
+elif NP=2035 then portico:=viga35:  CODIGO:=V35;      viga35Datos(0):
+     	     	  	 # vol+Apo-Apo   Estado Iso del anterior para MC
+elif NP=2036 then portico:=viga36:  CODIGO:=V36;      viga35Datos(0): 
+                         # vol-Apo-Apo-M Estado Iso+Hiper  
+elif NP=2037 then portico:=viga37:  CODIGO:=V37;      viga35Datos(0):  
+                         # vol+Apo-Emp sin m(x=L)  
+elif NP=2038 then portico:=viga38:  CODIGO:=V38;      viga35Datos(0):  
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210204
+                         #-1vano--GERBER---------------------------------------
+                         # Empotrada Apoyada 
+elif NP=2111 then portico:=viga111: CODIGO:=V111; xArti:=0.500; viga10Datos():
+elif NP=2112 then portico:=viga111: CODIGO:=V112; xArti:=0.250; viga10Datos():
+elif NP=2113 then portico:=viga111: CODIGO:=V113; xArti:=0.125; viga10Datos():
+                         # Apoyada Empotrada 
+elif NP=2115 then portico:=viga115: CODIGO:=V115; xArti:=0.500; viga10Datos(): 
+elif NP=2116 then portico:=viga115: CODIGO:=V116; xArti:=0.750; viga10Datos(): 
+elif NP=2117 then portico:=viga115: CODIGO:=V117; xArti:=0.875; viga10Datos():
+     	     	         #-1vano+1voladizo-------------------------------------
+                         # Emp-Apo+vol sin m(x=0)  
+elif NP=2130 then portico:=viga130: CODIGO:=V131; xArti:=0.500; viga30Datos(): 
+elif NP=2131 then portico:=viga130: CODIGO:=V132; xArti:=0.250; viga30Datos(): 
+elif NP=2132 then portico:=viga130: CODIGO:=V133; xArti:=0.125; viga30Datos():
+     	     	         #-1voladizo+1vano------------------------------------- 
+                         # vol+Apo-Emp sin m(x=L)  
+elif NP=2135 then portico:=viga135: CODIGO:=V135; xArti:=0.500; viga35Datos(): 
+elif NP=2136 then portico:=viga135: CODIGO:=V136; xArti:=0.750; viga35Datos(): 
+elif NP=2147 then portico:=viga135: CODIGO:=V137; xArti:=0.875; viga35Datos():
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210206
+			 #-2vanos-continua-------------------------------------
+			 # Apo-Apo-Apo+vol (continua)
+elif NP=2040 then portico:=viga40:  CODIGO:=V40;      viga40Datos(0):
+                         # Apo-Emp-Apo estadof ME 
+elif NP=2041 then portico:=viga41:  CODIGO:=V41;      viga40Datos(0):
+     	     	  		    opcionC:=0: 
+     	     	  	 # vol+Apo-Apo-Apo (continua)
+elif NP=2042 then portico:=viga42:  CODIGO:=V42;      viga42Datos(0):
+     	     	  	 # vol+Apo-Apo-Apo+vol (continua)
+elif NP=2043 then portico:=viga43:  CODIGO:=V43;      viga43Datos(0):
+     	     	  	 # Apo-Apo-Apo (continua)
+elif NP=2044 then portico:=viga44:  CODIGO:=V44;      viga44Datos(0):
+                         # Modelos para ejercicios de jueves
+elif NP=2045 then portico:=viga40:  CODIGO:=V40;  opcionC:=1;    viga40Datos(0):
+elif NP=2046 then portico:=viga42:  CODIGO:=V42;  opcionC:=1;    viga42Datos(0):
+elif NP=2047 then portico:=viga43:  CODIGO:=V43;  opcionC:=1;    viga43Datos(0):
+elif NP=2048 then portico:=viga44:  CODIGO:=V44;  opcionC:=1;    viga44Datos(0):
+
+			 #-2vanos-GERBER----------------------------------------
+elif NP=2240 then portico:=viga240: CODIGO:=V240; xArti:=0.750; viga40Datos(0):
+elif NP=2340 then portico:=viga340: CODIGO:=V340; xArti:=0.250; viga40Datos(0):
+elif NP=2242 then portico:=viga242: CODIGO:=V242; xArti:=0.800; viga42Datos(0):
+elif NP=2342 then portico:=viga342: CODIGO:=V342; xArti:=0.200; viga42Datos(0):
+elif NP=2243 then portico:=viga243: CODIGO:=V243; xArti:=0.800; viga43Datos(0):
+elif NP=2343 then portico:=viga343: CODIGO:=V343; xArti:=0.200; viga43Datos(0):
+elif NP=2244 then portico:=viga244: CODIGO:=V244; xArti:=0.800; viga44Datos(0):
+elif NP=2344 then portico:=viga344: CODIGO:=V344; xArti:=0.200; viga44Datos(0):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210228
+			 #-zancas-----------------------------------------------
+elif NP=1010 then portico:=zanca10:                   zanca10Datos(0):
+elif NP=1011 then portico:=zanca10:                   zanca10Datos(1): 
+elif NP=1012 then portico:=zanca10:                   zanca10Datos(2): 
+elif NP=1013 then portico:=zanca10:                   zanca10Datos(3): 
+elif NP=1014 then portico:=zanca10:                   zanca10Datos(4): 
+elif NP=1015 then portico:=zanca10:                   zanca10Datos(5): 
+elif NP=1016 then portico:=zanca10:                   zanca10Datos(6): 
+elif NP=1017 then portico:=zanca10:                   zanca10Datos(7): 
+elif NP=1020 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(0):
+elif NP=1021 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(1):
+elif NP=1022 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(2):
+elif NP=1023 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(3):
+elif NP=1024 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(4):
+elif NP=1025 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(5):
+elif NP=1026 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(6):
+elif NP=1027 then portico:=zanca20: CODIGO:=Z20;      zanca10Datos(7):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210920
+			 #-zancas-----------------------------------------------
+elif NP=1030 then portico:=zanca30: CODIGO:=Z30;      zanca30Datos(0):
+elif NP=1031 then portico:=zanca31: CODIGO:=Z31;      zanca30Datos(0):
+elif NP=1035 then portico:=zanca35: CODIGO:=Z35;      zanca30Datos(0):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210921
+			 #-Mansarda---------------------------------------------
+elif NP=1110 then portico:=mansa10: CODIGO:=M10;      mansa10Datos(0):
+elif NP=1111 then portico:=mansa11: CODIGO:=M11;      mansa10Datos(0):
+elif NP=1115 then portico:=mansa15: CODIGO:=M15;      mansa10Datos(0):
+elif NP=1135 then portico:=mansa35: CODIGO:=M35;      mansa10Datos(0):
+elif NP=1120 then portico:=mansa10: CODIGO:=M20;      mansa20Datos(0): 
+elif NP=1121 then portico:=mansa11: CODIGO:=M21;      mansa20Datos(0):
+elif NP=1125 then portico:=mansa15: CODIGO:=M25;      mansa20Datos(0):
+elif NP=1155 then portico:=mansa35: CODIGO:=M55;      mansa20Datos(0):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210921
+#elif NP=10   then portico:=portico10:                portico10_190502(4):
+elif NP=5010 then portico:=portico10:                 portico10Datos(0):
+elif NP=5011     then portico:=portico10:             portico10Datos(1):
+elif NP=5012     then portico:=portico10:             portico10Datos(2):
+elif NP=5013     then portico:=portico10:             portico10Datos(3):
+elif NP=5014     then portico:=portico10:             portico10Datos(4):
+elif NP=5015     then portico:=portico10:             portico10Datos(5):
+elif NP=5016     then portico:=portico10:             portico10Datos(6):
+elif NP=5017     then portico:=portico10:             portico10Datos(7):
+#elif NP=11   then portico:=portico11:                portico10Datos(5):
+elif NP=5020 then portico:=portico11:                 portico10Datos(0):
+elif NP=5021     then portico:=portico11:             portico10Datos(1):
+elif NP=5022     then portico:=portico11:             portico10Datos(2):
+elif NP=5023     then portico:=portico11:             portico10Datos(3):
+elif NP=5024     then portico:=portico11:             portico10Datos(4):
+elif NP=5025     then portico:=portico11:             portico10Datos(5):
+elif NP=5026     then portico:=portico11:             portico10Datos(6):
+elif NP=5027     then portico:=portico11:             portico10Datos(7):
+elif NP=5030 then portico:=portico15:                 portico10Datos(0):
+elif NP=5031     then portico:=portico15:             portico10Datos(1):
+elif NP=5032     then portico:=portico15:             portico10Datos(2):
+elif NP=5033     then portico:=portico15:             portico10Datos(3):
+elif NP=5034     then portico:=portico15:             portico10Datos(4):
+elif NP=5035     then portico:=portico15:             portico10Datos(5):
+elif NP=5036     then portico:=portico15:             portico10Datos(6):
+elif NP=5037     then portico:=portico15:             portico10Datos(7):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210420
+#elif NP=12   then portico:=portico12:                portico12_190502(4):
+elif NP=5110 then portico:=portico12:                 portico12Datos(0):
+elif NP=5111     then portico:=portico12:             portico12Datos(1):
+elif NP=5112     then portico:=portico12:             portico12Datos(2):
+elif NP=5113     then portico:=portico12:             portico12Datos(3):
+elif NP=5114     then portico:=portico12:             portico12Datos(4):
+elif NP=5115     then portico:=portico12:             portico12Datos(5):
+elif NP=5116     then portico:=portico12:             portico12Datos(6):
+elif NP=5117     then portico:=portico12:             portico12Datos(7):
+#elif NP=13   then #portico:=portico13:               portico12_190502(5):
+elif NP=5120 then portico:=portico13:                 portico12Datos(0):
+elif NP=5121     then portico:=portico13:             portico12Datos(1):
+elif NP=5122     then portico:=portico13:             portico12Datos(2):
+elif NP=5123     then portico:=portico13:             portico12Datos(3):
+elif NP=5124     then portico:=portico13:             portico12Datos(4):
+elif NP=5125     then portico:=portico13:             portico12Datos(5):
+elif NP=5126     then portico:=portico13:             portico12Datos(6):
+elif NP=5127     then portico:=portico13:             portico12Datos(7):
+#elif NP=14   then #portico:=portico14:               portico12_190502(4):
+elif NP=5130 then portico:=portico14:                 portico12Datos(0):
+elif NP=5131     then portico:=portico14:             portico12Datos(1):
+elif NP=5132     then portico:=portico14:             portico12Datos(2):
+elif NP=5133     then portico:=portico14:             portico12Datos(3):
+elif NP=5134     then portico:=portico14:             portico12Datos(4):
+elif NP=5135     then portico:=portico14:             portico12Datos(5):
+elif NP=5136     then portico:=portico14:             portico12Datos(6):
+elif NP=5137     then portico:=portico14:             portico12Datos(7):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210420
+#elif NP=02   then #portico:=portico02:               portico02_190502(4):
+elif NP=5210 then portico:=portico02:                 portico02Datos(0):
+elif NP=5211     then portico:=portico02:             portico02Datos(1):
+elif NP=5212     then portico:=portico02:             portico02Datos(2):
+elif NP=5213     then portico:=portico02:             portico02Datos(3):
+#elif NP=03   then portico:=portico03:                portico02_190502(5):
+elif NP=5220 then portico:=portico03:                 portico02Datos(0):
+elif NP=5221     then portico:=portico03:             portico02Datos(1):
+elif NP=5222     then portico:=portico03:             portico02Datos(2):
+elif NP=5223     then portico:=portico03:             portico02Datos(3):
+#elif NP=04   then #portico:=portico04:               portico02_190502(4):
+elif NP=5230 then portico:=portico04:                 portico02Datos(0):
+elif NP=5231     then portico:=portico04:             portico02Datos(1):
+elif NP=5232     then portico:=portico04:             portico02Datos(2):
+elif NP=5233     then portico:=portico04:             portico02Datos(3):
+elif NP=5240 then portico:=portico05:                 portico05Datos(0):
+elif NP=5241     then portico:=portico05:             portico05Datos(1):
+elif NP=5242     then portico:=portico05:             portico05Datos(2):
+elif NP=5243     then portico:=portico05:             portico05Datos(3):
+elif NP=5250 then portico:=portico06:                 portico05Datos(0):
+elif NP=5251     then portico:=portico06:             portico05Datos(1):
+elif NP=5252     then portico:=portico06:             portico05Datos(2):
+elif NP=5253     then portico:=portico06:             portico05Datos(3):
+elif NP=5260 then portico:=portico07:                 portico05Datos(0):
+elif NP=5261     then portico:=portico07:             portico05Datos(1):
+elif NP=5262     then portico:=portico07:             portico05Datos(2):
+elif NP=5263     then portico:=portico07:             portico05Datos(3):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210426 
+#elif NP=20   then portico:=portico20:                 portico20_190502():
+elif NP=5310 then portico:=portico20:                 portico20Datos(0):
+elif NP=5311 then portico:=portico20:                 portico20Datos(1):
+elif NP=5312 then portico:=portico20:                 portico20Datos(2):
+elif NP=5313 then portico:=portico20:                 portico20Datos(3):
+elif NP=5314 then portico:=portico20:                 portico20Datos(4):
+elif NP=5315 then portico:=portico20:                 portico20Datos(5):
+elif NP=5316 then portico:=portico20:                 portico20Datos(6):
+elif NP=5317 then portico:=portico20:                 portico20Datos(7):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210427
+#elif NP=30   then portico:=portico30:                 portico30_190502(4):
+elif NP=5410 then portico:=portico30:                 portico30Datos(0):
+elif NP=5411     then portico:=portico30:             portico30Datos(1):
+elif NP=5412     then portico:=portico30:             portico30Datos(2):
+elif NP=5413     then portico:=portico30:             portico30Datos(3):
+elif NP=5414     then portico:=portico30:             portico30Datos(4):
+elif NP=5415     then portico:=portico30:             portico30Datos(5):
+elif NP=5416     then portico:=portico30:             portico30Datos(6):
+elif NP=5417     then portico:=portico30:             portico30Datos(7):
+#elif NP=31   then portico:=portico31:                 portico30_190502(5):
+elif NP=5420 then portico:=portico31:                 portico30Datos(0):
+elif NP=5421     then portico:=portico31:             portico30Datos(1):
+elif NP=5422     then portico:=portico31:             portico30Datos(2):
+elif NP=5423     then portico:=portico31:             portico30Datos(3):
+elif NP=5424     then portico:=portico31:             portico30Datos(4):
+elif NP=5425     then portico:=portico31:             portico30Datos(5):
+elif NP=5426     then portico:=portico31:             portico30Datos(6):
+elif NP=5427     then portico:=portico31:             portico30Datos(7):
+#elif NP=3200 then portico:=portico32: xArti:=0.001;   portico30Datos(1):
+elif NP=5430 then portico:=portico32: xArti:=0.001:   portico30Datos(0):
+elif NP=5431     then portico:=portico32: xArti:=0.001:   portico30Datos(1):
+elif NP=5432     then portico:=portico32: xArti:=0.001:   portico30Datos(2):
+elif NP=5433     then portico:=portico32: xArti:=0.001:   portico30Datos(3):
+elif NP=5434     then portico:=portico32: xArti:=0.001:   portico30Datos(4):
+elif NP=5435     then portico:=portico32: xArti:=0.001:   portico30Datos(5):
+elif NP=5436     then portico:=portico32: xArti:=0.001:   portico30Datos(6):
+elif NP=5437     then portico:=portico32: xArti:=0.001:   portico30Datos(7):
+#elif NP=3220 then portico:=portico32: xArti:=0.2;     portico30Datos(2):
+elif NP=5440 then portico:=portico32: xArti:=0.2:     portico30Datos(0):
+elif NP=5441     then portico:=portico32: xArti:=0.2: portico30Datos(1):
+elif NP=5442     then portico:=portico32: xArti:=0.2: portico30Datos(2):
+elif NP=5443     then portico:=portico32: xArti:=0.2: portico30Datos(3):
+elif NP=5444     then portico:=portico32: xArti:=0.2: portico30Datos(4):
+elif NP=5445     then portico:=portico32: xArti:=0.2: portico30Datos(5):
+elif NP=5446     then portico:=portico32: xArti:=0.2: portico30Datos(6):
+elif NP=5447     then portico:=portico32: xArti:=0.2: portico30Datos(7): 
+#elif NP=3250 then portico:=portico32: xArti:=0.5;     portico30Datos(2):
+elif NP=5450 then portico:=portico32: xArti:=0.5:     portico30Datos(0):
+elif NP=5451     then portico:=portico32: xArti:=0.5: portico30Datos(1):
+elif NP=5452     then portico:=portico32: xArti:=0.5: portico30Datos(2):
+elif NP=5453     then portico:=portico32: xArti:=0.5: portico30Datos(3):
+elif NP=5454     then portico:=portico32: xArti:=0.5: portico30Datos(4):
+elif NP=5455     then portico:=portico32: xArti:=0.5: portico30Datos(5):
+elif NP=5456     then portico:=portico32: xArti:=0.5: portico30Datos(6):
+elif NP=5457     then portico:=portico32: xArti:=0.5: portico30Datos(7):  
+#elif NP=3280 then portico:=portico32: xArti:=0.8;     portico30Datos(3): 
+elif NP=5460 then portico:=portico32: xArti:=0.8:     portico30Datos(0):
+elif NP=5461     then portico:=portico32: xArti:=0.8: portico30Datos(1):
+elif NP=5462     then portico:=portico32: xArti:=0.8: portico30Datos(2):
+elif NP=5463     then portico:=portico32: xArti:=0.8: portico30Datos(3):
+elif NP=5464     then portico:=portico32: xArti:=0.8: portico30Datos(4):
+elif NP=5465     then portico:=portico32: xArti:=0.8: portico30Datos(5):
+elif NP=5466     then portico:=portico32: xArti:=0.8: portico30Datos(6):
+elif NP=5467     then portico:=portico32: xArti:=0.8: portico30Datos(7):  
+#elif NP=3299 then portico:=portico32: xArti:=0.999;   portico30Datos(3):
+elif NP=5470 then portico:=portico32: xArti:=0.999:   portico30Datos(0):
+elif NP=5471     then portico:=portico32: xArti:=0.999:   portico30Datos(1):
+elif NP=5472     then portico:=portico32: xArti:=0.999:   portico30Datos(2):
+elif NP=5473     then portico:=portico32: xArti:=0.999:   portico30Datos(3):
+elif NP=5474     then portico:=portico32: xArti:=0.999:   portico30Datos(4):
+elif NP=5475     then portico:=portico32: xArti:=0.999:   portico30Datos(5):
+elif NP=5476     then portico:=portico32: xArti:=0.999:   portico30Datos(6):
+elif NP=5477     then portico:=portico32: xArti:=0.999:   portico30Datos(7): 
+elif NP=5480 then portico:=portico33:                 portico30Datos(0):
+elif NP=5481     then portico:=portico33:             portico30Datos(1):
+elif NP=5482     then portico:=portico33:             portico30Datos(2):
+elif NP=5483     then portico:=portico33:             portico30Datos(3):
+elif NP=5484     then portico:=portico33:             portico30Datos(4):
+elif NP=5485     then portico:=portico33:             portico30Datos(5):
+elif NP=5486     then portico:=portico33:             portico30Datos(6):
+elif NP=5487     then portico:=portico33:             portico30Datos(7):  
+elif NP=5490 then portico:=portico34:                 portico30Datos(0):
+elif NP=5491     then portico:=portico34:             portico30Datos(1):
+elif NP=5492     then portico:=portico34:             portico30Datos(2):
+elif NP=5493     then portico:=portico34:             portico30Datos(3):
+elif NP=5494     then portico:=portico34:             portico30Datos(4):
+elif NP=5495     then portico:=portico34:             portico30Datos(5):
+elif NP=5496     then portico:=portico34:             portico30Datos(6):
+elif NP=5497     then portico:=portico34:             portico30Datos(7): 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210503
+#elif NP=60   then #portico:=portico60:                portico60Datos(4);
+elif NP=5610  then portico:=portico60:                portico60Datos(0);
+elif NP=5611     then portico:=portico60:                portico60Datos(1);
+elif NP=5612     then portico:=portico60:                portico60Datos(2);
+elif NP=5615     then portico:=portico60:                portico60Datos(5);
+#elif NP=61   then #portico:=portico61:                portico60Datos(1):
+elif NP=5620  then portico:=portico61:                portico60Datos(0);
+elif NP=5621     then portico:=portico61:                portico60Datos(1);
+elif NP=5622     then portico:=portico61:                portico60Datos(2);
+elif NP=5625     then portico:=portico61:                portico60Datos(5);
+#elif NP=6200 then #portico:=portico62: xArti:=0.001;  portico60Datos(2):
+elif NP=5630  then portico:=portico62: xArti:=0.001;  portico60Datos(0);
+elif NP=5631     then portico:=portico62: xArti:=0.001;  portico60Datos(1);
+elif NP=5632     then portico:=portico62: xArti:=0.001;  portico60Datos(2);
+elif NP=5635     then portico:=portico62: xArti:=0.001;  portico60Datos(5);
+#elif NP=6220 then #portico:=portico62: xArti:=0.2;    portico60Datos(3):
+elif NP=5640  then portico:=portico62: xArti:=0.2;    portico60Datos(0);
+elif NP=5641     then portico:=portico62: xArti:=0.2;    portico60Datos(1);
+elif NP=5642     then portico:=portico62: xArti:=0.2;    portico60Datos(2);
+elif NP=5645     then portico:=portico62: xArti:=0.2;    portico60Datos(5);
+#elif NP=6250 then #portico:=portico62: xArti:=0.5;    portico60Datos(4):
+elif NP=5650  then portico:=portico62: xArti:=0.5;    portico60Datos(0);
+elif NP=5651     then portico:=portico62: xArti:=0.5;    portico60Datos(1);
+elif NP=5652     then portico:=portico62: xArti:=0.5;    portico60Datos(2);
+elif NP=5655     then portico:=portico62: xArti:=0.5;    portico60Datos(5); 
+#elif NP=6280 then #portico:=portico62: xArti:=0.8;    portico60Datos(3):
+elif NP=5660  then portico:=portico62: xArti:=0.8;    portico60Datos(0);
+elif NP=5661     then portico:=portico62: xArti:=0.8;    portico60Datos(1);
+elif NP=5662     then portico:=portico62: xArti:=0.8;    portico60Datos(2);
+elif NP=5665     then portico:=portico62: xArti:=0.8;    portico60Datos(5); 
+#elif NP=6299 then #portico:=portico62: xArti:=0.999;  portico60Datos(2):
+elif NP=5670  then portico:=portico62: xArti:=0.999;  portico60Datos(0);
+elif NP=5671     then portico:=portico62: xArti:=0.999;  portico60Datos(1);
+elif NP=5672     then portico:=portico62: xArti:=0.999;  portico60Datos(2);
+elif NP=5675     then portico:=portico62: xArti:=0.999;  portico60Datos(5); 
+#elif NP=63   then #portico:=portico63:                portico60Datos(2):
+elif NP=5680  then portico:=portico63:                portico60Datos(0);
+elif NP=5681     then portico:=portico63:                portico60Datos(1);
+elif NP=5682     then portico:=portico63:                portico60Datos(2);
+elif NP=5685     then portico:=portico63:                portico60Datos(5);
+#elif NP=64   then #portico:=portico64:                portico60Datos(3):
+elif NP=5690  then portico:=portico64:                portico60Datos(0);
+elif NP=5691     then portico:=portico64:                portico60Datos(1);
+elif NP=5692     then portico:=portico64:                portico60Datos(2);
+elif NP=5695     then portico:=portico64:                portico60Datos(5);
+#elif NP=40   then portico:=portico40:                 portico40_190502(1):
+elif NP=5710 then portico:=portico40:                 portico40Datos(0):
+elif NP=5711     then portico:=portico40:             portico40Datos(1):
+elif NP=5712     then portico:=portico40:             portico40Datos(2):
+elif NP=5713     then portico:=portico40:             portico40Datos(3):
+elif NP=5714     then portico:=portico40:             portico40Datos(4):
+elif NP=5715     then portico:=portico40:             portico40Datos(5):
+elif NP=5716     then portico:=portico40:             portico40Datos(6):
+elif NP=5717     then portico:=portico40:             portico40Datos(7):
+#elif NP=41   then portico:=portico41:                 portico40_190502(2):
+elif NP=5720 then portico:=portico41:                 portico40Datos(0):
+elif NP=5721     then portico:=portico41:             portico40Datos(1):
+elif NP=5722     then portico:=portico41:             portico40Datos(2):
+elif NP=5723     then portico:=portico41:             portico40Datos(3):
+elif NP=5724     then portico:=portico41:             portico40Datos(4):
+elif NP=5725     then portico:=portico41:             portico40Datos(5):
+elif NP=5726     then portico:=portico41:             portico40Datos(6):
+elif NP=5727     then portico:=portico41:             portico40Datos(7):
+#elif NP=4200 then portico:=portico42: xArti:=0.001;   portico40Datos(1):
+elif NP=5730 then portico:=portico42: xArti:=0.001;   portico40Datos(0):
+elif NP=5731     then portico:=portico42: xArti:=0.001;  portico40Datos(1):
+elif NP=5732     then portico:=portico42: xArti:=0.001;  portico40Datos(2):
+elif NP=5733     then portico:=portico42: xArti:=0.001;  portico40Datos(3):
+elif NP=5734     then portico:=portico42: xArti:=0.001;  portico40Datos(4):
+elif NP=5735     then portico:=portico42: xArti:=0.001;  portico40Datos(5):
+elif NP=5736     then portico:=portico42: xArti:=0.001;  portico40Datos(6):
+elif NP=5737     then portico:=portico42: xArti:=0.001;  portico40Datos(7):
+#elif NP=4299 then portico:=portico42: xArti:=0.999;   portico40Datos(3)
+elif NP=5740 then portico:=portico42: xArti:=0.999;   portico40Datos(0):
+elif NP=5741     then portico:=portico42: xArti:=0.999;  portico40Datos(1):
+elif NP=5742     then portico:=portico42: xArti:=0.999;  portico40Datos(2):
+elif NP=5743     then portico:=portico42: xArti:=0.999;  portico40Datos(3):
+elif NP=5744     then portico:=portico42: xArti:=0.999;  portico40Datos(4):
+elif NP=5745     then portico:=portico42: xArti:=0.999;  portico40Datos(5):
+elif NP=5746     then portico:=portico42: xArti:=0.999;  portico40Datos(6):
+elif NP=5747     then portico:=portico42: xArti:=0.999;  portico40Datos(7):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210504
+			 #-porticoGammaI----------------------------------------
+elif NP=6010 then portico:=portico70:                 portico70Datos(0):
+elif NP=6020 then portico:=portico71:                 portico70Datos(0):
+elif NP=6040 then portico:=portico76:                 portico70Datos(0):
+elif NP=6050 then portico:=portico77:                 portico70Datos(0):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210921
+			 #-porticoDosAguasV-------------------------------------
+elif NP=6110 then portico:=portico6110:                 portico6110Datos(0):
+elif NP=6120 then portico:=portico6120:                 portico6110Datos(0):
+elif NP=6130 then portico:=portico6130:                 portico6110Datos(0):
+elif NP=6140 then portico:=portico6140:                 portico6110Datos(0):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^210927
+elif NP=6210 then portico:=portico6210:                 portico6210Datos(1):
+elif NP=6211     then portico:=portico6210:             portico6210Datos(2):
+elif NP=6212     then portico:=portico6210:             portico6210Datos(3):
+elif NP=6213     then portico:=portico6210:             portico6210Datos(4):
+elif NP=6215     then portico:=portico6210:             portico6210Datos(21):
+elif NP=6216     then portico:=portico6210:             portico6210Datos(22):
+elif NP=6217     then portico:=portico6210:             portico6210Datos(23):
+elif NP=6218     then portico:=portico6210:             portico6210Datos(24):
+     # El siguiente se usa para ejercicio corto de Viernes
+elif NP=6225     then portico:=portico6210: opcionC:=1; portico6210Datos(-21):
+elif NP=6226     then portico:=portico6210: opcionC:=1; portico6210Datos(-1):
+elif NP=6227     then portico:=portico6210: opcionC:=1; portico6210Datos(41):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211009
+elif NP=6310 then portico:=portico6310:                 portico6310Datos(1):
+elif NP=6315 then portico:=portico6310:                 portico6310Datos(21):
+elif NP=6319 then portico:=portico6310:                 portico6310Datos(41):
+    # subestructuras
+elif NP=6330 then portico:=portico6310:                 portico6310Datos(101):
+elif NP=6335 then portico:=portico6310:                 portico6310Datos(121):
+elif NP=6339 then portico:=portico6310:                 portico6310Datos(141):
+     # El siguiente se usa para ejercicio corto de Viernes 
+elif NP=6350     then portico:=portico6310: opcionC:=1; portico6310Datos(1): 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211012
+elif NP=6510   then portico:=portico50:                 portico50Datos(0):
+elif NP=6511   then portico:=portico50:                 portico50Datos(1):
+elif NP=6512   then portico:=portico50:                 portico50Datos(2):
+elif NP=6513   then portico:=portico50:                 portico50Datos(3):
+elif NP=6514   then portico:=portico50:                 portico50Datos(4):
+elif NP=6515   then portico:=portico50:                 portico50Datos(5):
+elif NP=6520   then portico:=portico51:                 portico50Datos(0):
+elif NP=6521   then portico:=portico51:                 portico50Datos(1):
+elif NP=6522   then portico:=portico51:                 portico50Datos(2):
+elif NP=6523   then portico:=portico51:                 portico50Datos(3):
+elif NP=6524   then portico:=portico51:                 portico50Datos(4):
+elif NP=6525   then portico:=portico51:                 portico50Datos(5):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211012
+elif NP=6410 then portico:=portico6410:                 portico6410Datos(1):
+elif NP=6411 then portico:=portico6410:                 portico6410Datos(2):
+elif NP=6412 then portico:=portico6410:                 portico6410Datos(3):
+elif NP=6413 then portico:=portico6410:                 portico6410Datos(4):
+elif NP=6414 then portico:=portico6410:                 portico6410Datos(5):
+elif NP=6415 then portico:=portico6410:                 portico6410Datos(6):
+elif NP=6416 then portico:=portico6410:                 portico6410Datos(7):
+elif NP=6417 then portico:=portico6410:                 portico6410Datos(8):
+elif NP=6422 then portico:=portico6410:                 portico6410Datos(23):
+elif NP=6423 then portico:=portico6410:                 portico6410Datos(24):
+elif NP=6424 then portico:=portico6410:                 portico6410Datos(25):
+elif NP=6425 then portico:=portico6410:                 portico6410Datos(26):
+elif NP=6426 then portico:=portico6410:                 portico6410Datos(27):
+elif NP=6427 then portico:=portico6410:                 portico6410Datos(28):
+     # El siguiente se usa para ejercicio corto de Viernes
+elif NP=6430     then portico:=portico6410: opcionC:=1; portico6410Datos(5):
+elif NP=6431     then portico:=portico6410: opcionC:=1; portico6410Datos(25):
+elif NP=6441     then portico:=portico6410: opcionC:=1; portico6410Datos(41):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211101
+elif NP=6610 then portico:=portico6610:                 portico6610Datos(1):
+elif NP=6611 then portico:=portico6610:                 portico6610Datos(2):
+elif NP=6612 then portico:=portico6610:                 portico6610Datos(3):
+elif NP=6613 then portico:=portico6610:                 portico6610Datos(4):
+elif NP=6614 then portico:=portico6610:                 portico6610Datos(5):
+elif NP=6615 then portico:=portico6610:                 portico6610Datos(6):
+elif NP=6616 then portico:=portico6610:                 portico6610Datos(7):
+elif NP=6617 then portico:=portico6610:                 portico6610Datos(8):
+elif NP=6618 then portico:=portico6610:                 portico6610Datos(9):
+elif NP=6620 then portico:=portico6610:                 portico6610Datos(21):
+elif NP=6621 then portico:=portico6610:                 portico6610Datos(22):
+     # planta baja
+elif NP=6650 then portico:=portico6610:                 portico6610Datos(101):
+elif NP=6651 then portico:=portico6610:                 portico6610Datos(102):
+elif NP=6652 then portico:=portico6610:                 portico6610Datos(103):
+elif NP=6653 then portico:=portico6610:                 portico6610Datos(104):
+elif NP=6654 then portico:=portico6610:                 portico6610Datos(105):
+elif NP=6655 then portico:=portico6610:                 portico6610Datos(106):
+elif NP=6656 then portico:=portico6610:                 portico6610Datos(107):
+elif NP=6657 then portico:=portico6610:                 portico6610Datos(108):
+elif NP=6658 then portico:=portico6610:                 portico6610Datos(109):
+elif NP=6670 then portico:=portico6610:                 portico6610Datos(121):
+elif NP=6671 then portico:=portico6610:                 portico6610Datos(122):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211102
+elif NP=6710 then portico:=portico6710:                 portico6710Datos(1):
+elif NP=6711     then portico:=portico6710:             portico6710Datos(2):
+elif NP=6712     then portico:=portico6710:             portico6710Datos(3):
+elif NP=6713     then portico:=portico6710:             portico6710Datos(4):
+elif NP=6720     then portico:=portico6710:             portico6710Datos(21):
+elif NP=6721     then portico:=portico6710:             portico6710Datos(22):
+elif NP=6722     then portico:=portico6710:             portico6710Datos(23):
+elif NP=6723     then portico:=portico6710:             portico6710Datos(24):
+elif NP=6741     then portico:=portico6710:             portico6710Datos(41):
+elif NP=6750 then portico:=portico6750:                 portico6710Datos(1):
+elif NP=6751     then portico:=portico6750:             portico6710Datos(2):
+elif NP=6752     then portico:=portico6750:             portico6710Datos(3):
+elif NP=6753     then portico:=portico6750:             portico6710Datos(4):
+elif NP=6770     then portico:=portico6750:             portico6710Datos(21):
+elif NP=6771     then portico:=portico6750:             portico6710Datos(22):
+elif NP=6772     then portico:=portico6750:             portico6710Datos(23):
+elif NP=6773     then portico:=portico6750:             portico6710Datos(24):
+elif NP=6791     then portico:=portico6750:             portico6710Datos(41):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211102
+elif NP=5810 then portico:=portico5810:                 portico5810Datos(0):
+elif NP=5811     then portico:=portico5810:             portico5810Datos(1):
+elif NP=5812     then portico:=portico5810:             portico5810Datos(2):
+elif NP=5813     then portico:=portico5810:             portico5810Datos(3):
+elif NP=5814     then portico:=portico5810:             portico5810Datos(4):
+elif NP=5815     then portico:=portico5810:             portico5810Datos(5):
+elif NP=5816     then portico:=portico5810:             portico5810Datos(6):
+elif NP=5817     then portico:=portico5810:             portico5810Datos(7):
+elif NP=5820 then portico:=portico5820:                 portico5810Datos(0):
+elif NP=5821     then portico:=portico5820:             portico5810Datos(1):
+elif NP=5822     then portico:=portico5820:             portico5810Datos(2):
+elif NP=5823     then portico:=portico5820:             portico5810Datos(3):
+elif NP=5824     then portico:=portico5820:             portico5810Datos(4):
+elif NP=5825     then portico:=portico5820:             portico5810Datos(5):
+elif NP=5826     then portico:=portico5820:             portico5810Datos(6):
+elif NP=5827     then portico:=portico5820:             portico5810Datos(7):
+elif NP=5830 then portico:=portico5830: xArti:=0.001:   portico5810Datos(0):
+elif NP=5831     then portico:=portico5830: xArti:=0.001:   portico5810Datos(1):
+elif NP=5832     then portico:=portico5830: xArti:=0.001:   portico5810Datos(2):
+elif NP=5833     then portico:=portico5830: xArti:=0.001:   portico5810Datos(3):
+elif NP=5834     then portico:=portico5830: xArti:=0.001:   portico5810Datos(4):
+elif NP=5835     then portico:=portico5830: xArti:=0.001:   portico5810Datos(5):
+elif NP=5836     then portico:=portico5830: xArti:=0.001:   portico5810Datos(6):
+elif NP=5837     then portico:=portico5830: xArti:=0.001:   portico5810Datos(7):
+elif NP=5840 then portico:=portico5830: xArti:=0.2:     portico5810Datos(0):
+elif NP=5841     then portico:=portico5830: xArti:=0.2: portico5810Datos(1):
+elif NP=5842     then portico:=portico5830: xArti:=0.2: portico5810Datos(2):
+elif NP=5843     then portico:=portico5830: xArti:=0.2: portico5810Datos(3):
+elif NP=5844     then portico:=portico5830: xArti:=0.2: portico5810Datos(4):
+elif NP=5845     then portico:=portico5830: xArti:=0.2: portico5810Datos(5):
+elif NP=5846     then portico:=portico5830: xArti:=0.2: portico5810Datos(6):
+elif NP=5847     then portico:=portico5830: xArti:=0.2: portico5810Datos(7): 
+elif NP=5850 then portico:=portico5830: xArti:=0.5:     portico5810Datos(0):
+elif NP=5851     then portico:=portico5830: xArti:=0.5: portico5810Datos(1):
+elif NP=5852     then portico:=portico5830: xArti:=0.5: portico5810Datos(2):
+elif NP=5853     then portico:=portico5830: xArti:=0.5: portico5810Datos(3):
+elif NP=5854     then portico:=portico5830: xArti:=0.5: portico5810Datos(4):
+elif NP=5855     then portico:=portico5830: xArti:=0.5: portico5810Datos(5):
+elif NP=5856     then portico:=portico5830: xArti:=0.5: portico5810Datos(6):
+elif NP=5857     then portico:=portico5830: xArti:=0.5: portico5810Datos(7):  
+elif NP=5860 then portico:=portico5830: xArti:=0.8:     portico5810Datos(0):
+elif NP=5861     then portico:=portico5830: xArti:=0.8: portico5810Datos(1):
+elif NP=5862     then portico:=portico5830: xArti:=0.8: portico5810Datos(2):
+elif NP=5863     then portico:=portico5830: xArti:=0.8: portico5810Datos(3):
+elif NP=5864     then portico:=portico5830: xArti:=0.8: portico5810Datos(4):
+elif NP=5865     then portico:=portico5830: xArti:=0.8: portico5810Datos(5):
+elif NP=5866     then portico:=portico5830: xArti:=0.8: portico5810Datos(6):
+elif NP=5867     then portico:=portico5830: xArti:=0.8: portico5810Datos(7):  
+elif NP=5870 then portico:=portico5830: xArti:=0.999:   portico5810Datos(0):
+elif NP=5871     then portico:=portico5830: xArti:=0.999:   portico5810Datos(1):
+elif NP=5872     then portico:=portico5830: xArti:=0.999:   portico5810Datos(2):
+elif NP=5873     then portico:=portico5830: xArti:=0.999:   portico5810Datos(3):
+elif NP=5874     then portico:=portico5830: xArti:=0.999:   portico5810Datos(4):
+elif NP=5875     then portico:=portico5830: xArti:=0.999:   portico5810Datos(5):
+elif NP=5876     then portico:=portico5830: xArti:=0.999:   portico5810Datos(6):
+elif NP=5877     then portico:=portico5830: xArti:=0.999:   portico5810Datos(7):
+elif NP=5880 then portico:=portico5880:                 portico5810Datos(0):
+elif NP=5881     then portico:=portico5880:             portico5810Datos(1):
+elif NP=5882     then portico:=portico5880:             portico5810Datos(2):
+elif NP=5883     then portico:=portico5880:             portico5810Datos(3):
+elif NP=5884     then portico:=portico5880:             portico5810Datos(4):
+elif NP=5885     then portico:=portico5880:             portico5810Datos(5):
+elif NP=5886     then portico:=portico5880:             portico5810Datos(6):
+elif NP=5887     then portico:=portico5880:             portico5810Datos(7):  
+elif NP=5890 then portico:=portico5890:                 portico5810Datos(0):
+elif NP=5891     then portico:=portico5890:             portico5810Datos(1):
+elif NP=5892     then portico:=portico5890:             portico5810Datos(2):
+elif NP=5893     then portico:=portico5890:             portico5810Datos(3):
+elif NP=5894     then portico:=portico5890:             portico5810Datos(4):
+elif NP=5895     then portico:=portico5890:             portico5810Datos(5):
+elif NP=5896     then portico:=portico5890:             portico5810Datos(6):
+elif NP=5897     then portico:=portico5890:             portico5810Datos(7): 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^211117
+elif NP=5910 then portico:=portico5910:                 portico5910Datos(0): 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^220928
+
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+
+elif NP=21   then portico:=portico21:                 portico21_190502():
+
+
+
+
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+#####OJO ERROR EN ESTADO F  VER portico20
+
+
+                                    # P80-81 es un portico en T con las mismas
+				    # cargas que V40-41
+				    # pensado para un ejercicio corto con 2gdl:
+				    # u y theta
+elif NP=2080 then portico:=portico80:  CODIGO:=P80; opcionC:=1;  portico80Datos(0): escalP:=escalP/2:  # Apo-pilar-Apo
+elif NP=2081 then portico:=portico81:  CODIGO:=P81; opcionC:=1;  portico80Datos(0): escalP:=escalP/2:  # Apo-Emp-Apo estadof MC
+
+elif NP=50   then portico:=portico50:                 portico50_190502(0):
+elif NP=51   then portico:=portico51:                 portico50_190502(1):
+
+
+
+#elif NP=50   then #portico:=portico32: xArti:=0.9;  portico30_190502(1):
+fi;
+
+for iCom from 1 to nops(variacionesP) do
+    portico(Ls, combinacionesX[iCom], variacionesP[iCom], variacionesq[iCom],
+    		variacionesM, VariacionesM,
+    	     	escal, escalP, escalq, escalM, posiPRelativa[iCom]);
+od;
+
+quit;
+for i from 5 to 6 by 0.1 do
+        Ls            :=[   1.275,      i,       4 ];  
+	portico1(Ls, combinacionesX, variacionesP, variacionesq, variacionesM,
+		     VariacionesM,
+	     	     escal, escalP, escalq, escalM);
+od;		     
+
