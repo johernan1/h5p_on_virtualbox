@@ -1,0 +1,569 @@
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------
+printf("------------- read(porticos190502)---------\n");
+portico10_190502:=proc(N1)
+    # Datos para portico10, 11
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa;
+
+    printf("-------------     (portico10_190502)----------\n");
+    Ls            :=[        1,        6,        4];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0]];
+    
+    P1:=[     [0],    [35],     [35]];
+    z1:=[     [1],     [1],      [1]];
+    q1:=[  [0,45],   [0,0],   [0,45]];
+    X1:=[[.00001],[.00001], [.00001]];
+    
+    if N1=4 then
+        P1:=[P1[1],P1[2]];
+        z1:=[z1[1],z1[2]];
+        q1:=[q1[1],q1[2]];
+        X1:=[X1[1],X1[2]];
+    elif N1=5 then
+        P1:=[P1[3],P1[2]];
+        z1:=[z1[3],z1[2]];
+        q1:=[q1[3],q1[2]];
+        X1:=[X1[3],X1[2]];
+    elif N1=1 or N1=2 or N1=3  then
+        P1:=[P1[N1]];
+        z1:=[z1[N1]];
+        q1:=[q1[N1]];
+        X1:=[X1[N1]];
+    fi;
+    
+    P2:=[   [35],     [0]];
+    z2:=[    [1],     [1]];
+    q2:=[[45,45], [45,45]];
+    X2:=[   [.5],    [.9999]];
+    
+    P3:=[     [20],    [-20], [0.0001],      [0],  [20], [-20]];
+    z3:=[    [1.5],   [-1.9],      [1],      [1],   [1],   [1]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+
+    variacionesP:=CartesianoR(P1,Cartesiano(P2,P3));
+    variacionesq:=CartesianoR(q1,Cartesiano(q2,q3));
+    combinacionesX:=CartesianoR(X1,Cartesiano(X2,X3));
+    posiPRelativa:=CartesianoR(z1,Cartesiano(z2,z3));;	
+end;
+
+portico20_190502:=proc()
+    # Datos para portico10, 11
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa;
+
+    printf("-------------     (portico20_190502)----------\n");
+    Ls            :=[        1,       1.2,        4];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0]];
+    
+    P1:=[     [0],    [35]];
+    z1:=[     [1],     [1]];
+    q1:=[  [0,45],   [0,0]];
+    X1:=[[.00001],[.00001]];
+
+
+    P2:=[     [45]];
+    z2:=[      [1]];
+    q2:=[   [55,0]];
+    X2:=[ [.99999]];
+
+    P3:=[     [20],    [-20], [0.0001],      [0],  [20], [-20]];
+    z3:=[    [1.5],   [-1.9],      [1],      [1],   [1],   [1]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+
+    variacionesP:=CartesianoR(P1,Cartesiano(P2,P3));
+    variacionesq:=CartesianoR(q1,Cartesiano(q2,q3));
+    combinacionesX:=CartesianoR(X1,Cartesiano(X2,X3));
+    posiPRelativa:=CartesianoR(z1,Cartesiano(z2,z3));;	
+end;
+printf("-------------     (porticos190502)---------\n");
+
+portico21_190502:=proc()
+    # Datos para portico10, 11
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa;
+
+    printf("-------------     (portico21_190502)----------\n");
+    Ls            :=[        1,       1.2,        4];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0]];
+    
+    P1:=[     [0], [.00001]];
+    z1:=[     [1],      [1]];
+    q1:=[  [0,45],    [0,0]];
+    X1:=[[.00001], [.00001]];
+
+
+    P2:=[     [45]];
+    z2:=[      [1]];
+    q2:=[   [55,0]];
+    X2:=[ [.99999]];
+
+    P3:=[     [20], [0.0001],      [0],  [20]];
+    z3:=[    [1.5],      [1],      [1], [0.5]];
+    q3:=[    [0,0],    [0,0],   [0,10], [0,0]];
+    X3:=[[.999999],[.999999], [.00001], [0.5]];
+    
+
+    variacionesP:=CartesianoR(P1,Cartesiano(P2,P3));
+    variacionesq:=CartesianoR(q1,Cartesiano(q2,q3));
+    combinacionesX:=CartesianoR(X1,Cartesiano(X2,X3));
+    posiPRelativa:=CartesianoR(z1,Cartesiano(z2,z3));;	
+end;
+
+
+portico40_190502:=proc(N1)
+    # Datos para portico40, 41,...
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa, xArti;
+    
+
+    printf("-------------     (portico40_190502)----------\n");
+    # La primera barra es el voladizo
+    # La segunda la viga y las dos últimas los soportes
+    Ls            :=[        1,       6,        3, 3];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0], [.5,  0]];
+
+    P1:=[     [0],    [35], [35]];
+    z1:=[     [1],     [1],  [1]];
+    q1:=[  [0,45],   [0,0],[45,45]];
+    X1:=[[.00001],[.99999],[.999999]];
+
+    if N1=4 then
+        P1:=[P1[1],P1[2]];
+        z1:=[z1[1],z1[2]];
+        q1:=[q1[1],q1[2]];
+        X1:=[X1[1],X1[2]];
+    elif N1=5 then
+        P1:=[P1[3],P1[2]];
+        z1:=[z1[3],z1[2]];
+        q1:=[q1[3],q1[2]];
+        X1:=[X1[3],X1[2]];
+    elif N1=1 or N1=2 or N1=3  then
+        P1:=[P1[N1]];
+        z1:=[z1[N1]];
+        q1:=[q1[N1]];
+        X1:=[X1[N1]];
+    fi;
+
+    
+
+    P2:=[   [35]];
+    z2:=[    [1]];
+    q2:=[[45,45]];
+    X2:=[   [.5]];
+
+    P3:=[    [0.0001], [0.0001],  [30]];
+    z3:=[        [-1],     [-1],   [1]];
+    q3:=[       [0,0],   [0,10], [0,0]];
+    X3:=[   [.999999], [.00001], [0.5]];
+    
+     
+    P4:=[ [0.0001], [0.0001],  [20], [-30]];
+    z4:=[      [1],      [1],  [-1], [ .5]];
+    q4:=[    [0,0],   [0, 5], [0,0], [0,0]];
+    X4:=[[.999999], [.00001], [0.5], [.999999]];
+
+   
+    P4P3:=Cartesiano(P3,P4); P4_P3:=[];
+    q4q3:=Cartesiano(q3,q4); q4_q3:=[]; 
+    X4X3:=Cartesiano(X3,X4); X4_X3:=[];
+    z4z3:=Cartesiano(z3,z4); z4_z3:=[];
+    for i from 1 to nops(P4P3) do
+    	if P4P3[i][1][1]*P4P3[i][2][1]>=0 then
+	   P4_P3:=[op(P4_P3), P4P3[i]];
+	   q4_q3:=[op(q4_q3), q4q3[i]];
+	   X4_X3:=[op(X4_X3), X4X3[i]];
+	   z4_z3:=[op(z4_z3), z4z3[i]];
+	fi;
+    od;
+    variacionesP:=CartesianoR(P1,CartesianoR(P2,P4_P3));
+    variacionesq:=CartesianoR(q1,CartesianoR(q2,q4_q3));
+    combinacionesX:=CartesianoR(X1,CartesianoR(X2,X4_X3));
+    posiPRelativa:=CartesianoR(z1,CartesianoR(z2,z4_z3));	
+end;
+
+
+portico30_190502:=proc(N1)
+    # Datos para portico30, 31,...
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa, xArti;
+    
+
+    printf("-------------     (portico30_190502)----------\n");
+    Ls            :=[        1,       6,        4, 3];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0], [.5,  0]];
+
+    P1:=[     [0],    [35], [35]];
+    z1:=[     [1],     [1],  [1]];
+    q1:=[  [0,45],   [0,0],[0,45]];
+    X1:=[[.00001],[.00001], [.00001]];
+
+    if N1=4 then
+        P1:=[P1[1],P1[2]];
+        z1:=[z1[1],z1[2]];
+        q1:=[q1[1],q1[2]];
+        X1:=[X1[1],X1[2]];
+    elif N1=5 then
+        P1:=[P1[3],P1[2]];
+        z1:=[z1[3],z1[2]];
+        q1:=[q1[3],q1[2]];
+        X1:=[X1[3],X1[2]];
+    elif N1=1 or N1=2 or N1=3  then
+        P1:=[P1[N1]];
+        z1:=[z1[N1]];
+        q1:=[q1[N1]];
+        X1:=[X1[N1]];
+    fi;
+
+    
+
+    P2:=[   [35]];
+    z2:=[    [1]];
+    q2:=[[45,45]];
+    X2:=[   [.5]];
+    if N1=1 then
+    P2:=[[0]];
+    fi;
+
+    P3:=[     [30],    [-20], [0.0001], [0.0001],  [30], [-20]];
+    z3:=[    [1.5],   [-1.9],     [-1],     [-1],   [1], [0.5]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+    
+    P4:=[     [20], [-.0001], [0.0001], [0.0001],  [20], [-30]];
+    z4:=[     [-1],     [-1],      [1],      [1],  [-1], [ .5]];
+    q4:=[    [0,0],    [0,0],    [0,0],   [0, 5], [0,0], [0,0]];
+    X4:=[[.999999],[.999999],[.999999], [.00001], [0.5], [.999999]];
+    
+    P3:=[     [30],    [-20], [0.0001], [0.0001],  [30], [-20]];
+    z3:=[    [1.5],   [-1.9],     [-1],     [-1],   [1], [0.5]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+    
+    P4:=[ [0.0001], [0.0001],  [20], [-30]];
+    z4:=[      [1],      [1],  [-1], [ .5]];
+    q4:=[    [0,0],   [0, 5], [0,0], [0,0]];
+    X4:=[[.999999], [.00001], [0.5], [.999999]];
+
+   
+    P4P3:=Cartesiano(P3,P4); P4_P3:=[];
+    q4q3:=Cartesiano(q3,q4); q4_q3:=[]; 
+    X4X3:=Cartesiano(X3,X4); X4_X3:=[];
+    z4z3:=Cartesiano(z3,z4); z4_z3:=[];
+    for i from 1 to nops(P4P3) do
+    	if P4P3[i][1][1]*P4P3[i][2][1]>=0 then
+	   P4_P3:=[op(P4_P3), P4P3[i]];
+	   q4_q3:=[op(q4_q3), q4q3[i]];
+	   X4_X3:=[op(X4_X3), X4X3[i]];
+	   z4_z3:=[op(z4_z3), z4z3[i]];
+	fi;
+    od;
+    variacionesP:=CartesianoR(P1,CartesianoR(P2,P4_P3));
+    variacionesq:=CartesianoR(q1,CartesianoR(q2,q4_q3));
+    combinacionesX:=CartesianoR(X1,CartesianoR(X2,X4_X3));
+    posiPRelativa:=CartesianoR(z1,CartesianoR(z2,z4_z3));	
+end;
+
+portico60_190502:=proc(N1)
+    # Datos para portico60, 61,...
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa, xArti;
+    
+
+    printf("-------------     (portico30_190502)----------\n");
+    Ls            :=[        1,       6,        4,  4];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0], [.5,  0]];
+
+    P1:=[     [0],    [35], [35]];
+    z1:=[     [1],     [1],  [1]];
+    q1:=[  [0,45],   [0,0],[0,45]];
+    X1:=[[.00001],[.00001], [.00001]];
+
+    if N1=4 then
+        P1:=[P1[1],P1[2]];
+        z1:=[z1[1],z1[2]];
+        q1:=[q1[1],q1[2]];
+        X1:=[X1[1],X1[2]];
+    elif N1=5 then
+        P1:=[P1[3],P1[2]];
+        z1:=[z1[3],z1[2]];
+        q1:=[q1[3],q1[2]];
+        X1:=[X1[3],X1[2]];
+    elif N1=1 or N1=2 or N1=3  then
+        P1:=[P1[N1]];
+        z1:=[z1[N1]];
+        q1:=[q1[N1]];
+        X1:=[X1[N1]];
+    fi;
+
+    
+
+    P2:=[   [35]];
+    z2:=[    [1]];
+    q2:=[[45,45]];
+    X2:=[   [.5]];
+
+    P3:=[     [30],    [-20], [0.0001], [0.0001],  [30], [-20]];
+    z3:=[    [1.5],   [-1.9],     [-1],     [-1],   [1], [0.5]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+    
+    P4:=[     [20], [-.0001], [0.0001], [0.0001],  [20], [-30]];
+    z4:=[     [-1],     [-1],      [1],      [1],  [-1], [ .5]];
+    q4:=[    [0,0],    [0,0],    [0,0],   [0, 5], [0,0], [0,0]];
+    X4:=[[.999999],[.999999],[.999999], [.00001], [0.5], [.999999]];
+    
+    P3:=[     [30],    [-20], [0.0001], [0.0001],  [30], [-20]];
+    z3:=[    [1.5],   [-1.9],     [-1],     [-1],   [1], [0.5]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+    
+    P4:=[ [0.0001], [0.0001],  [20], [-30]];
+    z4:=[      [1],      [1],  [-1], [ .5]];
+    q4:=[    [0,0],   [0, 5], [0,0], [0,0]];
+    X4:=[[.999999], [.00001], [0.5], [.999999]];
+
+   
+    P4P3:=Cartesiano(P3,P4); P4_P3:=[];
+    q4q3:=Cartesiano(q3,q4); q4_q3:=[]; 
+    X4X3:=Cartesiano(X3,X4); X4_X3:=[];
+    z4z3:=Cartesiano(z3,z4); z4_z3:=[];
+    for i from 1 to nops(P4P3) do
+    	if P4P3[i][1][1]*P4P3[i][2][1]>=0 then
+	   P4_P3:=[op(P4_P3), P4P3[i]];
+	   q4_q3:=[op(q4_q3), q4q3[i]];
+	   X4_X3:=[op(X4_X3), X4X3[i]];
+	   z4_z3:=[op(z4_z3), z4z3[i]];
+	fi;
+    od;
+    variacionesP:=CartesianoR(P1,CartesianoR(P2,P4_P3));
+    variacionesP:=CartesianoR(P2,P4_P3);  # Sin voladizo izquierdo
+    variacionesq:=CartesianoR(q1,CartesianoR(q2,q4_q3));
+    variacionesq:=CartesianoR(q2,q4_q3);
+    combinacionesX:=CartesianoR(X1,CartesianoR(X2,X4_X3));
+    combinacionesX:=CartesianoR(X2,X4_X3);
+    posiPRelativa:=CartesianoR(z1,CartesianoR(z2,z4_z3));
+    posiPRelativa:=CartesianoR(z2,z4_z3);	
+end;
+
+
+
+zanca10_190502:=proc(N1)
+    # Datos para zanca10
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa, CODIGO;
+
+    printf("-------------     (portico10_190502)----------\n");
+    Ls            :=[        5,        4,        2.5];	 
+    Ls            :=[        2.5,      5,        2.5];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0]];	 
+    variacionesM:=[[0,  0], [0,  0], [0,  0]];
+    
+     
+    P1:=[   [35],     [0]];
+    z1:=[    [1],     [1]];
+    q1:=[  [0,0],  [45,0]];
+    X1:=[   [.5], [.9999]];
+    
+#    P2:=[   [35],     [0],   [35],    [0]];
+#    z2:=[    [1],     [1],    [1],    [1]];
+#    q2:=[[45,45],  [45,0], [45,0], [0,45]];
+#    X2:=[   [.5], [.9999],   [.5],   [.5]];
+
+    P2:=[   [35],     [0]];
+    z2:=[    [1],     [1]];
+    q2:=[  [0,0],  [45,0]];
+    X2:=[   [.5], [.9999]];
+
+    P3:=[ [0.0001],     [40],    [-40],      [0],  [40], [-40],      [40],     [-40]];
+    z3:=[      [1],     [.5],   [-1.5],      [1],[-1.5],  [.5],    [-1.5],      [.5]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,20], [0,0], [0,0],     [0,0],     [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5], [0.00001], [0.00001]];
+    printf("xx190717"); printf("CODIGO=%a\n",CODIGO);
+    if CODIGO=Z20 then
+    z3:=[      [1],     [-1.5],   [.5],      [1],[-1.5],  [.5],    [.5],      [-1.5]];
+    fi;
+    
+    if N1=0 then  # Sin cargas verticales
+        P1:=[   [.0001]];
+        z1:=[    [1]];
+        q1:=[  [0,0]];
+        X1:=[   [.99999]];
+        P2:=[   [.0001]];
+        z2:=[    [1]];
+        q2:=[  [0,0]];
+        X2:=[   [.99999]];
+        P3:=P3[2..nops(P3)-2];
+        z3:=z3[2..nops(z3)-2];
+        q3:=q3[2..nops(q3)-2];
+        X3:=X3[2..nops(X3)-2];
+    elif N1=1 then # Sin Qz=0, con Qx a cota apoyo fijo positva
+        P3:=P3[1..nops(P3)-2];
+        z3:=z3[1..nops(z3)-2];
+        q3:=q3[1..nops(q3)-2];
+        X3:=X3[1..nops(X3)-2];
+    elif N1=2 then # Sin Qz=0, con Qz a cota apoyo fijo negativa
+    	P3:=P3[2..nops(P3)-1];
+        z3:=z3[2..nops(z3)-1];
+        q3:=q3[2..nops(q3)-1];
+        X3:=X3[2..nops(X3)-1];
+    elif N1=3 then # Sin Qz=0, con Qz a cota apoyo fijo negativa
+    printf ("190717\n");
+    	P3:=[op(P3[2..nops(P3)-2]), P3[-1]];
+        z3:=[op(z3[2..nops(z3)-2]), z3[-1]];
+        q3:=[op(q3[2..nops(q3)-2]), q3[-1]];
+        X3:=[op(X3[2..nops(X3)-2]), X3[-1]];
+    else # Con todo, pero sin cargas horizontales a cota del apoyo fijo pues los resultados son iguales a los de Qz=0
+        P3:=P3[1..nops(P3)-2];
+        z3:=z3[1..nops(z3)-2];
+        q3:=q3[1..nops(q3)-2];
+        X3:=X3[1..nops(X3)-2];
+    fi;	
+
+    variacionesP:=CartesianoR(P1,Cartesiano(P2,P3));
+    variacionesq:=CartesianoR(q1,Cartesiano(q2,q3));
+    combinacionesX:=CartesianoR(X1,Cartesiano(X2,X3));
+    posiPRelativa:=CartesianoR(z1,Cartesiano(z2,z3));;	
+end;
+
+portico50_190502:=proc(N1)
+    # Datos para portico10, 11
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa;
+
+    printf("-------------     (portico10_190502)----------\n");
+    Ls            :=[        6,        6,        3.6];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0]];
+    
+#    P1:=[     [0],    [35], [35]];
+#    z1:=[     [1],     [1],  [1]];
+#    q1:=[  [0,45],   [0,0],[0,45]];
+#    X1:=[[.00001],[.00001], [.00001]];
+    
+#    if N1=4 then
+#        P1:=[P1[1],P1[2]];
+#        z1:=[z1[1],z1[2]];
+#        q1:=[q1[1],q1[2]];
+#        X1:=[X1[1],X1[2]];
+#    elif N1=5 then
+#        P1:=[P1[3],P1[2]];
+#        z1:=[z1[3],z1[2]];
+#        q1:=[q1[3],q1[2]];
+#        X1:=[X1[3],X1[2]];
+#    elif N1=1 or N1=2 or N1=3  then
+#        P1:=[P1[N1]];
+#        z1:=[z1[N1]];
+#        q1:=[q1[N1]];
+#        X1:=[X1[N1]];
+#    fi;
+    
+    P1:=[   [30],     [0]];
+    z1:=[    [1],     [1]];
+    q1:=[[35,35],  [35,0]];
+    X1:=[   [.5],    [.9999]];
+    
+    P2:=[   [30],     [0]];
+    z2:=[    [1],     [1]];
+    q2:=[[35,35],  [0,35]];
+    X2:=[   [.5],    [.00001]];
+    
+    if N1=0 then
+    P3:=[     [30],    [-30], [0.0001],     [15],    [-15],  [30], [-30]];
+    z3:=[    [6.7],   [-7.4],      [1],      [1],    [.75],   [1],   [1]];
+    q3:=[    [0,0],    [0,0],    [0,0],  [10,10],[-10,-10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999],     [.5],     [.5], [0.66], [0.66]];
+    fi;
+    if N1=1 then
+    P3:=[     [30],    [-30], [0.0001],      [0],      [0],  [30], [-30]];
+    z3:=[    [6.7],   [-7.4],      [1],      [1],      [1],   [1],   [1]];
+    q3:=[    [0,0],    [0,0],    [0,0],   [0,10],  [0,-10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [.00001], [0.5], [0.5]];
+    fi;
+    
+
+    variacionesP:=CartesianoR(P1,Cartesiano(P2,P3));
+    printf("%a\n", variacionesP);
+    variacionesq:=CartesianoR(q1,Cartesiano(q2,q3));
+    combinacionesX:=CartesianoR(X1,Cartesiano(X2,X3));
+    posiPRelativa:=CartesianoR(z1,Cartesiano(z2,z3));;	
+end;
+
+portico12_190502:=proc(N1)
+    # Datos para portico12, 13
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa;
+
+    printf("-------------     (portico10_190502)----------\n");
+    Ls            :=[        6,        1,        4];	 
+    variacionesM:=[[.5,  0], [.5,  0], [.5,  0]];
+    
+    P1:=[     [0],    [35],     [35]];
+    z1:=[     [1],     [1],      [1]];
+    q1:=[  [0,45],   [0,0],   [45,0]];
+    X1:=[[.00001],[.99999], [.99999]];
+    
+    if N1=4 then
+        P1:=[P1[1],P1[2]];
+        z1:=[z1[1],z1[2]];
+        q1:=[q1[1],q1[2]];
+        X1:=[X1[1],X1[2]];
+    elif N1=5 then
+        P1:=[P1[3],P1[2]];
+        z1:=[z1[3],z1[2]];
+        q1:=[q1[3],q1[2]];
+        X1:=[X1[3],X1[2]];
+    elif N1=1 or N1=2 or N1=3  then
+        P1:=[P1[N1]];
+        z1:=[z1[N1]];
+        q1:=[q1[N1]];
+        X1:=[X1[N1]];
+    fi;
+    
+    P2:=[   [35],     [0]];
+    z2:=[    [1],     [1]];
+    q2:=[[45,45], [45,0]];
+    X2:=[   [.5],    [.9999]];
+    
+    P3:=[     [20],    [-20], [0.0001],      [0],  [20], [-20]];
+    z3:=[    [-1.9],   [1.5],      [1],      [1],   [1],   [1]];
+    q3:=[    [0,0],    [0,0],    [0,0],  [0,-10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+
+    variacionesP:=CartesianoR(P2,Cartesiano(P1,P3));
+    variacionesq:=CartesianoR(q2,Cartesiano(q1,q3));
+    combinacionesX:=CartesianoR(X2,Cartesiano(X1,X3));
+    posiPRelativa:=CartesianoR(z2,Cartesiano(z1,z3));;	
+end;
+
+portico02_190502:=proc(N1)
+    # Datos para portico02, 03
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, posiPRelativa;
+
+    printf("-------------     (portico02_190502)----------\n");
+    Ls            :=[        6,             4];	 
+    variacionesM:=[[.5,  0],  [.5,  0]];
+    
+
+    
+    P2:=[   [35],     [0]];
+    z2:=[    [1],     [1]];
+    q2:=[[45,45], [45,0]];
+    X2:=[   [.5],    [.9999]];
+    
+    P3:=[     [30],    [-30], [0.0001],      [0],  [30], [-30]];
+    z3:=[    [-1.],     [.5],      [1],      [1],  [.5],  [.5]];
+    q3:=[    [0,0],    [0,0],    [0,0],  [0,-10], [0,0], [0,0]];
+    X3:=[[.999999],[.999999],[.999999], [.00001], [0.5], [0.5]];
+    
+
+    variacionesP:=(Cartesiano(P2,P3));
+    variacionesq:=(Cartesiano(q2,q3));
+    combinacionesX:=(Cartesiano(X2,X3));
+    posiPRelativa:=(Cartesiano(z2,z3));;	
+end;
+
+printf("-------------     (porticos190502)---------\n");
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------

@@ -1,0 +1,62 @@
+
+printf("-----------------------inicio de init.mws---------------------\n");
+read("src/init0.mws");
+
+
+
+FICH:=1:
+CODIGO:="";
+nq:=0;
+ 
+MiByN:=1:
+Micolor():
+plotsetup(default);
+
+#----------------------------------------------------------------------------
+
+combinacionesAbscisasP:=convert(choose(abscisasP,3),set);
+variacionesP:=variaciones(valoresP,3):
+variacionesq:=variaciones(valoresq,4):
+variacionesM:=variaciones(valoresM,2):
+##### Dimensionado, tensiones. Variable ER
+       gammaf:=1.45;
+          #ER:=[5,3];  ### 
+                       ### 1,x  IPE
+                       ### 2,x  IPE+1f   ### pendiente
+                       ### 3,x  HEA      ### pendiente
+                       ### 4,x  bxh madera
+                       ### 5,x  bxh.bxh madera
+                       ### 6,x  dobleT S275 no simétrica
+                       ### 7,x  IPN
+                       ### 8,x  Tinvertida S275
+                       ### 9,x  HEB S275
+                       ###
+		       ###      Preguntas. Fichero tex
+                       ### x,0  sin preguntas. Sólo dim
+                       ### x,1  E/R
+                       ### x,2  sigma 
+                       ### x,3  sigma + tau
+                       ### x,4  sigma + ME/MR 
+                       ### x,5  sigma + tau + ME/MR 
+                       ### x,6  sigma + tau + ME/MR + VE/VR
+                       ### x,7  sigma + tau + VM
+                       ### x,8  sigma + tau + VM + ME/MR
+                       ### x,9  sigma + tau + VM + ME/MR +VE/VR
+                       ### x,10* Se comprueba tau en extremo izquierdo
+                       ### x,20* Se comprueba tau en extremo derecho
+                       ### x,30* Se comprueba tau en extremo con M=0 (Si ninguno M=0 o los dos M=0, entonces en Vmax)
+selectSeccion();
+#------------------------------------------------------------------------------
+
+cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+printf("-----------------------fin de init.mws---------------------\n");
+#quit;

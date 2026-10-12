@@ -1,0 +1,15 @@
+printf("------------- read(cambioBase)------------------------\n");
+cambioBase:=proc(topo, theta, x0, y0)
+    local x1, y1, x2, y2;
+
+    print(topo);
+    print(topo[1],cos(theta),topo[2],sin(theta),x0);
+    x1:= topo[1]*cos(theta)+topo[2]*sin(theta)+x0;
+    y1:=-topo[1]*sin(theta)+topo[2]*cos(theta)+y0;
+    x2:= topo[3]*cos(theta)+topo[4]*sin(theta)+x0;
+    y2:=-topo[3]*sin(theta)+topo[4]*cos(theta)+y0;
+    
+    [x1,y1,x2,y2];
+    
+end;   
+printf("-------------     (cambioBase)------------------------\n");

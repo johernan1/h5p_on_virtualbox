@@ -1,0 +1,46 @@
+printf("------------- read(viga11)----------------\n");
+# OJO viga11 se usa en Misgraf
+viga_11:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s, Empotrado_apoyado;
+  
+    printf("-------------     (viga11)----------------\n");
+
+    CODIGO:=V11;
+
+    s :=     viga11Calculo(Ls, combinacionesX, variacionesP, variacionesq,
+      	     		       variacionesM, VariacionesM);
+
+ 
+ 	     VariacionesMt:=VariacionesM;
+	     VariacionesMt[1,1]:=s[1];
+	    
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesMt, s);
+
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesMt, s);
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    Empotrado_apoyado:=1;
+    print("210204 viga11");
+    print(variacionesM, VariacionesMt);
+    print(display(
+             viga10Dibujo(Ls, combinacionesX, variacionesP, variacionesq,
+	     		      variacionesM, VariacionesMt, escal, escalP, escalq,
+			      escalM, posiPRelativa, Empotrado_apoyado)));
+				 
+    printf("------------- fin (viga11)----------------\n");
+end;
+#--------------------
+#print(viga11); # Para fijar variables locales
+printf("-------------     (viga11)----------------\n");
+
+
+
+
+
+

@@ -1,0 +1,815 @@
+ejercicio160331:=proc()
+    	global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+        	Lvig, VolIzq, opcion, ER, minIncL, Nv, abscisasP, valoresP, valoresq, valoresM, variacionesU;
+
+	abscisasP:=[0.25,0.5,0.75,0.33,0.66];
+	valoresP:=[0,55,45];
+	valoresq:=[0,0,0,0,0];
+	valoresM:=[1,1]:
+	variacionesU:={[0]};      ### Se piden giros y flecha
+
+
+	VolIzq:=1;
+
+        read("src/init.mws");
+#print(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU); quit;
+
+	Lvig:=proc(i) incL:=(i mod 10)/20; Lv:=4.5+incL; end;
+	minIncL:=0.02;  # Se descartan combinaciones que no cumplan esta condición
+
+	opcion:=2;
+    	Nv:=1;
+    	Gerber:=[[],[],[]];
+        ER:=[1,9];  
+end;
+
+#------------------------------------------------------------------------------
+
+ejercicio160401:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, perfilVano1;
+
+
+    escalP:=5;
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=[
+      #- 1 ------ Vigueta Gran Via -------------------------------
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[0.0], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+
+      [[[[[3.5], [ .75]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.6], [ .75]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.7], [ .75]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.8], [ .75]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.9], [ .75]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.9], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.8], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.7], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.6], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]],
+      [[[[[3.5], [ .5]], [7.35, 7.35, 7.35]], [0, 0]],[1]]
+
+
+
+    ];
+    ER:=[1,1];
+
+    volXPq:=proc(i) -i; end;
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       ER:=[7,1];
+       VolIzq:=1;
+       textoAmpliado:=0;
+       
+       perfilVano1:=260;
+
+       #Longitudes:=[4.9,
+       #             4.9,
+       #             4.9,
+       #             4.9,
+       #             4.9
+       #            ];
+       #Longitudes[i];
+       incL:=(i mod 5)/20; 
+       4.9+incL;
+    end;
+
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+ 
+
+end;
+
+#------------------------------------------------------------------------------------------------------------
+
+ejercicio160401b:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, perfilVano1, FICH;
+    FICH:=100;
+
+
+    escalP:=1;
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=[
+      [[[[[40.0], [ .5]], [35, 35, 35]], [0, 1]],[1]],
+      [[[[[40.0], [ .5]], [35, 45, 35]], [1, 0]],[1]],
+      [[[[[40.0], [ .5]], [45, 35, 35]], [0, 1]],[1]],
+      [[[[[50.0], [ .5]], [35, 35, 35]], [1, 0]],[1]],
+      [[[[[50.0], [ .5]], [35, 45, 35]], [0, 1]],[1]],
+      [[[[[50.0], [ .5]], [45, 35, 35]], [1, 0]],[1]],
+      [[[[[45.0], [ .5]], [35, 35, 35]], [0, 1]],[1]],
+      [[[[[45.0], [ .5]], [45, 35, 35]], [1, 0]],[1]],
+      [[[[[45.0], [ .5]], [35, 45, 35]], [0, 1]],[1]],
+
+      [[[[[35.0], [ .5]], [35, 45, 35]], [1, 0]],[1]],
+
+      [[[[[40.0], [ .5]], [35, 35, 35]], [1, .5]],[1]],
+      [[[[[40.0], [ .5]], [35, 45, 35]], [.5, 1]],[1]],
+      [[[[[40.0], [ .5]], [45, 35, 35]], [1, .5]],[1]],
+      [[[[[50.0], [ .5]], [35, 35, 35]], [.5, 1]],[1]],
+      [[[[[50.0], [ .5]], [35, 45, 35]], [1, .5]],[1]],
+      [[[[[50.0], [ .5]], [45, 35, 35]], [.5, 1]],[1]],
+      [[[[[45.0], [ .5]], [35, 35, 35]], [1, .5]],[1]],
+      [[[[[45.0], [ .5]], [45, 35, 35]], [.5, 1]],[1]],
+      [[[[[45.0], [ .5]], [35, 45, 35]], [1, .5]],[1]],
+
+      [[[[[35.0], [ .5]], [35, 45, 35]], [1, .5]],[1]]
+
+
+
+
+    ];
+    ER:=[1,1];
+
+    #volXPq:=proc(i) -i; end;
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       ER:=[1,1];
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 10)/20; 
+       5.5+incL;
+    end;
+
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+ 
+
+end;
+
+
+#------------------------------------------------------------------------------------------------------------
+
+ejercicio160407:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, escalq, textoAmpliado, perfilVano1, FICH;
+    FICH:=100;
+
+
+    escalP:=.5;
+    escalq:=5;
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=[
+      [[[[[90+3.7*1.58*10.5/4], [ .336]], [3.65, 4.5+3.65]], [0, 0]],[1]],
+      [[[[[91+3.7*1.58*10.5/4], [ .336]], [3.65, 5.0+3.65]], [0, 0]],[1]],
+      [[[[[92+3.7*1.58*10.5/4], [ .336]], [3.65, 4.5+3.65]], [0, 0]],[1]],
+      [[[[[93+3.7*1.58*10.5/4], [ .336]], [3.65, 5.0+3.65]], [0, 0]],[1]],
+      [[[[[94+3.7*1.58*10.5/4], [ .336]], [3.65, 4.5+3.65]], [0, 0]],[1]],
+      [[[[[95+3.7*1.58*10.5/4], [ .336]], [3.65, 5.0+3.65]], [0, 0]],[1]],
+      [[[[[96+3.7*1.58*10.5/4], [ .336]], [3.65, 4.5+3.65]], [0, 0]],[1]],
+      [[[[[97+3.7*1.58*10.5/4], [ .336]], [3.65, 5.0+3.65]], [0, 0]],[1]],
+      [[[[[98+3.7*1.58*10.5/4], [ .336]], [3.65, 4.5+3.65]], [0, 0]],[1]],
+      [[[[[99+3.7*1.58*10.5/4], [ .336]], [3.65, 5.0+3.65]], [0, 0]],[1]],
+
+      #---------------------------------------------------------------
+      [[[[[35.001, 45], [0.5,0.75]],  [35,0, 0]], [0, 0]],[1]],
+      [[[[[ 0,     45], [0.5,0.75]],  [35,0, 0]], [0, 0]],[1]], 
+
+      [[[[[ 0,      0], [.25, .75]], [0, 35, 0]], [0, 0]],[1]],
+      [[[[[45,      0], [.25, .75]], [0, 35, 0]], [0, 0]],[1]],
+      [[[[[ 0, 35.001], [.25, .75]], [0, 35, 0]], [0, 0]],[1]],
+
+
+      [[[[[45, 35.001], [.25, .5]],  [0, 0, 35]], [0, 0]],[1]],  
+      [[[[[45, 35.001], [.25, .5]],  [0, 0, 35]], [0, 0]],[1]], 
+  
+      [[[[[45        ], [.3333  ]],  [0, 35]], [0, 0]],[1]], 
+      [[[[[35.001    ], [.6667  ]],  [35, 0]], [0, 0]],[1]], 
+      [[[[[0         ], [.6667  ]],  [35, 0]], [0, 0]],[1]],
+
+      #---------------------------------------------------------------
+      [[[[[35.001, 45], [0.5,0.75]],  [35,0, 0]], [0.25, .25]],[1]],
+      [[[[[ 0,     45], [0.5,0.75]],  [35,0, 0]], [0.25, .25]],[1]], 
+
+      [[[[[ 0,      0], [.25, .75]], [0, 35, 0]], [0.25, .25]],[1]],
+      [[[[[45,      0], [.25, .75]], [0, 35, 0]], [0.25, .25]],[1]],
+      [[[[[ 0, 35.001], [.25, .75]], [0, 35, 0]], [0.25, .25]],[1]],
+
+      [[[[[45, 35.001], [.25, .5]],  [0, 0, 35]], [0.25, .25]],[1]],  
+      [[[[[45, 35.001], [.25, .5]],  [0, 0, 35]], [0.25, .25]],[1]], 
+  
+      [[[[[45        ], [.3333  ]],  [0, 35]], [0.25, .25]],[1]], 
+      [[[[[35.001    ], [.6667  ]],  [35, 0]], [0.25, .25]],[1]], 
+      [[[[[0         ], [.6667  ]],  [35, 0]], [0.25, .25]],[1]]
+
+
+
+    ];
+
+    ER:=[7,1];
+
+    volXPq:=proc(i)  x:=-i-1; if (i=18 or i=20) then x:=-i; fi; print("x,x,x",i,x); x ; end;
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       L0:=4.63;
+       ER:=[7,1];
+       VolIzq:=0;
+       perfilVano1:=320;
+
+       if (i=11) then FICH:=FICH+100; escalP:=1; escalq:=1; fi; 
+       if (i>=11) then L0:=6.0; VolIzq:=1; ER:=[1,9]; perfilVano1:=0; fi;
+       if (i=21) then FICH:=FICH+100; escalP:=1; escalq:=1; fi; 
+       if (i>=21) then L0:=6.5; VolIzq:=0; ER:=[1,1]; perfilVano1:=0;  fi;      
+
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 10)/20; 
+       L0+incL;
+    end;
+
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+ 
+
+end;
+
+
+#------------------------------------------------------------------------------------------------------------
+
+ejercicio160414:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, perfilVano1;
+
+
+    escalP:=1;
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=[
+      #- 1 ---------------------------------------------------
+      [[[[[65.0, 65, 65], [.3333, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 65, 55], [.3333, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 55, 65], [.3333, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 65, 55], [.3333, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 65, 65], [.25, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 65, 55], [.25, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 55, 65], [.25, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 55, 55], [.25, .5, .6667]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 65, 65], [.3333, .5, .75]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 65, 55], [.3333, .5, .75]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 55, 65], [.3333, .5, .75]], [0, 0, 0, 0]], [1, 1]],[1]],
+      [[[[[65.0, 55, 55], [.3333, .5, .75]], [0, 0, 0, 0]], [1, 1]],[1]]
+
+
+
+    ];
+    ER:=[1,9];
+
+    volXPq:=proc(i) -i; end;
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       ER:=[1,9];
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+       #perfilVano1:=260;
+
+       #Longitudes:=[4.9,
+       #             4.9,
+       #             4.9,
+       #             4.9,
+       #             4.9
+       #            ];
+       #Longitudes[i];
+       incL:=(i mod 5)/20; 
+       5.9+incL;
+    end;
+
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+ 
+
+end;
+
+
+#------------------------------------------------------------------------------------------------------------
+
+ejercicio160804:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM;
+
+
+    escalP:=1;
+    ER:=[1,0];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=1;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 5)/20; 
+       5.9+incL;
+    end;
+
+
+    valoresM:=[1,0]:
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+ 
+end;
+
+ejercicio160804b:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, Gerber;
+
+
+    escalP:=1;
+    ER:=[1,0];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 5)/20; 
+       5.9+incL;
+    end;
+
+
+    valoresM:=[0,0]:
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=2;
+    Gerber:=[[2],[],[]];
+ 
+end;
+ejercicio160804c:=proc()
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, Gerber;
+
+
+    escalP:=1;
+    ER:=[1,0];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 5)/20; 
+       5.9+incL;
+    end;
+
+
+    valoresM:=[1,0.5]:
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+ 
+end;
+
+#-------------------------------------------------------------------------------
+ejercicio170309:=proc()
+    # Diagramas de vigas biapoyadas
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO;
+
+
+    escalP:=1;
+    ER:=[1,0];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 2); 
+       5+incL;
+       #6.0
+    end;
+
+
+    valoresM:=[0,0]:
+    abscisasP:=[0.25,0.5,0.75];
+    combinacionesAbscisasP:=convert(choose(abscisasP,3),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    valoresP:=[0,0,45,45,55];
+    valoresq:=[0,0,0,35,35,35,50];
+    variacionesP:=variaciones(valoresP,3):
+    variacionesq:=variaciones(valoresq,4):
+    variacionesM:=variaciones(valoresM,2):
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+    # Solo puntuales
+    valoresP:=[45,45,45,55,55,55,50,50,50,0];
+    valoresq:=[0,0,0,0];
+    variacionesP:=variaciones(valoresP,3):
+    variacionesq:=variaciones(valoresq,4):
+    variacionesM:=variaciones(valoresM,2):
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+    # Se unen cargas solo puntuales y puntuales+distribuidas
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+       [op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) , op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1)];
+
+
+signosARIO:=1;
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+end;
+
+#-------------------------------------------------------------------------------
+ejercicio170314:=proc()
+    # Diagramas y tensiones de vigas gerber.
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO;
+
+    escalP:=1;
+    ER:=[1,0];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 2); 
+       5+incL;
+       #6.0
+    end;
+
+
+    valoresM:=[0,0]:
+    abscisasP:=[0.25,0.5,0.75];
+    combinacionesAbscisasP:=convert(choose(abscisasP,3),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    valoresP:=[0,0,45,45,55];
+    valoresP:=[0,0,25,25,35];
+    valoresq:=[0,0,0,35,35,35,50];
+    variacionesP:=variaciones(valoresP,3):
+    variacionesq:=variaciones(valoresq,4):
+    variacionesM:=variaciones(valoresM,2):
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+    # Solo puntuales
+    valoresP:=[45,45,45,55,55,55,50,50,50,0];
+    valoresq:=[0,0,0,0];
+    variacionesP:=variaciones(valoresP,3):
+    variacionesq:=variaciones(valoresq,4):
+    variacionesM:=variaciones(valoresM,2):
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+#    # Se unen cargas solo puntuales y puntuales+distribuidas
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+#       [op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) , op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1)];
+     # Se prescinde de solo puntuales
+     cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU=cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1;
+
+
+signosARIO:=1;
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=2;
+    Gerber:=[[],[],[]];
+end;
+
+ejercicio170314_:=proc()
+    # Diagramas y tensiones de vigas gerber.
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, Gerber, signosARIO, textoAmpliado;
+
+
+    valoresM:=[0,0]:
+    abscisasP:=[0.25,0.5,0.75];
+    combinacionesAbscisasP:=convert(choose(abscisasP,3),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    valoresP:=[0,0,45,55];
+    valoresq:=[0,35,35,35,35];
+    variacionesP:=variaciones(valoresP,3):
+    variacionesq:=variaciones(valoresq,4):
+    variacionesM:=variaciones(valoresM,2):
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+
+       ER:=[6,5]; 
+    
+print("Lvig: i=", i);
+       incL2:=0;
+       if ((i mod 6)>3) then incL2:=0.5; fi;
+      
+
+       incL:=0;
+       if ((i mod 3)=2) then incL:=1; fi;
+       5+incL+incL2;
+       #6.0
+    end;
+
+
+
+    minIncL:=0.001;
+    opcion:=2;  ### Fichero tex para procesar
+    Nv:=3;
+
+    print("test...",ER);
+
+signosARIO:=1;
+textoAmpliado:=1;
+
+Gerber:=[[2],[],[1]];
+
+
+end;
+
+#-------------------------------------------------------------------------------
+ejercicio170921:=proc()
+    # Diagramas de vigas biapoyadas
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO;
+
+
+    escalP:=1;
+    ER:=[1,0];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 2); 
+       5+incL;
+       #6.0
+    end;
+
+
+    valoresM:=[0,1]:
+    abscisasP:=[0.25,0.5,0.75];
+    combinacionesAbscisasP:=convert(choose(abscisasP,2),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    valoresP:=[0,0,45,45,55];
+    valoresP:=[0,0,25,25,30];
+    valoresq:=[0,0,0,40,40,40,50];
+    variacionesP:=variaciones(valoresP,2):
+    variacionesq:=variaciones(valoresq,3):
+    variacionesM:=variaciones(valoresM,2):
+    variacionesM:={[.7,0]}:
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+    # Solo puntuales
+    valoresP:=[45,45,45,55,55,55,50,50,50,0];
+    valoresq:=[0,0,0,0];
+    variacionesP:=variaciones(valoresP,2):
+    variacionesq:=variaciones(valoresq,3):
+    variacionesM:=variaciones(valoresM,2);
+
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+#    # Se unen cargas solo puntuales y puntuales+distribuidas
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+#       [op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) , op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1)];
+
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1; 
+
+
+#signosARIO:=1;
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+
+end;
+
+#-------------------------------------------------------------------------------
+ejercicio170928:=proc()
+    # Diagramas de vigas biapoyadas
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO;
+
+
+    escalP:=1;
+    ER:=[1,0];
+
+    VolIzq:=1;   ### 170928
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=1;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 2); 
+       5+incL;
+       #6.0
+    end;
+
+
+    valoresM:=[0,0]:
+    abscisasP:=[0.25,0.5,0.75,0.333,0.666];
+    combinacionesAbscisasP:=convert(choose(abscisasP,2),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    valoresP:=[0,0,45,45,55];
+    valoresP:=[0,0,25,25,30,30,35];
+    valoresq:=[40,40,40,40,40,40,40];
+    variacionesP:=variaciones(valoresP,2):
+    variacionesq:=variaciones(valoresq,3):
+    variacionesM:=variaciones(valoresM,2):
+    #variacionesM:={[0,0]}:
+    variacionesU:={[1]}:
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+    # Solo puntuales
+    valoresP:=[45,45,45,55,55,55,50,50,50,0];
+    valoresq:=[0,0,0,0];
+    variacionesP:=variaciones(valoresP,2):
+    variacionesq:=variaciones(valoresq,3):
+    variacionesM:=variaciones(valoresM,2);
+
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+
+#    # Se unen cargas solo puntuales y puntuales+distribuidas
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+#       [op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) , op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1)];
+
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1; 
+
+
+#signosARIO:=1;
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+
+end;
+
+

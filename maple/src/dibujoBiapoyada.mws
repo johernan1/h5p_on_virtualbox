@@ -1,0 +1,113 @@
+printf("------------- read(dibujoBiapoyada)---------------\n");
+dibujoBiapoyada:=proc(L0, combinacionX, variacionP, variacionq, variacionM, VariacionM, escal, escalP, escalq, escalM)
+global nq, nudoIzq, nudoDer;
+local L00, nudos, angul, despl, ccont, nombr, aux, postx, conex, vigas,
+escaq, posiq, potxq, nudosf, viga, apoyo, cotas, cotas2, combinacionX0L, iX,
+accioP, iP, cargP, posiP, textP, potxP, combinacion0XL, accion, iq, nudosq,
+cargq, textq, momento, G;
+
+    print("-----------------------inicio de dibujoBiapoyada---------------------");
+
+
+
+    #escal:=.15*L0/5.;
+    L00:=escal*5/.15;
+    nudos:=[       [0,0],  [L0,0]]:
+    angul:=[           0,       0]:
+    despl:=[       [0,0],   [0,0]]:
+    ccont:=[[nudoIzq,0],      [nudoDer,0]]:
+    nombr:=[        " ",            " "]:
+    aux:=0.1:
+    postx:=[         aux,     aux,        aux]:
+    conex:=[ [1,2]]:
+    vigas:=[viga11]:
+    escaq:=0.05:
+    posiq:=0.3:
+    potxq:=0.5:
+#fprint("-------------------------\n");
+#nudos;conex;escal;angul;despl;ccont;nombr;postx;
+#fprint("-------------------------\n");
+    nudosf:=porticoNN(nudos,conex,escal,angul,despl,ccont,nombr,postx);
+    viga:=porticovig(nudos,conex,escal,vigas):
+
+    apoyo:=Apoyofijo(0,-escal,0.6*escal,0),
+           Apoyodes(L0,-escal,0.6*escal,0):
+    #cotas:= cotas_c(     0,    -1.25*L0/5,L0,1,0,.05*L0/5,convert(L0,string),.15*L0/5):
+    cotas:= cotas_c(     0,    -1.25*L00/5,L0,1,0,.05*L00/5,convert(L0,string),.15*L00/5):
+
+    cotas2:=[];
+    combinacionX0L:=[0,op(combinacionX),1]:
+    print("combinacionX",combinacionX,"combinacion0L",combinacionX0L);
+
+    for iX from 1 to nops(combinacionX)+1 do
+        cotas2:=[op(cotas2),
+                    cotas_c(L0*combinacionX0L[iX],  -0.75*L00/5,
+	                L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+		        1,0,.05*L00/5,
+		        convert(L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+                                    string),
+		                        .15*L00/5)]: 
+    od:
+    accioP:=[];
+
+    for iP from 1 to nops(combinacionX) do
+       if(variacionP[iP]<>0) then
+            cargP:=[[1.5*escal*escalP*variacionP[iP]/40,combinacionX[iP],0]]:
+           
+            posiP:=[       4.0*escal]:
+            #if (nq=0) then
+            if (variacionq[iP]=0 and variacionq[iP+1]=0) then
+                posiP:=[       1.5*escal]:
+            fi;
+            textP:=[           convert(variacionP[iP],string)]:
+            potxP:=1.25*escal*escalP*variacionP[iP]/40:
+
+
+            accioP:=[op(accioP),
+	             porticoP(nudos,conex,escaq,cargP,posiP,textP,potxP)]:
+       fi;
+    od;
+
+    combinacion0XL:=[0,op(combinacionX),1];
+    accion:=[];
+    for iq from 1 to nops(variacionq) do
+       if(variacionq[iq]<>0) then
+        nudosq:=[       [L0*combinacion0XL[iq],0],  [L0*combinacion0XL[iq+1],0]]:
+        cargq:=[1.5*escal*escalq*variacionq[iq]/2]:
+        textq:=[sprintf("%a",variacionq[iq])]:
+        #posiq:=0:
+        potxq:=.20;
+
+        accion:=[op(accion),
+                 porticoqh(nudosq,conex,escaq,cargq,posiq*L00/5,textq,potxq*L00/5)]:
+       fi;
+    od;
+
+    momento:=[]:
+    if(variacionM[1]<>0) then
+          textq:=sprintf("%s",convert(VariacionM[1],string)):
+          momento:=[flechaCN(0,0,-.25*variacionM[1]*L0/5*escalM,0,textq,0)]
+    fi;
+    if(variacionM[2]<>0) then
+          textq:=sprintf("%s",convert(VariacionM[2],string)):
+          momento:=[op(momento),flechaC_N(0+L0,0,-.25*variacionM[2]*L0/5*escalM,Pi,textq,0)]
+    fi;
+
+    
+    print("----------dibujoBiapoyada. Solo queda display---------");
+    G:=display(
+               viga,
+               nudosf,            
+               op(accioP),
+               op(accion),
+               cotas,
+	       cotas2,
+               apoyo,
+               momento,
+ 
+               axes=none,scaling=constrained):
+    #Fich():
+    G;
+end:
+printf("-------------     (dibujoBiapoyada)---------------\n");
+#print(dibujoBiapoyada);

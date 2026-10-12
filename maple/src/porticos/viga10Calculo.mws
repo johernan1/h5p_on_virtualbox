@@ -1,0 +1,60 @@
+printf("------------- read(viga10Calculo)----------------\n");
+viga10Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+    global FICH;
+
+    #                              
+    #  ------------------------
+    #  ^                      ^
+
+    printf("-------------     (viga10Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    
+    Lv   :=Ls[1];
+    
+
+
+    print ("200106");
+    print(Ls);
+    dgMV:=diagramaMV(0,Lv,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]);
+    print ("...fin 200106");
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+    
+    mH:=[[      1,       0],
+         [      0,       1]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    mD:=evalm(diag(evalm(cddc/Lv))):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12]:
+    vf:=-evalm(mH&*sf) + [0,0];
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    #print (evalm(mK));
+    printf ("190717xxxx\%an", FICH);
+    print (sf);
+    print (vf);
+    #print (u);
+    print (s);
+    
+    printf("------------- fin (viga10Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(viga10Calculo); # Para fijar variables locales
+printf("-------------     (viga10Calculo)----------------\n");
+
+
+
+
+
+

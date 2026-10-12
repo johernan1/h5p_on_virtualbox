@@ -1,0 +1,111 @@
+printf("------------- read(portico6110Datos)----------------\n");
+portico6110Datos:=proc(bcargas)
+
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM,
+    	   VariacionesM, posiPRelativa;
+
+    #             
+    #      2    /\    5
+    #  1     /      \    4
+    #_____/           \____
+    #    |             |
+    #  3 |             | 6
+    #    |             |
+    
+    printf("-------------     (portico6110Datos)----------\n");
+    Ls            :=[        1.5,    8.24621125123532,       4, 1.5,8.24621125123532,4];
+    #Ls            :=[        1,        5,      3.5];
+    #Ls            :=[        1,        5,      3.0];
+    
+    variacionesM:=[[0,  0], [0,  0], [0,  0], [0,  0], [0,  0], [0,  0]];  # Escala del dibujo. Si 0 no dib
+    VariacionesM:=[[1,  0], [1,  0], [1,  0], [1,  0], [1,  0], [1,  0]];  #
+
+    #---- Cargas Generales-----------------------------------------------------
+    #---------------------------------------Soporte
+    q00:=cargasVano00();
+    q0:=unionCargas(cargasVano00(),
+                    cargasMens01(1.2*5*4,1.2*5));
+    printf("----210927------------q0=%a\n", q0);
+     q0[2]:=q0[2]*.25;        # se ajusta posicion de las cargas
+     q0[2][2]:=q0[2][2]*2.75; # se desplaza la carga en extremo sup
+#     q0[2][4]:=-q0[2][4]*2.75; # se desplaza la carga en extremo sup
+#    q0[2][3]:=q0[2][3]*1.5;	
+#    q0[2][12]:=q0[2][12]*7.00;	
+#    q0[2][14]:=q0[2][14]*5.75;
+    #---------------------------------------Voladizoi
+    q1:=cargasVoli01(15,10);
+    #--------------------------------------Viga izq
+    q2:=cargasVano13(15,10);
+    #---------------------------------------Soported
+    q30:=cargasVano00();
+    q3:=cargasMens01m(1.2*5*4,1.2*5);
+    printf("----210927------------q0=%a\n", q0);
+     q3[2]:=q3[2]*.25;        # se ajusta posicion de las cargas
+     q3[2][1]:=q3[2][1]*2.75; # se desplaza la carga en extremo sup
+    #---------------------------------------Voladizod
+    q4:=cargasVold01(15,10);
+    #---------------------------------------Viga derecha
+    q5:=cargasVano13(15,10);
+    #---- Fin Cargas generales ------------------------------------------------
+
+    
+    P0:=q0[1];
+    z0:=q0[2];
+    X0:=q0[3];
+    q0:=q0[4];
+    
+    P00:=q00[1];
+    z00:=q00[2];
+    X00:=q00[3];
+    q00:=q00[4];
+    
+    P1:=q1[1];
+    z1:=q1[2];
+    X1:=q1[3];
+    q1:=q1[4];
+    
+    P2:=q2[1];
+    z2:=q2[2];
+    X2:=q2[3];
+    q2:=q2[4];
+    
+    P30:=q30[1];
+    z30:=q30[2];
+    X30:=q30[3];
+    q30:=q30[4];
+    
+    P3:=q3[1];
+    z3:=q3[2];
+    X3:=q3[3];
+    q3:=q3[4];
+    
+    P4:=q4[1];
+    z4:=q4[2];
+    X4:=q4[3];
+    q4:=q4[4];
+    
+    P5:=q5[1];
+    z5:=q5[2];
+    X5:=q5[3];
+    q5:=q5[4];
+
+    #  1   2    0     1    2   0   4     5    3
+    #(vol,viga,sop)->vol,viga,sop,vold,vigad,sopd
+    variacionesP  :=CartesianoR(P1,CartesianoR(P2,CartesianoR(P0,CartesianoR(P4,Cartesiano(P5,P30)))));
+    variacionesq  :=CartesianoR(q1,CartesianoR(q2,CartesianoR(q0,CartesianoR(q4,Cartesiano(q5,q30)))));
+    combinacionesX:=CartesianoR(X1,CartesianoR(X2,CartesianoR(X0,CartesianoR(X4,Cartesiano(X5,X30)))));
+    posiPRelativa :=CartesianoR(z1,CartesianoR(z2,CartesianoR(z0,CartesianoR(z4,Cartesiano(z5,z30)))));	
+    variacionesP  :=[op(CartesianoR(P1,CartesianoR(P2,CartesianoR(P0,CartesianoR(P4,Cartesiano(P5,P30)))))),op(CartesianoR(P1,CartesianoR(P2,CartesianoR(P00,CartesianoR(P4,Cartesiano(P5,P3))))))];
+    variacionesq  :=[op(CartesianoR(q1,CartesianoR(q2,CartesianoR(q0,CartesianoR(q4,Cartesiano(q5,q30)))))),op(CartesianoR(q1,CartesianoR(q2,CartesianoR(q00,CartesianoR(q4,Cartesiano(q5,q3))))))];
+    combinacionesX:=[op(CartesianoR(X1,CartesianoR(X2,CartesianoR(X0,CartesianoR(X4,Cartesiano(X5,X30)))))),op(CartesianoR(X1,CartesianoR(X2,CartesianoR(X00,CartesianoR(X4,Cartesiano(X5,X3))))))];
+    posiPRelativa :=[op(CartesianoR(z1,CartesianoR(z2,CartesianoR(z0,CartesianoR(z4,Cartesiano(z5,z30)))))),op(CartesianoR(z1,CartesianoR(z2,CartesianoR(z00,CartesianoR(z4,Cartesiano(z5,z3))))))];	
+    #(vol,viga,sop)->vol,viga,sop,vold,vigad,sopd
+    #variacionesP  :=CartesianoR(P4,Cartesiano(P5,P3)))));
+    #variacionesq  :=CartesianoR(q4,Cartesiano(q5,q3)))));
+    #combinacionesX:=CartesianoR(X4,Cartesiano(X5,X3)))));
+    #posiPRelativa :=CartesianoR(z4,Cartesiano(z5,z3)))));	
+    
+    printf("%a\n", variacionesP);
+    printf("fin: -------------     (portico6110Datos)----------\n");	
+end;
+

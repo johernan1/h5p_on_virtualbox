@@ -1,0 +1,71 @@
+printf("------------- read(portico6110Dibujo)----------------\n");
+portico6110Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, CC)
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+
+    #               
+    #      2    /\    5
+    #  1     /      \    4
+    #_____/           \____
+    #    |             |
+    #  3 |             | 6
+    #    |             |
+    
+
+    
+    printf("-------------     (portico6110Dibujo)----------------\n");
+
+    c:=0.970142500145332;
+    s:=0.242535625036333;
+
+    nElem:=nops(Ls);
+    Lvol :=Ls[1];
+    Lv   :=Ls[2]; Lvx:=Lv*c; Lvy:=Lv*s;
+    Lc   :=Ls[3];
+
+
+    nudos:=[ [-Lvol,0],  [0,0],     [Lvx,Lvy],  [0,-Lc], [2*Lvx,0], [2*Lvx+Lvol,0],  [2*Lvx,-Lc]]:
+    angul:=[         0,      0,          0,        0,      0,          0,        0]:
+    despl:=[     [0,0],  [0,0],      [0,0],    [0,0],  [0,0],      [0,0],    [0,0]]:
+    if (CC=01 or CC=00) then
+       ccont:=[[nudoiv,0],  [0,0], [nudodv,0], [Arti,0], [nudodv,0], [nudodv,0], [Arti,0]]:
+    elif (CC=11 or CC=10) then
+       ccont:=[[nudoiv,0],  [0,0], [nudodv,0], [Empo,0], [nudodv,0], [nudodv,0], [Empo,0]]:
+    fi;   
+    
+    nombr:=[       " ",    " ",        " ",      " ",    " ",        " ",      " "]:
+    aux:=0.1:
+    postx:=[       aux,    aux,        aux,      aux,    aux,        aux,      aux]:
+    conex:=[ [1,2],[2,3],[4,2],[5,6],[3,5],[7,5]]:
+
+    vigas:=[ viga12, viga22, viga12, viga21, viga22, viga12]:
+    XYcot:=[      0,  0      ,  0, 0,  0      ,  0];                  # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0,  0      ,  0, 0,  0      ,  0];                  # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                                     #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra
+    if (CC=01 or CC=11) then 						     
+       apoyo:= arti(Lvx,Lvy,0.95*escal,0):         # Apoyos de nudos interiores
+    elif (CC=00 or CC=10) then
+       apoyo:= [];
+    fi; 
+    printf("portico6110Dibujo: Ls=%a\n",Ls);
+    printf("portico6110Dibujo: Lv=%a\n",Lv);
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq,
+    	   		      variacionesM, VariacionesM, 
+               		      escal, escalP, escalq, escalM,
+                              Lc, nudos, ccont, conex, vigas, apoyo, XYcot,
+			      xycot, posiPRelativa);
+
+    printf("------------- fin (portico6110Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (portico6110Dibujo)----------------\n");
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+
+textoPsfrag:=proc(textoIni, textoFin, formato, angulo, incx, incz)
+
+    print("inicio textoPsfrag---", textoIni, textoFin, formato, incx, incz, angulo);
+    texto:=" ";
+    psfrag:="%s\\psfrag{%s}[c][c][1][%f]{\\scriptsize \\mipsfrag{%f}{%f}{$%s%s $}}\n";
+    #printf("%s", psfrag);
+    psfrag:=sprintf(psfrag,"%s","%s",angulo,incx,incz,"%",formato,"%s");
+    #print(psfrag); quit;
+    #for iP from 1 to nops(variacionP) do
+        texto:=sprintf(psfrag,texto,
+	            textoIni,
+                    #angulo,
+                    #incx, incz,
+		    #variacionP[iP],
+                    textoFin);
+    #od;
+    texto;   #return. NO BORRAR
+end:

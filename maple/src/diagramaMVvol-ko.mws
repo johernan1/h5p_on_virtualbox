@@ -1,0 +1,94 @@
+#----------------------------------------------------------------------------
+#--- Definicion de cargas en voladizo. 
+#--- Cálculo de texto moodle, etc.              ----------|
+diagramaMVvol:=proc(O,L0,combinacionX_vol,variacionP_vol,variacionq_vol,
+                         combinacionX,variacionP,variacionq, variacionM)
+    local Lvol, dgMvol;  
+
+    print("-----------inicio diagramaMVvol-----------------");
+    print(O,L0,combinacionX_vol,variacionP_vol,variacionq_vol,
+                         combinacionX,variacionP,variacionq, variacionM);
+    #------- se calcula el mF del apoyo izquierdo de la viga para incluir el momento en el extremo
+    #------- izquierdo como un factor del mismo
+    aux:=diagramaMisos(O,L0,combinacionX,variacionP,variacionq,[0,0]);
+    
+    M1f:=aux[3];  
+    M2f:=aux[4]; 
+    if (variacionM[2]= 0) then
+       M1f:=M1f-M2f/2;
+    fi;
+
+    #------- Longitud del voladizo y cargas del mismo. Solo tiene una carga puntual y una distibuida
+    #------- en textoPsfragCombinacionX se incluyen estos valores para dibujo tex
+    if (nops(combinacionX)<>0) then 
+        if(combinacionX[nops(combinacionX)]>0.5) then
+            Lvol:=L0*.2;
+        else
+            Lvol:=L0*.25;
+        fi;
+    else
+            Lvol:=L0*.2;
+    fi;
+
+
+    if (nops(combinacionX_vol)<>0) then     
+        combinacionXvol:=combinacionX_vol[1..1]:
+    else
+        combinacionXvol:=[0];  # Solo carga distribuida
+    fi;
+    combinacionXvol[1]:=0:
+
+
+    if (nops(variacionP_vol)<>0) then   
+        variacionPvol:=variacionP_vol[1..1]:
+    else
+        variacionPvol:=[0]; # Solo carga distribuida
+    fi;	
+
+    if (nops(variacionq_vol)>1) then       
+        variacionqvol:=variacionq_vol[1..2]:
+    else
+        variacionqvol:=[variacionq_vol[1], variacionq_vol[1]];   #Solo carga distribuida
+    fi;
+
+    #-------------- Se calcula el momento de empotramiento del voladizo
+    dgMvol1:=diagramaMvol(0,Lvol,combinacionXvol,variacionPvol,variacionqvol);
+    if (dgMvol1[1]=0 and dgMvol1[2]=0) then
+        return [0]; ### Sin cargas. Se omite 
+    fi;
+    #print("dgMvol1=",dgMvol1, dgMvol1[1]=0 and dgMvol1[2]=0); quit;
+
+    XPqvol:=[Lvol, combinacionXvol, variacionPvol, variacionqvol];
+    #-------------- Si solo hay carga puntual -------
+#print("variacionqvol[2]",variacionqvol,"variacionq",variacionq, "XPqvol",XPqvol);
+    if (variacionqvol[2]=0) then
+        dgMvol3:=[0];
+        t1:=sprintf("0.0,0.0,1,%a",dgMvol1[1]);
+        t2:=sprintf("0.0,%a,1,%a",-variacionPvol[1],-variacionPvol[1]);
+        t3:=sprintf("%a,0,0,0",-Lvol);
+        dgMvol3:=[t1,0,0,dgMvol1[2],
+                  t2,0,-variacionPvol[1],0,0,0,0,0,0,t3,0,0,0,0];
+        #print("dgMvol3",dgMvol3); quit; 
+        #return [0]; ### Sin programar
+        #return [0]; ### Sin cargas. Se omite 
+    else 
+        #-------------- Se calculan los momentos de empotramiento de la viga isostatica
+        dgMvol2:=diagramaMisos(O,Lvol,combinacionXvol,variacionPvol,variacionqvol,[0,0]);
+
+ 
+        #-------------- Y se engaña a diagramaMV incluyendo un momento en el extremo izquierdo=mF
+        combinacionXvol:=subsop(1=NULL,combinacionXvol);
+        variacionPvol:=subsop(1=NULL,variacionPvol);
+        variacionqvol:=subsop(1=NULL,variacionqvol);
+       
+
+        print("--------------diagramaMVvol. Solo queda diagramaMV---------", (dgMvol1[1]),(dgMvol2[4]-dgMvol2[3]/2));
+        dgMvol3:=diagramaMV(-Lvol,Lvol,combinacionXvol,variacionPvol,variacionqvol,
+                            [0, (dgMvol1[1])/(dgMvol2[4]-dgMvol2[3]/2)]);
+
+#print("dgMvol3",dgMvol3); quit;
+
+    fi;
+    #-------------- return: idem diagramaMV, Mvol/Mf1, Lvol, [Lvol, combinacionXvol, variacionPvol, variacionqvol]
+    [op(dgMvol3), -dgMvol1[1]/M1f, Lvol, XPqvol];
+end;

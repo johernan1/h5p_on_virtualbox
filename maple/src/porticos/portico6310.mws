@@ -1,0 +1,62 @@
+printf("------------- read(portico6310)----------------\n");
+portico6310:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO, subestructura;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+    #             
+    #   ------------------------------
+    #   |               |            |               
+    #   |               |            | 
+    #   |               |            | 
+    #   |               |            | 
+    #   |               |            |           
+    #   ------------------------------
+    #   |               |            |               
+    #   |               |            |
+    #   |               |            |
+    #   |               |            |
+    #   |               |            |           
+    #   ------------------------------
+    #   |      4        |     5      |               
+    #   |               |            |
+    #   |1              | 2          |3
+    #   |               |            |
+    #   |               |            |
+
+ 
+    printf("-------------     (portico6310)----------------\n");
+    printf("211013 subestructura=%a\n", subestructura);
+    
+    CODIGO:=P6310;
+
+    s :=     portico6310Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+             subestructura);
+
+             portico10Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+             portico6310Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print(display(
+             portico6310Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,
+				 subestructura)));
+				 
+    printf("------------- fin (portico6310)----------------\n");
+end;
+#--------------------
+#print(portico6310); # Para fijar variables locales
+printf("-------------     (portico6310)----------------\n");
+
+
+
+
+
+

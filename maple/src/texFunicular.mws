@@ -1,0 +1,146 @@
+texFunicular:=proc(psfrag,funMV,variacionU,opcion)
+MV:=funMV[2];
+    L0:=MV[15];
+    M_x:=MV[16];
+fun:=funMV[1];
+    coorX:=fun[4];
+printf("Inicio de texFunicular\n");
+TopoGeom:=sprintf("%s", MV[14]);
+
+#----------------------------------------------------------------------
+textoCol1:="   Para el esquema de cargas representado, se pide:"; 
+ 
+
+if (variacionU[1]=0) then
+    textoInicial:=sprintf(
+      "Dibujar el polígono funicular que pasa por los puntos $A (0;%.3f)$ y $B (%.3f;%.3f)$  indicados, cuando la componente horizontal de las reacciones es $%0.2f kN$",
+       M_x[1],L0,M_x[-1],fun[2]);
+fi;
+
+Ai:=arctan(-MV[6],fun[2])*180/evalf(Pi);
+if (variacionU[1]=1) then
+    textoInicial:=sprintf(
+         "Dibujar el polígono funicular que pasa por los puntos $A (0;%.3f)$ y $B (%.3f;%.3f)$ indicados, cuando el ángulo que forma con la horizontal en A es $\\alpha=%0.2f^o$",
+         M_x[1],L0,M_x[-1],Ai);
+fi;
+
+Ai:=arctan(-MV[7],fun[2])*180/evalf(Pi);
+if (variacionU[1]=2) then
+    textoInicial:=sprintf(
+         "Dibujar el polígono funicular que pasa por los puntos $A (0;%5.3f)$ y $B (%5.3f;%5.3f)$ indicados, cuando el ángulo que forma con la horizontal en B es $\\beta=%0.2f^o$",
+         M_x[1],L0,M_x[-1],Ai);
+fi;
+
+if (variacionU[1]=3) then
+    textoInicial:=sprintf(
+         "Dibujar el polígono funicular que pasa por los puntos $A (0;%5.3f)$, $B (%.3f;%5.3f)$ y $C (%.3f;%5.3f)$ indicados",
+         M_x[1],L0,M_x[-1],coorX[-2]*L0,M_x[-3]);
+fi;
+
+if (variacionU[1]=4) then
+    textoInicial:=sprintf(
+         "Dibujar el polígono funicular que pasa por los puntos $A (0;%5.3f)$, $B (%.3f;%5.3f)$ sabiendo que su ordenada máxima es $z_{max}=%.3f m$",
+         M_x[1],L0,M_x[-1],MV[3]);
+fi;
+
+ 
+
+textoCol1:=sprintf("%s\n%s\n",textoCol1,textoInicial);
+
+#----------------------------------------------------------------------
+textoCol2:=" 
+    Valor y signo de las reacciones.
+    \\medskip
+
+	    \\hfill \\Resul \\Resul \\Resul \\Resul
+
+    \\vfill";
+
+
+if (variacionU[1]<=10) then
+    textoCol2:=sprintf("%s\n%s",textoCol2,"
+        Tracción en cada uno de los tramos del cable
+
+        \\vfill
+        ");
+fi;
+
+
+textoCol2:=sprintf("%s\n%s",textoCol2,"\\rule{0mm}{0mm}");
+#----------------------------------------------------------------------
+textoMdl:="%\\moodleTxt{Para el esquema de cargas representado, se pide:}
+           %\\moodleNL{}";
+
+   
+textoMdl:=sprintf("\n%s\n%s%s%s}",textoMdl,"%",
+         "\\moodleTxt{", textoInicial);   
+
+
+textoMdl:=sprintf("%s\n\n%s\\moodleDiagrama{}{%s}{%s}{6}{.6}{1}\n\n",
+           textoMdl,"%",TopoGeom,MV[1]);
+    #------------------------------------------------------
+textoMdl:=sprintf("%s%s\n\n%s\\moodleTxt{Valor y signo de las componentes de las reacciones:}
+          \\moodleNL{}\\moodleNL{}",
+           "%",textoMdl,"%");
+    #------------------------------------------------------
+if (variacionU[1]<=10) then
+    textoMdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{ax}$ en $kN$}{%f}{%f*.05}",
+           textoMdl, "%",-fun[2],-fun[2]);
+    textoMdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{az}$ en $kN$}{%f}{%f*0.05}",
+	   textoMdl,"%",-MV[6],-MV[6]);   
+    textoMdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{bx}$ en $kN$}{%f}{%f*.05}",
+	   textoMdl,"%",fun[2],fun[2]);   
+    textoMdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{bz}$ en $kN$}{%f}{%f*.05}",
+	   textoMdl,"%",MV[7],MV[7]);
+fi;
+    #------------------------------------------------------
+textoMdl:=sprintf("%s%s\n\n%s\\moodleTxt{Ordenadas de cada uno de los vértices del cable:}
+          \\moodleNL{}\\moodleNL{}",
+           "%",textoMdl,"%");
+
+
+for i from 1 to nops(coorX) 
+do
+    textoMdl:=sprintf("%s\n\n%s\\moodleque{Ordenada del cable en $x=%4.3f$, $z(%4.3f)$ en metros}{%f}{%f*.05}",
+	   textoMdl,"%",coorX[i]*L0,coorX[i]*L0,M_x[i+1],M_x[i+1]);
+od;
+
+    #------------------------------------------------------
+textoMdl:=sprintf("%s%s\n\n%s\\moodleTxt{Ángulo formado por cada uno  de los tramos del cable con la horizontal:}
+          \\moodleNL{}\\moodleNL{}",
+           "%",textoMdl,"%");
+
+listaP:=[-MV[6],op(fun[3])];
+printf("listaP=%a\n",listaP);
+Vi:=0;
+for i from 1 to nops(listaP) 
+do
+    Vi:=Vi+listaP[i];
+    Ai:=arctan(Vi,fun[2])*180/evalf(Pi);
+    textoMdl:=sprintf("%s\n\n%s\\moodleque{Ángulo $\\alpha_{%d}$ en grados}{%f}{%f*.05}",
+	   textoMdl,"%",i,Ai,Ai);
+od;
+
+    #------------------------------------------------------
+textoMdl:=sprintf("%s%s\n\n%s\\moodleTxt{Tracción en cada uno de los tramos del cable:}
+          \\moodleNL{}\\moodleNL{}",
+           "%",textoMdl,"%");
+printf("fun=%a\n",fun);
+Vi:=0;
+for i from 1 to nops(listaP) 
+do
+    Vi:=Vi+listaP[i];
+    Ni:=sqrt(Vi*Vi+fun[2]*fun[2]);
+    textoMdl:=sprintf("%s\n\n%s\\moodleQue{Tracción $N_{%d}$ en $kN$}{%f}{%f*.05}",
+	   textoMdl,"%",i,Ni,Ni);
+od;
+
+#-----------------------------------------------------------------------------
+if (opcion=1) then 
+    texModelo1(textoCol1, textoCol2, textoMdl);
+else
+    texModelo2(textoCol1, textoCol2, textoMdl);
+fi;
+
+end;
+

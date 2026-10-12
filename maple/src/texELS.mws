@@ -1,0 +1,134 @@
+printf("------------- read(texELS)------------------------\n");
+texELS:=proc(MV,variacionU,textoAmpliado, Nv, ivano, MVvol, VolIzq)
+global ER;
+local textoPerfilIy, texto2Col2, texto5Mdl, EI, Lv, v_v, Imin, Lvol, Pvol,
+qvol, vvol;
+
+print("---------------Inicio texELS -------------------------");
+
+#----------------Solo funciona, de momento, para vigas de 1 vano, para evitar problemas con gerber
+#----------------Habría que evitar que se imprima nada si la variable global Gerber fuese no nula
+
+texto5Mdl :="%---------texELS: inicio texto5Mdl\n";
+texto2Col2:="%---------texELS: inicio texto2Col2\n";
+
+print(perfilVano1);
+print(get_id_Perfil(perfilVano1));
+if (variacionU[1]=1 and Nv=1) then
+	print("----h------");
+    if (ER[1]=1 or ER[1]=7) then   #IPE, IPN
+        print(get_id_Perfil(perfilVano1)); print(get_Iy_Perfil(perfilVano1));
+        textoPerfilIy:=sprintf("%s, $I_y=%a cm^4$",get_id_Perfil(perfilVano1), get_Iy_Perfil(perfilVano1)); 
+    else
+	print("----ho------");
+	textoPerfilIy:=sprintf("%a",get_id_Perfil(perfilVano1));
+    fi;
+	print("----hola------");
+    texto2Col2:="";
+    texto2Col2:=sprintf("%s\n\n".
+        "Valor y signo de los giros en los extremos de la viga y del desplazamiento vertical en su punto medio (%s)\n\n".
+        "\\medskip\n\n \\hfill \\Resul \\Resul \\Resul \n\n \\medskip\n\n".
+        "Comprobación del ELS. Datos: %s; $v_{lim}=L_v/400$ para elementos constructivos ''no frágiles'';\n". 
+                        "$v_{ac}$=flecha ''activa'' descontando el peso propio (aproximadamente 1/3 de la carga total).\n".
+                        "Calcular $|v_{ac}|/v_{lim}$.\n\n".
+        "\\medskip\n\n        \\hfill \\Resul \n\n       \\medskip\n\n", texto2Col2, textoPerfilIy, textoPerfilIy);
+    #--------------Voladizo
+    if (VolIzq=1 and Nv=1) then
+        texto2Col2:=sprintf("%s\n\n".            
+        "Valor y signo del movimiento vertical del extremo del voladizo (%s)".
+        "\\medskip \n\n        \\hfill \\Resul \n\n        \\medskip".
+        "Comprobación del ELS. Datos: %s; $v_{lim}=(2 \\cdot L_{vol}) /400$ para elementos constructivos ''no frágiles'';". 
+                        "$v_{ac}$=flecha ''activa'' descontando el peso propio (aproximadamente 1/3 de la carga total).\n".
+                        " Calcular $|v_{ac}|/v_{lim}$.\n\n".
+        "\\medskip\n\n        \\hfill \\Resul\n\n        \\medskip\n\n", texto2Col2, textoPerfilIy, textoPerfilIy);
+
+        
+    fi;
+
+    if (textoAmpliado=0) then
+    texto2Col2:=sprintf("\n\nComprobación del ELS. Datos: %s; $v_{lim}=L_v/400$ para elementos constructivos ''no frágiles''.\n\n  ", 
+    					  textoPerfilIy);
+    fi;
+
+#---- Moodle ------------------------------------------------------------------
+
+    texto5Mdl:="";
+    print("Ojo get_E_Perfil definido solo, de momento, para secciones metálicas", get_E_Perfil);
+    EI:=get_E_Perfil*get_Iy_Perfil(perfilVano1)/100000;
+    Lv:=MV[15];
+    texto5Mdl:=sprintf("%s\n\n%sEI*(phi1, phi2, v)=%a,%a,%a, EI=%a*%a, Lv=%a\n\n", 
+	                texto5Mdl, "%", MV[9], MV[10], MV[11], get_E_Perfil, get_Iy_Perfil(perfilVano1), Lv); 
+    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del giro en el apoyo izquierdo de la viga %s, ".
+                       "$\\varphi_1$ en $rad$}{%f}{%f*.05}",
+                       texto5Mdl,"%",textoPerfilIy, MV[9]/EI,MV[9]/EI);
+  
+    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del giro en el apoyo derecho de la viga %s, ".
+                       "$\\varphi_2$ en $rad$}{%f}{%f*.05}",
+                        texto5Mdl,"%",textoPerfilIy, MV[10]/EI,MV[10]/EI);
+  
+    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del desplazamiento vertical del punto medio (flecha) de la viga %s, ".
+                       "$v$ en $m$}{%f}{%f*.05}",
+                       texto5Mdl,"%",textoPerfilIy, MV[11]/EI,MV[11]/EI);
+
+
+    v_v:=abs(0.667*MV[11])/EI/(Lv/400);
+    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Comprobación del ELS: ".
+                       "$v_{lim}=L_v/400$ para elementos constructivos ''no frágiles''; ".
+                       "$v_{ac}$=flecha ''activa'' descontando el peso propio (aproximadamente 1/3 de la carga total). ".
+                       "\\nCalcular $|v_{ac}|/v_{lim}$}{%f}{%f*.05}",
+                       texto5Mdl,"%", v_v, v_v); 
+
+    if (v_v>1.05) then
+    Imin:=v_v*get_Iy_Perfil(perfilVano1);
+    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor de $I_y$ necesario para satisfacer las exigencias del ELS, ".
+                       "$I_y$ en $cm^4$}{%f}{%f*.05}",
+                       texto5Mdl,"%", Imin, Imin); 
+    fi;
+    
+    
+       
+    
+
+    #--------------Voladizo
+    if (VolIzq=1 and Nv=1) then
+ 
+      Lvol:=MVvol[-2];
+      Pvol:=MVvol[-1][3][1];
+      qvol:=MVvol[-1][4][-1];
+      print("Lvol=", Lvol);
+      print("Pvol=", Pvol);
+      print("qvol=", qvol);
+      #print(MVvol); quit;
+
+      vvol:=Pvol*Lvol^3/3+qvol*Lvol^4/8+MV[9]*Lvol;
+    
+      texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del desplazamiento vertical del extremo del voladizo %s, ".
+                       "$v$ en $m$}{%f}{%f*.05}",
+                       texto5Mdl,"%",textoPerfilIy, vvol/EI,vvol/EI);
+
+
+      v_v:=abs(0.667*vvol)/EI/(2*Lvol/400);
+      texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Comprobación del ELS: ".
+                       "$v_{lim}=(2 \\cdot L_{vol})/400$ para elementos constructivos ''no frágiles''; ".
+                       "$v_{ac}$=flecha ''activa'' descontando el peso propio (aproximadamente 1/3 de la carga total). ".
+                       "\\nCalcular $|v_{ac}|/v_{lim}$}{%f}{%f*.05}",
+                       texto5Mdl,"%", v_v, v_v);    
+    
+    if (v_v>1.05) then
+    Imin:=v_v*get_Iy_Perfil(perfilVano1);
+    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor de $I_y$ necesario para satisfacer las exigencias del ELS, ".
+                       "$I_y$ en $cm^4$}{%f}{%f*.05}",
+                       texto5Mdl,"%", Imin, Imin); 
+    fi;
+
+    fi;
+
+
+fi;
+    #-------------------------------------------------------
+
+
+[texto2Col2, texto5Mdl];
+
+end;
+printf("-------------     (texELS)------------------------\n");

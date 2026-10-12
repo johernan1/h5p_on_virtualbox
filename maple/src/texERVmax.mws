@@ -1,0 +1,77 @@
+printf("------------- read(texERVmax)---------------------\n");
+texERVmax:=proc(Vmax, Mmax, perfil, textoV)
+    ### Aqui se interpreta Mmax como el momento concomitante con Vmax
+    
+    global ER, CODIGO, gammaF;
+    local localER, textoER2, textoERM, introER;
+    localER[2]:=ER[2] mod 10; 
+    if (localER[2] = 2 or localER[2] = 4 ) then
+        return [" ", " "];
+    fi;
+    print ("---Inicio de texERVmax----------------------------------------------------");
+
+
+    print ("--- Perfil", perfil, "-----------------------------------------");
+    print ("--- gammaF", gammaF, "-----------------------------------------");
+    print ("--- ER", ER, "-----------------------------------------");
+
+    textoER2:=" ";
+    textoERM:=" ";
+    introER:=textoER2;
+	
+
+
+    #### Texto tensiones normales (las concomitantes con las tau)
+    print ("--- tensiones normales -----------------------------------------");
+    textoERM:=sprintf("%s \n%s texERVmax. Chequeo: Momento flector en la seccion: %a , \n\n",  textoERM, "%", Mmax);
+    if (abs(Mmax)<0.1) then 
+       textoERM:=sprintf("%s\n%s texERVmax. Chequeo: M=0 => no se comprueba sigma.\n\n", textoERM, "%");
+    fi;
+    if (localER[2]>2 and localER[2]<>4 and abs(Mmax)>0.1 ) then  ### Se comprueban tensiones normales
+        #if (ER[1]=1) then ### IPE sin refuerzo
+            textoER2:=sprintf("%s %s\n", textoER2, get_texto2_sigma_Perfil( textoV));
+            #textoER2:=sprintf("%s %s\n", textoER2, get_texto2_sigmaMax_IPE());
+            textoERM:=sprintf("%s %s\n", textoERM, get_textoM_sigma_Perfil(perfil,Mmax, textoV));
+        #fi       
+    fi;	
+
+    
+    print ("--- tensiones tangenciales -----------------------------------------");
+    #### Texto tensiones tangenciales
+    if (localER[2] =3 or localER[2]>=5) then
+        #if (ER[1]=1) then ### IPE sin refuerzo
+            textoER2:=sprintf("%s %s\n", textoER2, get_texto2_tau_Perfil( textoV));
+            textoERM:=sprintf("%s %s\n", textoERM, get_textoM_tau_Perfil( perfil, Vmax, textoV));
+        #fi;
+    fi;	
+
+    print ("--- VM -----------------------------------------");
+    #### Texto VM
+
+    if (localER[2]>=7) then
+        #if (ER[1]=1) then ### IPE sin refuerzo
+            textoER2:=sprintf("%s %s\n", textoER2, get_texto2_sigtauEsigtauR_Perfil(perfil,Mmax,gammaF, Vmax, textoV));
+            textoERM:=sprintf("%s %s\n", textoERM, get_textoM_sigtauEsigtauR_Perfil(perfil,Mmax,gammaF, Vmax, textoV));
+        #fi;
+    fi;
+
+    print ("--- E/R -----------------------------------------");
+    #### Texto E/R
+    #MEd_MRd:=Mmax*gammaF/(Wpl*275/1.05/1000);
+    #VEd_VRd:=Vmax*gammaF/(Av/1.73*275/1.05);
+    if (localER[2] = 5 or localER[2] = 8) then
+        textoER2:=sprintf("%s %s\n", textoER2, get_texto2_MEMR_Perfil(textoV));
+        textoERM:=sprintf("%s %s\n", textoERM, get_textoM_MEMR_Perfil(perfil,Mmax,gammaF, textoV));
+    fi;
+    if (localER[2] = 1 or localER[2] = 6 or localER[2] = 9) then
+print("---------sssssssssss -----------------------", codigo);
+        textoER2:=sprintf("%s %s\n", textoER2, get_texto2_MEMRVEVR_Perfil(textoV,Mmax));
+        textoERM:=sprintf("%s %s\n", textoERM, get_textoM_MEMRVEVR_Perfil(perfil,Mmax,gammaF,Vmax,textoV));
+print(textoER2);
+print(textoERM);
+    fi;
+   
+         
+    [textoER2, textoERM];
+end:
+printf("-------------     (texERVmax)---------------------\n");

@@ -1,0 +1,90 @@
+printf("------------- read(diagramaMisos)-----------------\n");
+#----------------------------------------------------------------------------
+#--- reaccion, Mmax viga biapoyada   .-----.
+diagramaMisos:=proc(O,L0,combinacionX,variacionP,variacionq,variacionM)
+local dgMvol, faz, variacionP0L, combinacionX0L, Mmax, M0, M, V, phi1, phi2,
+v, iP, V1, incx, medx, V2, M1, M2, incxM, a, b, ab, c, x, M1f, M2f;
+
+   dgMvol:=diagramaMvol(O,L0,combinacionX,variacionP,variacionq);
+   faz:=(dgMvol[1]-variacionM[1]-variacionM[2])/L0;  
+
+   variacionP0L:=[faz,op(variacionP)]:
+   combinacionX0L:=[0,op(combinacionX),1]:  
+   Mmax:=0;
+   M0:=-variacionM[1];
+   M:=M0;
+   V:=0;
+   phi1:=L0*( variacionM[1]/3-variacionM[2]/6);
+   phi2:=L0*(-variacionM[1]/6+variacionM[2]/3);
+printf("diagramaMisos: phi1=%f, phi2=%f\n",phi1, phi2);
+   v:=(-variacionM[1]+variacionM[2])*L0*L0/16;
+printf("diagramaMisos:v(M=%f,M=%f)=%f. L=%f\n", variacionM[1], variacionM[2], v, L0);
+   for iP from 1 to nops(variacionP)+1 do
+        printf("       iP=%d\n",iP);
+        V1:=V-variacionP0L[iP];
+        incx:=combinacionX0L[iP+1]-combinacionX0L[iP];
+        medx:=(combinacionX0L[iP]+combinacionX0L[iP+1])/2;
+        V2:=V1-incx*variacionq[iP]*L0;
+        M1:=M+(V1)*L0*(combinacionX0L[iP+1]-combinacionX0L[iP])-
+             variacionq[iP]*incx^2/2*L0^2;
+        M2:=M+(V1)*L0*(combinacionX0L[iP+1]-combinacionX0L[iP])/2-
+             variacionq[iP]*(incx/2)^2/2*L0^2;
+printf("diagramaMisos V1=%f,V2=%f\n",V1,V2);
+        if (V1 >0 and V2 < 0) then
+            incxM:=V1/(variacionq[iP]*L0);
+#print("diagramaMisos incx=", incx);
+#print("diagramaMisos M=", M);
+            Mmax:=M+(V1)*L0*incxM-variacionq[iP]*(incxM)^2/2*L0^2;
+        fi;
+
+        M:=M1;
+        if (Mmax<M) then Mmax:=M;fi;
+        if (Mmax<M2) then Mmax:=M2;fi;
+ 
+        V:=V2;
+
+        a:=combinacionX0L[iP];
+        b:=1-a;
+        phi1:=phi1-variacionP0L[iP]*L0^2*b*(1-b^2)/6;
+        phi2:=phi2+variacionP0L[iP]*L0^2*a*(1-a^2)/6;
+ #    print(phi1,phi2);  
+        #----- Esto es la flecha debajo de la carga descentrada 
+        # v:=      v+variacionP0L[iP]*L0^3*a^2*b^2/3;
+        ab:=min(a,b);
+        #---- Esta es la flecha en el centro de una viga con carga puntual 
+        v:=v+variacionP0L[iP]*L0^3/12*ab*(1-ab^2-1/4);
+printf("diagramaMisos, v(P=%f)=%f. a=%f, b=%f, ab=%f. v(M+P)=%f\n variacionP0L=%a\n",variacionP0L[iP],variacionP0L[iP]*L0^3/12*ab*(1-ab^2-1/4),a,b,ab,v, variacionP0L); 
+
+        a:=(combinacionX0L[iP]+combinacionX0L[iP+1])/2;
+        b:=1-a;
+        c:=incx;
+#print("a,b,c, a-c/2,a+c/2=",a,b,c, a-c/2, a+c/2);
+        phi1:=phi1-variacionq[iP]*L0^3*b*c*(1-b^2-c^2/4)/6;
+        phi2:=phi2+variacionq[iP]*L0^3*a*c*(1-a^2-c^2/4)/6;
+        x:=0.5:
+        if (a-c/2>.5) then
+            v:=v+variacionq[iP]*b*c*x*L0^4/6*(-x^2+a*(1+b-c^2/(4*a)));
+#print("v0=",v,"a-c/2=",a-c/2,">0.5");
+        else
+            if (a+c/2<.5) then
+               v:=v+variacionq[iP]*a*c*(1-x)*L0^4/6*(-(1-x)^2+b*(1+a-c^2/(4*b)));
+#print("v1=",v,"a+c/2=",a+c/2,"<0.5");
+            else
+               v:=v+variacionq[iP]*L0^4/24*((x-a+c/2)^4-4*b*c*x^3+4*a*b*c*(1+b-c*c/(4*a))*x);
+#print("v2=",v);
+            fi;
+        fi;
+
+#printf("diagramaMisos, v(M+P+q=%f)=%f",variacionq[iP],v); 
+        
+#      print(phi1,phi2);   
+    od:
+    
+#    print(phi1,phi2);
+   M1f:=-(4*phi1/L0+2*phi2/L0);
+   M2f:=-(2*phi1/L0+4*phi2/L0);
+   printf("diagramaMisos, M1f=%f,M2f=%f,v=%f,phi1=%f,phi2=%f\n fin diagramaMisos\n", M1f,M2f,v,phi1,phi2);
+#quit;
+   [faz,Mmax,M1f,M2f,v,phi1,phi2];
+end:
+printf("-------------     (diagramaMisos)-----------------\n");

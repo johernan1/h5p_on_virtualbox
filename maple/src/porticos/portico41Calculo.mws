@@ -1,0 +1,86 @@
+printf("------------- read(portico41Calculo)----------------\n");
+portico41Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+
+    #             2           1
+    #     ----------------------
+    #     /               |
+    #    /             4  |
+    #   /3                |
+    #  /                  |
+    #     
+
+
+    printf("-------------     (portico41Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lvol :=Ls[1];
+    Lv   :=Ls[2];
+    Lc3  :=Ls[3];
+    Lc4  :=Ls[3];
+
+
+    dgMV:=diagramaMV(0,Lvol,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    dgMV:=diagramaMV(0,  Lv,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];  
+
+    dgMV:=diagramaMV(0, Lc3,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+    
+    dgMV:=diagramaMV(0, Lc4,combinacionesX[4],variacionesP[4],variacionesq[4],[1,1]); 
+    V41:=dgMV[6]; V42:=dgMV[7]; Mf41:=dgMV[12]; Mf42:=dgMV[13];
+
+    L3:=evalf(sqrt(Lc3*Lc3+Lvol*Lvol));
+    co:=Lvol/L3;
+    si:=Lc3/L3;
+
+    mH:=[[      0,       0,     1,     0, 0,             1,     0,     0,   0],
+         [      1,       0,     0,     1, 0,             0,     0,     1,   0],
+         [      0,       1,     0,     0, 0,             0,     0,     0,   0],
+         [      0,       0,     0,     0, 1,             0,     0,     0,   0],
+         [      0,       0,     0,     0, 0,             0,     1,     0,   0],
+	 [      0,       0,     0,     0, 1/L3*si, 1/L3*si, 1/Lc4, 1/Lc4,  co],
+	 [ 1/Lvol,  1/Lvol,     0,     0, 0,             0,     0,     0,   0],
+	 [      0,       0, -1/Lv, -1/Lv, 1/L3*co, 1/L3*co,     0,     0, -si]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    mD:=evalm(diag(evalm(cddc/Lvol), evalm(cddc/Lv), evalm(cddc/L3), evalm(cddc/Lc4), 1000000)):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12, Mf21, Mf22, Mf31, Mf32, Mf41, Mf42, 0]:
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0,0,0,0, -V32*si-V42-evalm(vf[6]),-V12,V32*co+V21-evalm(vf[7])];
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    print (evalm(mK));
+    print (sf);
+    print("V11 V12", V11, V12); 
+    print("V21 V22", V21, V22); 
+    print("V31 V32", V31, V32); 
+    print("V41 V42", V41, V42); 
+    print (vf);
+    print ("u=",u);
+    print (evalm(mD &* transpose(mH) &* u));
+    print (s);
+    
+    printf("------------- fin (portico41Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(portico41Calculo); # Para fijar variables locales
+printf("-------------     (portico41Calculo)----------------\n");
+
+
+
+
+
+

@@ -1,0 +1,366 @@
+printf("-------------     read(HEBS275)-------------------\n");
+tablaHEB:=[
+["HEB 100",20.4,100,100,6,10,12,26.0,80,56,"M 10",56,58,0.567,27.76," ","HEB 100",20.4,449.5,89.91,104.2,4.16,9.04,167.3,33.45,51.42,2.53,40.06,9.25,3.38,1,1,1,1,1,1,"-","-","-"],
+["HEB 120",26.7,120,120,6.5,11,12,34.0,98,74,"M 12",60,68,0.686,25.71," ","HEB 120",26.7,864.4,144.1,165.2,5.04,10.96,317.5,52.92,80.97,3.06,42.56,13.84,9.41,1,1,1,1,1,1,"-","-","-"],
+["HEB 140",33.7,140,140,7,12,12,43.0,116,92,"M 16",66,76,0.805,23.88," ","HEB 140",33.7,1509,215.6,245.4,5.93,13.08,549.7,78.52,119.8,3.58,45.06,20.06,22.48,1,1,1,1,1,1,"-","-","-"],
+["HEB 160",42.6,160,160,8,13,15,54.3,134,104,"M 20",80,84,0.918,21.56," ","HEB 160",42.6,2492,311.5,354.0,6.78,17.59,889.2,111.2,170.0,4.05,51.57,31.24,47.94,1,1,1,1,1,1,"-","-","-"],
+["HEB 180",51.2,180,180,8.5,14,15,65.3,152,122,"M 24",88,92,1.037,20.25," ","HEB 180",51.2,3831,425.7,481.4,7.66,20.24,1363,151.4,231.0,4.57,54.07,42.16,93.75,1,1,1,1,1,1,"-","-","-"],
+["HEB 200",61.3,200,200,9,15,18,78.1,170,134,"M 27",100,100,1.151,18.78," ","HEB 200",61.3,5696,569.6,642.5,8.54,24.83,2003,200.3,305.8,5.07,60.09,59.28,171.1,1,1,1,1,1,1,"-","-","-"],
+["HEB 220",71.5,220,220,9.5,16,18,91.0,188,152,"M 27",100,118,1.270,17.77," ","HEB 220",71.5,8091,735.5,827.0,9.43,27.92,2843,258.5,393.9,5.59,62.59,76.57,295.4,1,1,1,1,1,1,"-","-","-"],
+["HEB 240",83.2,240,240,10,17,21,106.0,206,164,"M 27",108,138,1.384,16.63," ","HEB 240",83.2,11260,938.3,1053,10.31,33.23,3923,326.9,498.4,6.08,68.60,102.7,486.9,1,1,1,1,1,1,"-","-","-"],
+["HEB 260",93,260,260,10,17.5,24,118.4,225,177,"M 27",114,158,1.499,16.12," ","HEB 260",93,14920,1148,1283,11.22,37.59,5135,395.0,602.2,6.58,73.12,123.8,753.7,1,1,2,1,1,2,"-","HI","HI"],
+["HEB 280",103,280,280,10.5,18,24,131.4,244,196,"M 27",114,178,1.618,15.69," ","HEB 280",103,19270,1376,1534,12.11,41.09,6595,471.0,717.6,7.09,74.62,143.7,1130,1,1,2,1,1,2,"-","HI","HI"],
+["HEB 300",117,300,300,11,19,27,149.1,262,208,"M 27",120,198,1.732,14.80," ","HEB 300",117,25170,1678,1869,12.99,47.43,8563,570.9,870.1,7.58,80.63,185.0,1688,1,1,3,1,1,3,"-","HI","HI"],
+["HEB 320",127,320,300,11.5,20.5,27,161.3,279,225,"M 27",122,198,1.771,13.98," ","HEB 320",127,30820,1926,2149,13.82,51.77,9239,615.9,939.1,7.57,84.13,225.1,2069,1,1,2,1,1,2,"-","HI","HI"],
+["HEB 340",134,340,300,12,21.5,27,170.9,297,243,"M 27",122,198,1.810,13.49," ","HEB 340",134,36660,2156,2408,14.65,56.09,9690,646.0,985.7,7.53,86.63,257.2,2454,1,1,1,1,1,1,"-","HI","HI"],
+["HEB 360",142,360,300,12.5,22.5,27,180.6,315,261,"M 27",122,198,1.849,13.04," ","HEB 360",142,43190,2400,2683,15.46,60.60,10140,676.1,1032,7.49,89.13,292.5,2883,1,1,1,1,1,1,"-","HI","HI"],
+["HEB 400",155,400,300,13.5,24,27,197.8,352,298,"M 27",124,198,1.927,12.41," ","HEB 400",155,57680,2884,3232,17.08,69.98,10820,721.3,1104,7.40,93.13,355.7,3817,1,1,1,1,1,1,"-","HI","HI"],
+["HEB 450",171,450,300,14,26,27,218.0,398,344,"M 27",124,198,2.026,11.84," ","HEB 450",171,79890,3551,3982,19.14,79.66,11720,781.4,1198,7.33,97.63,440.5,5258,1,1,1,1,1,2,"-","HI","HI"],
+["HEB 500",187,500,300,14.5,28,27,238.6,444,390,"M 27",124,198,2.125,11.34," ","HEB 500",187,107200,4287,4815,21.19,89.82,12620,841.6,1292,7.27,102.1,538.4,7018,1,1,1,1,2,2,"-","HI","HI"],
+["HEB 550",199,550,300,15,29,27,254.1,492,438,"M 27",124,198,2.224,11.15," ","HEB 550",199,136700,4971,5591,23.20,100.1,13080,871.8,1341,7.17,104.6,600.3,8856,1,1,1,1,2,3,"-","HI","HI"],
+["HEB 600",212,600,300,15.5,30,27,270.0,540,486,"M 27",126,198,2.323,10.96," ","HEB 600",212,171000,5701,6425,25.17,110.8,13530,902.0,1391,7.08,107.1,667.2,10970,1,1,1,1,3,4,"-","HI","HI"],
+["HEB 650",225,650,300,16,31,27,286.3,588,534,"M 27",126,198,2.422,10.77," ","HEB 650",225,210600,6480,7320,27.12,122.0,13980,932.3,1441,6.99,109.6,739.2,13360,1,1,1,2,3,4,"-","HI","HI"],
+["HEB 700",241,700,300,17,32,27,306.4,636,582,"M 27",126,198,2.520,10.48," ","HEB 700",241,256900,7340,8327,28.96,137.1,14440,962.7,1495,6.87,112.6,830.9,16060,1,1,1,2,4,4,"-","HI","HI"],
+["HEB 800",262,800,300,17.5,33,30,334.2,734,674,"M 27",134,198,2.713,10.34," ","HEB 800",262,359100,8977,10230,32.78,161.8,14900,993.6,1553,6.68,118.6,946.0,21840,1,1,1,3,4,4,"-","HI","HI"],
+["HEB 900",291,900,300,18.5,35,30,371.3,830,770,"M 27",134,198,2.911,9.99," ","HEB 900",291,494100,10980,12580,36.48,188.8,15820,1054,1658,6.53,123.6,1137,29460,1,1,1,3,4,4,"-","HI","HI"],
+["HLB 1000",371,1000,400,19,36,30,472.0,928,868,"M 27",136,294,3.510,9.474," ","HLB 1000",371,812100,16240,18330,41.48,212.5,38480,1924,2976,9.03,126.1,1565,89210,1,1,1,4,4,4,"-","HI","HI"]
+
+];
+
+
+hashHEB[100]:=1;hashHEB[1]:=100;
+hashHEB[120]:=2;hashHEB[2]:=120;
+hashHEB[140]:=3;hashHEB[3]:=140;
+hashHEB[160]:=4;hashHEB[4]:=160;
+hashHEB[180]:=5;hashHEB[5]:=180;
+hashHEB[200]:=6;hashHEB[6]:=200;
+hashHEB[220]:=7;hashHEB[7]:=220;
+hashHEB[240]:=8;hashHEB[8]:=240;
+hashHEB[260]:=9;hashHEB[9]:=260;
+hashHEB[280]:=10;hashHEB[10]:=280;
+hashHEB[300]:=11;hashHEB[11]:=300;
+hashHEB[320]:=12;hashHEB[12]:=320;
+hashHEB[340]:=13;hashHEB[13]:=340;
+hashHEB[360]:=14;hashHEB[14]:=360;
+hashHEB[400]:=15;hashHEB[15]:=400;
+hashHEB[450]:=16;hashHEB[16]:=450;
+hashHEB[500]:=17;hashHEB[17]:=500;
+hashHEB[550]:=18;hashHEB[18]:=550;
+hashHEB[600]:=19;hashHEB[19]:=600;
+hashHEB[650]:=20;hashHEB[20]:=650;
+hashHEB[700]:=21;hashHEB[21]:=700;
+hashHEB[800]:=22;hashHEB[22]:=800;
+hashHEB[900]:=23;hashHEB[23]:=900;
+hashHEB[1000]:=24;hashHEB[24]:=1000;
+
+
+get_h_nHEB:=proc(n) tablaHEB[n][3]; end;
+get_b_nHEB:=proc(n) tablaHEB[n][4]; end;
+get_tw_nHEB:=proc(n) tablaHEB[n][5]; end;
+get_tf_nHEB:=proc(n) tablaHEB[n][6]; end;
+get_r_nHEB:=proc(n) tablaHEB[n][7]; end;
+get_A_nHEB:=proc(n) tablaHEB[n][8]; end;
+get_Iy_nHEB:=proc(n) tablaHEB[n][19]; end;
+get_Wel_nHEB:=proc(n) tablaHEB[n][20]; end;
+get_Wpl_nHEB:=proc(n) tablaHEB[n][21]; end;
+get_Iz_nHEB:=proc(n) tablaHEB[n][24]; end;
+get_Av_nHEB:=proc(n) tablaHEB[n][23]; end;
+get_S_nHEB:=proc(n) tablaHEB[n][21]/2; end;
+
+get_id_HEB:=proc(HEB) sprintf("$HEB%d[S275]$", HEB); end;
+get_h_HEB:=proc(HEB) get_h_nHEB(hashHEB[HEB]); end;
+get_b_HEB:=proc(HEB) get_b_nHEB(hashHEB[HEB]); end;
+get_tw_HEB:=proc(HEB) get_tw_nHEB(hashHEB[HEB]); end;
+get_tf_HEB:=proc(HEB) get_tf_nHEB(hashHEB[HEB]); end;
+get_r_HEB:=proc(HEB) get_r_nHEB(hashHEB[HEB]); end;
+get_A_HEB:=proc(HEB) get_A_nHEB(hashHEB[HEB]); end;
+get_Iy_HEB:=proc(HEB) get_Iy_nHEB(hashHEB[HEB]); end;
+get_E_HEB:=210000;
+get_Wel_HEB:=proc(HEB) get_Wel_nHEB(hashHEB[HEB]); end;
+get_Wpl_HEB:=proc(HEB) get_Wpl_nHEB(hashHEB[HEB]); end;
+get_Iz_HEB:=proc(HEB) get_Iz_nHEB(hashHEB[HEB]); end;
+get_Av_HEB:=proc(HEB) get_Av_nHEB(hashHEB[HEB]); end;
+get_S_HEB:=proc(HEB) get_S_nHEB(hashHEB[HEB]); end;
+
+get_m_A_M_HEB  :=proc(val) local i; for i from 1 to 24 do if (get_A_nHEB(i)>=val)   then break; fi; od; hashHEB[i]; end;
+get_m_Iy_M_HEB :=proc(val) local i; for i from 1 to 24 do if (get_Iy_nHEB(i)>=val)  then break; fi; od; hashHEB[i]; end;
+get_m_Wel_M_HEB:=proc(val) local i; for i from 1 to 24 do if (get_Wel_nHEB(i)>=val) then break; fi; od; hashHEB[i]; end;
+get_m_Wpl_M_HEB:=proc(val) local i; for i from 1 to 24 do if (get_Wpl_nHEB(i)>=val) then break; fi; od; hashHEB[i]; end;
+
+
+
+get_texto2_datos_HEB:=proc(val, gammaF)
+    local aux;
+    if (gammaF=0) then
+        aux:=sprintf("$HEB%d[S275]$,  ".
+                " $h=%a mm$, $b=%a mm$, $t_f=%a mm$, $t_w=%a$". 
+                " $I_{y}=%a cm^4$, $W_{el,y}=%a cm^3$, $W_{pl,y}=%a cm^3$.", 
+	            val,  
+                    get_h_HEB(val), get_b_HEB(val), get_tf_HEB(val), get_tw_HEB(val), 
+                    get_Iy_HEB(val),  get_Wel_HEB(val), get_Wpl_HEB(val));
+    else
+        aux:=sprintf("$HEB%d[S275]$, $\\gamma_F=%0.2f$, $\\gamma_M=1.05$,".
+                " $h=%a mm$, $b=%a mm$, $t_f=%a mm$, $t_w=%a$". 
+                " $I_{y}=%a cm^4$, $W_{el,y}=%a cm^3$, $W_{pl,y}=%a cm^3$,  $A_v= %acm^2$.", 
+	            val, gammaF,  
+                    get_h_HEB(val), get_b_HEB(val), get_tf_HEB(val), get_tw_HEB(val), 
+                    get_Iy_HEB(val),  get_Wel_HEB(val), get_Wpl_HEB(val), get_Av_HEB(val));
+    fi;
+    aux;
+    end;
+
+
+get_texto2_sigma_HEB:=proc(texto)
+    sprintf("\n\n Tensiones normales de la sección %s, $\\sigma$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul \\Resul \n\n \\vfill", texto); 
+    end;
+
+get_textoM_Iy_HEB:=proc(perfil)
+         sprintf(""); ## No tiene sentido preguntar el Iy de un perfil de catálogo
+    end;
+
+get_textoM_sigma_HEB:=proc(perfil,Mmax, texto)
+            local M_I, h, tf, textoMER;
+           
+            M_I:=Mmax/get_Iy_HEB(perfil)*100;
+            h  :=get_h_HEB(perfil);
+            tf :=get_tf_HEB(perfil);
+            
+            textoMER:= sprintf("\n\n%s\\moodleQue{Tensión normal en la fibra superior de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}", "%", texto, -M_I*(h/2),-M_I*(h/2));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra superior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, "%", texto,-M_I*(h/2-tf),-M_I*(h/2-tf));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h/2-tf), M_I*(h/2-tf));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h/2),M_I*(h/2));
+            textoMER;
+    end;
+
+get_texto2_tau_HEB:=proc(texto)
+    sprintf("\n\n Tensiones tangenciales de la sección %s, $\\tau$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul\n\n \\vfill", texto); 
+    end;
+
+get_textoM_tau_HEB:=proc(perfil,Vmax, texto)
+            local V_I, h, b, tf, tw, S0, S1, textoMER;
+           
+            V_I:=Vmax/get_Iy_HEB(perfil)*100;
+            h  :=get_h_HEB(perfil);
+            b  :=get_b_HEB(perfil);
+            tf :=get_tf_HEB(perfil);
+            tw :=get_tw_HEB(perfil);
+            S0 :=get_Wpl_HEB(perfil)/2;
+            S1 :=b*tf*(h/2-tf/2)/1000;
+            print("get_textoM_tau_HEB", S0, S1);
+            
+            textoMER:="";
+
+            textoMER:= sprintf("%s\n\\moodleQue{Momento estático del ala superior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S1, S1);
+            textoMER:= sprintf("\n\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                               " $S_{y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0, S0);
+    
+	    textoMER:= sprintf("%s \n \n %s get_textoM_tau_HEB. Chequeo: V=%a, h=%a, b=%a, tf=%a, tw=%a, S0=%a, S1=%a", textoMER, "%", Vmax, h, b, tf, tw, S0, S1); 
+            textoMER:= sprintf("%s\n\n\\moodleQue{\\n\\nTensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra superior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, texto,V_I*S1/tw,V_I*S1/tw);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*S0/tw,V_I*S0/tw);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*S1/tw,V_I*S1/tw);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            textoMER;
+    end;
+
+
+get_texto2_MEMR_HEB:=proc( texto)
+    local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$ y $M_{Ed}/M_{pl,Rd}$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\Resul \\vfill", texto);
+    fi;
+    mireturn;
+    end;
+
+get_textoM_MEMR_HEB:=proc(perfil, Mmax, gammaf, texto)
+        local MEd_MRd, textoM, MRd;
+
+
+        MRd:=(275/1.05)*get_Wel_HEB(perfil)/1000;
+        textoM:=sprintf("\n \n \\moodleQue{Calcular $M_{el,Rd}=W_{el} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", MRd,MRd);
+
+
+        MRd:=(275/1.05)*get_Wpl_HEB(perfil)/1000;
+        textoM:=sprintf("%s\n \n \\moodleQue{Calcular  $M_{pl,Rd}=W_{pl} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", textoM, MRd,MRd);
+
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_HEB(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{Calcular $M_{Ed}/M_{el,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wpl_HEB(perfil)*275/1.05/1000);
+	sprintf("%s \n \n \\moodleQue{Calcular  $M_{Ed}/M_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+    end;
+
+
+
+get_texto2_MEMRVEVR_HEB:=proc(texto, Mmax)
+   
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        
+
+      if (Mmax=0) then 
+        mireturn:=sprintf("Calcular $V_{Ed}/(V_{pl,Rd})$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+        
+      else
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$, $M_{Ed}/M_{pl,Rd}$ y $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto);
+      fi;
+    fi;
+
+    mireturn;
+
+    end;
+
+get_textoM_MEMRVEVR_HEB:=proc(perfil, Mmax, gammaf, Vmax, texto)
+    local VEd_VRd, mireturn, Vpl, Vel;
+
+#print("perfil, Mmax, gammaf, Vmax, texto",perfil, Mmax, gammaf, Vmax, texto); 
+    
+    mireturn:=" ";
+    Vpl:=get_Av_HEB(perfil)/1.73*275/1.05/10;
+    Vel:=get_Iy_HEB(perfil)/get_S_HEB(perfil)*(get_tw_HEB(perfil)/10)/1.73*275/1.05/10;
+    mireturn:=sprintf(" \n \n \\moodleQue{Calcular $V_{el,Rd}=(I_y/S_{y}) t_w  (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      Vel,Vel); 
+    mireturn:=sprintf("%s \n \n \\moodleQue{Calcular $V_{pl,Rd}=A_v f_{yd}/\\sqrt{3}$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      mireturn, Vpl,Vpl); 
+    if (Mmax<>0) then   
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_HEB(perfil)/1.73*275/1.05/2)*10;
+        mireturn:=sprintf("%s \n\n %s\n\n  \\moodleQue{Calcular $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.}{%f}{0.05*%f}", 
+                get_textoM_MEMR_HEB(perfil,Mmax,gammaf, texto), mireturn,texto,VEd_VRd,VEd_VRd);
+    else    
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_HEB(perfil)/1.73*275/1.05)*10;
+        mireturn:=sprintf(" \n\n \n\n %s  \\moodleQue{Calcular $V_{Ed}/V_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", 
+                mireturn, texto,VEd_VRd,VEd_VRd);
+    fi;
+#print(mireturn); quit;
+
+    mireturn;
+ 
+    end;
+
+
+
+get_texto2_sigEsigR_HEB:=proc()
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $\\sigma_{Ed}/f_{yd}$ en la sección cuyo momento flector positivo es máximo.".
+            "\n\n \\hfill \\Resul \\vfill");
+    fi;
+    mireturn;
+    end;
+
+get_textoM_sigEsigR_HEB:=proc(perfil, Mmax, gammaf)
+
+        local MEd_MRd, textoM;
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_HEB(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{ Calcular $|\\sigma_{Ed}|/f_{yd}$}{%f}{0.05*%f}", "%", MEd_MRd,MEd_MRd);
+ 
+    end;
+
+get_texto2_sigtauEsigtauR_HEB:=proc(perfil, Mmax, gammaf, Vmax, texto)
+
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+
+      if (Mmax=0) then 
+
+        mireturn:=sprintf("Calcular $\\tau_{Ed}/(f_{yd}/\\sqrt{3})$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\vfill", texto);
+      else
+        mireturn:="Calcular $(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/(f_{yd})^2$ en ".
+                  " los puntos más significativos de la sección %s.".
+                  "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto;
+      fi;
+    fi;
+
+    mireturn;
+    
+    end;
+
+get_textoM_sigtauEsigtauR_HEB:=proc(perfil, Mmax, gammaf, Vmax, texto)
+            local mireturn, V_I, h, b, tf, tw, S0, S1, textoMER, Ed_Rd, MEd_MRd, VEd_VRd;
+           
+            V_I:=abs(Vmax)/get_Iy_HEB(perfil)*100;
+            h  :=get_h_HEB(perfil);
+            b  :=get_b_HEB(perfil);
+            tf :=get_tf_HEB(perfil);
+            tw :=get_tw_HEB(perfil);
+            S0 :=get_Wpl_HEB(perfil)/2;
+            S1 :=b*tf*(h/2-tf/2)/1000;
+            print("get_textoM_sigtauEsigtauR_HEB", S0, S1);
+
+            if (Mmax=0) then 
+                Ed_Rd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                mireturn:=sprintf(" \n \n %s\\moodleQue{ Calcular $|\\tau_{Ed}|/(f_{yd}/\\sqrt{3})$}{%f}{0.05*%f}",
+				  "%", Ed_Rd,Ed_Rd);
+            else
+	        textoMER:= sprintf(" \n \n %s get_textoM_tau_HEB. Chequeo: V=%a, M=%a, h=%a,   tw=%a, S0=%a, Sf1=%a,  Sf2=%a", "%", Vmax, Mmax, h,   tw, S0, Sf1, Sf2); 
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_HEB(perfil)*275/1.05/1000);
+                Ed_Rd:=(MEd_MRd)^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{ Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior de la sección %s}".
+	    	                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_HEB(perfil)*
+                         (get_h_HEB(perfil)/2-get_tf_HEB(perfil))/(275/1.05/1000)/10;
+                VEd_VRd:=gammaf*V_I*S1/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior del alma de la sección %s}".
+	    	       	           "{%f}{0.05*%f}",textoMER, texto,Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                VEd_VRd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                Ed_Rd:=VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   " en la fibra neutra de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_HEB(perfil)*
+			 (get_h_HEB(perfil)/2-get_tf_HEB(perfil))/10/(275/1.05/1000);
+                VEd_VRd:=gammaf*V_I*S1/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior del alma de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_HEB(perfil)*275/1.05/1000);
+                Ed_Rd:=MEd_MRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                
+                mireturn:=textoMER;
+            fi;
+
+    mireturn;
+
+    end;

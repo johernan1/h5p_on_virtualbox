@@ -1,0 +1,120 @@
+printf("------------- read(diagramaMV)--------------------\n");
+diagramaMV:=proc(O,L0,combinacionX,variacionP,variacionq,variacionM)
+local combinacionX0L, moodleTopoGeom, moodleM, moodleV, dgIso, faz, MmaxIso,
+M1f, M2f, VariacionM, Mmax, v, phi1, phi2, variacionP0L, M0, M, V, M_x, V_x,
+iP, V1, incx, medx, V2, M1, M2;
+
+    printf("------inicio diagramaMV--------\n");
+    print("combincioX=", combinacionX);
+    print("variacionP=", variacionP);
+    print("variacionq=", variacionq);
+    print("variacionM=", variacionM);
+    
+
+    combinacionX0L:=[0,op(combinacionX),1]:  
+
+    moodleTopoGeom:=sprintf( "%f,0,%f,0",O,L0+O):
+    moodleM:=sprintf( " "):
+    moodleV:=sprintf( " "):
+
+    #---- Reacciones
+    dgIso:=diagramaMisos(O,L0,combinacionX,variacionP,variacionq,[0,0]);
+    faz:=dgIso[1];
+    MmaxIso:=dgIso[2]; 
+    M1f:=dgIso[3];  
+    M2f:=dgIso[4]; 
+
+    if (variacionM[1]=0) then M2f:=M2f-M1f/2 fi;
+    if (variacionM[2]=0) then M1f:=M1f-M2f/2 fi;
+
+print("diagramaMV: dgIso=",dgIso);    
+printf("diagramaMV: faz=%f,Mmax=%f, M1f=%f,M2f=%f\n",faz,MmaxIso, M1f, M2f);
+
+    VariacionM:=[M1f*variacionM[1], M2f*variacionM[2]];
+print("VariacionM=",VariacionM);
+    dgIso:=diagramaMisos(O,L0,combinacionX,variacionP,variacionq,VariacionM);
+print("dgIso=",dgIso);
+
+
+    faz:=dgIso[1];
+    Mmax:=dgIso[2]; 
+    v:=dgIso[5];  
+    phi1:=dgIso[6];
+    phi2:=dgIso[7]; 
+    
+print("faz,Mmax=",faz,Mmax);  
+    #----
+    
+    combinacionX0L:=[0,op(combinacionX),1]:
+    variacionP0L:=[faz,op(variacionP)]:
+#    Mmax:=0;
+    M0:=-VariacionM[1];
+    M:=M0;
+    V:=0;
+    M_x:=[M0];
+    V_x:=[[-faz]];
+    for iP from 1 to nops(variacionP)+1 do
+
+        if (iP<>1 and iP <>1) then
+            moodleM:=sprintf("%s ;; ", moodleM); 
+            moodleV:=sprintf("%s ;; ", moodleV); 
+        fi;
+        V1:=V-variacionP0L[iP];
+        incx:=combinacionX0L[iP+1]-combinacionX0L[iP];
+        medx:=(combinacionX0L[iP]+combinacionX0L[iP+1])/2;
+        V2:=V1-incx*variacionq[iP]*L0;
+        M1:=M+(V1)*L0*(combinacionX0L[iP+1]-combinacionX0L[iP])-
+             variacionq[iP]*incx^2/2*L0^2;
+        M_x:=[op(M_x),M1];
+        if (V_x[iP,1] <> V1) then
+             V_x[iP]:=[op(V_x[iP]),V1]; 
+        fi;
+        V_x:=[op(V_x),[V2]];
+        M2:=M+(V1)*L0*(combinacionX0L[iP+1]-combinacionX0L[iP])/2-
+             variacionq[iP]*(incx/2)^2/2*L0^2;
+        if (variacionq[iP]=0) then
+            moodleM:=sprintf("%s%f,%f,%f,%f",
+                moodleM,
+                combinacionX0L[iP],M,
+                combinacionX0L[iP+1],M1);
+        else
+            moodleM:=sprintf("%s%f,%f,%f,%f,%f,%f",
+                moodleM,
+                combinacionX0L[iP],M,
+                combinacionX0L[iP]+incx/2,M2,
+                combinacionX0L[iP+1],M1);
+        fi;
+        moodleV:=sprintf("%s%f,%f,%f,%f",
+            moodleV,
+            combinacionX0L[iP],V1,
+            combinacionX0L[iP+1],V2);
+      
+        M:=M1;
+#        if (Mmax<M) then Mmax:=M;fi;
+#        if (Mmax<M2) then Mmax:=M2;fi;
+        V:=V2;
+        
+    od:
+#    print("diagramaMV:-faz,V2",-faz,V2,"diagramaMvol:",
+#            diagramaMvol(O,L0,combinacionX,variacionP,variacioneq));
+#    print("diagramaMV:-faz,V2",-faz,V2,"V_x:", V_x, moodleV);
+print("-----fin de diagramaMV-------------------------"); 
+    ##
+    ## moodleM:        Diagrama de M en formato moodleDiagrama (para incluir en latex)
+    ## M0, Mmax, M1:   Flectores en extremo iquierdo de la viga, Máximo y en extremo derecho
+    ## moodleV:        Diagrama de V en formato moodleDiagrama (para incluir en latex)
+    ## -fax, V2:       Reacciones
+    ## MmaxIso:        Momento máximo del isostático (m1=m2=0)
+    ## phi1, phi2:     Giro en los apoyos
+    ## v:              Flecha en el centro
+    ## M1f, M2f:       Momento de empotramiento
+    ## moodleTopoGeom: Topología, geometría en formato moodleDiagrama (para incluir en latex)
+    ## L0:             Longitud de la barra
+    ## M_x:            Matriz con flectores en puntos de "combinacionX0L": M_x:=[]
+    ## V_x:            Matriz con cortantes en puntos de "combinacionX0L". En cada punto se incluye valor
+    ##                     frontal y dorsal de V si son distintos: V_x:=[[Vf], [Vf,Vd],[Vf],..]
+    [moodleM,M0,Mmax,M1,moodleV,-faz,V2,MmaxIso,phi1,phi2,v,M1f,M2f,
+     moodleTopoGeom,L0, M_x, V_x, combinacionX0L];
+end:
+printf("-------------     (diagramaMV)--------------------\n");
+#rint(diagramaMV);

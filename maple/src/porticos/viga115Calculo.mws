@@ -1,0 +1,73 @@
+printf("------------- read(viga115Calculo)----------------\n");
+viga115Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq,
+			 variacionesM, VariacionesM, xArti)
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH,
+	  cddc, mD, mK, sf, vf, u, s;
+    global FICH;
+
+    #  |                            
+    #  -----O-------------------
+    #  |                      ^
+
+    printf("-------------     (viga115Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    
+    Lv   :=Ls[1];
+    
+
+
+ 
+    dgMV:=diagramaMV(0,Lv,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]);
+    dgMVv:=dgMV[1];
+    
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+    
+    mH:=[[      1,       0]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    
+    alpha:=xArti;
+    beta:=1-xArti;
+    
+    mdA:=evalm(3/(alpha^3+beta^3)*[[alpha^2, alpha*beta],[alpha*beta, beta^2]]);
+    
+    print(mdA);
+
+    MArti:=diagramaMV_x(dgMVv, xArti);
+    ##print("MArti=",MArti);
+    phiMArti:=MArti*Lv/2;
+    ##print("phiMArti=",phiMArti);
+
+    mfA:=evalm(mdA/Lv &* [phiMArti,-phiMArti]);
+    ##print("mdA",mdA);
+    ##print("mfA",mfA);
+    ##print([Mf21, Mf22]);
+    Mf11:=Mf11+MArti-mfA[1];
+    Mf12:=Mf12-MArti-mfA[2];
+
+    print([Mf11, Mf12, MArti, mfA[1], mfA[2]]);#quit;
+    
+    mD:=evalm(diag(evalm(mdA/Lv))):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12]:
+    vf:=-evalm(mH&*sf) + [0];
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+   
+    printf("------------- fin (viga115Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(viga115Calculo); # Para fijar variables locales
+printf("-------------     (viga115Calculo)----------------\n");
+
+
+
+
+
+

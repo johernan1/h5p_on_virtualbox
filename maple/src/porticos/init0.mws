@@ -1,0 +1,427 @@
+
+printf("-----------------------inicio de porticos/init0.mws----------------\n");
+
+
+read("src/porticos/cargas.mws"): 
+
+read("src/porticos/portico10.mws"):        
+read("src/porticos/portico10Dibujo.mws"):         
+read("src/porticos/portico10Calculo.mws"):           
+read("src/porticos/portico10Psfrag.mws"):                
+read("src/porticos/portico10Tex.mws"):               
+read("src/porticos/portico10Datos.mws"):      #210419
+
+read("src/porticos/portico11.mws"):         
+read("src/porticos/portico11Calculo.mws"):          
+read("src/porticos/portico11Dibujo.mws"):     #210419
+
+read("src/porticos/portico15.mws"):         
+read("src/porticos/portico15Calculo.mws"):          
+read("src/porticos/portico15Dibujo.mws"):     #210428
+
+read("src/porticos/portico12.mws"):        
+read("src/porticos/portico12Dibujo.mws"):         
+read("src/porticos/portico12Calculo.mws"):              
+read("src/porticos/portico12Datos.mws"):      #210419
+
+read("src/porticos/portico13.mws"):        
+read("src/porticos/portico13Dibujo.mws"):         
+read("src/porticos/portico13Calculo.mws"):    #210419
+
+read("src/porticos/portico14.mws"):        
+read("src/porticos/portico14Dibujo.mws"):         
+read("src/porticos/portico14Calculo.mws"):    #210419
+
+read("src/porticos/portico20.mws"):         
+read("src/porticos/portico20Calculo.mws"):          
+read("src/porticos/portico20Dibujo.mws"):          
+read("src/porticos/portico20Datos.mws"):      #210427
+
+read("src/porticos/portico21.mws"):           
+read("src/porticos/portico21Dibujo.mws"):          
+read("src/porticos/portico21Calculo.mws"):
+
+read("src/porticos/portico30.mws"):           
+read("src/porticos/portico30Dibujo.mws"):           
+read("src/porticos/portico30Calculo.mws"):          
+read("src/porticos/portico30Datos.mws"):
+
+
+read("src/porticos/portico31.mws"):          
+read("src/porticos/portico31Dibujo.mws"):          
+read("src/porticos/portico31Calculo.mws"):
+
+read("src/porticos/portico32.mws"):          
+read("src/porticos/portico32Dibujo.mws"):          
+read("src/porticos/portico32Calculo.mws"):
+
+read("src/porticos/portico33.mws"):          
+read("src/porticos/portico33Dibujo.mws"):          
+read("src/porticos/portico33Calculo.mws"):   #210503
+
+read("src/porticos/portico34.mws"):          
+read("src/porticos/portico34Dibujo.mws"):          
+read("src/porticos/portico34Calculo.mws"):   #210503             
+
+read("src/porticos/portico5810.mws"):          #211117 
+read("src/porticos/portico5810Dibujo.mws"):    #211117        
+read("src/porticos/portico5810Calculo.mws"):   #211117        
+read("src/porticos/portico5810Datos.mws"):     #211117       
+read("src/porticos/portico5810Tex.mws"):       #211117
+
+read("src/porticos/portico5910.mws"):          #220929 
+read("src/porticos/portico5910Dibujo.mws"):    #220929        
+read("src/porticos/portico5910Calculo.mws"):   #220929        
+read("src/porticos/portico5910Datos.mws"):     #220929       
+read("src/porticos/portico5910Tex.mws"):       #220929 
+
+
+
+read("src/porticos/portico5820.mws"):          #211117  
+read("src/porticos/portico5820Dibujo.mws"):    #211117       
+read("src/porticos/portico5820Calculo.mws"):   #211117 
+
+read("src/porticos/portico5830.mws"):          #211117 
+read("src/porticos/portico5830Dibujo.mws"):    #211117       
+read("src/porticos/portico5830Calculo.mws"):   #211117 
+
+read("src/porticos/portico5880.mws"):          #211117 
+read("src/porticos/portico5880Dibujo.mws"):    #211117       
+read("src/porticos/portico5880Calculo.mws"):   #211117 
+
+read("src/porticos/portico5890.mws"):          #211117 
+read("src/porticos/portico5890Dibujo.mws"):    #211117       
+read("src/porticos/portico5890Calculo.mws"):   #211117      
+
+read("src/porticos/dibujoPortico0.mws"):      
+read("src/porticos/dibujoPortico3.mws"):           
+read("src/porticos/dibujoPortico4.mws"):      
+
+read("src/porticos/portico40.mws"):           
+read("src/porticos/portico40Dibujo.mws"):           
+read("src/porticos/portico40Calculo.mws"):               
+read("src/porticos/portico40Tex.mws"):        
+read("src/porticos/portico40Datos.mws"):
+
+read("src/porticos/portico41.mws"):          
+read("src/porticos/portico41Dibujo.mws"):          
+read("src/porticos/portico41Calculo.mws"):
+
+read("src/porticos/portico42.mws"):          
+read("src/porticos/portico42Dibujo.mws"):          
+read("src/porticos/portico42Calculo.mws"):         
+
+
+
+read("src/porticos/zanca10.mws"):        
+read("src/porticos/zanca10Dibujo.mws"):         
+read("src/porticos/zanca10Calculo.mws"):           
+read("src/porticos/zanca10Psfrag.mws"):                
+read("src/porticos/zanca10Tex.mws"):
+read("src/porticos/zanca10Datos.mws"):       #210414
+
+read("src/porticos/zanca20.mws"):        
+read("src/porticos/zanca20Dibujo.mws"):         
+read("src/porticos/zanca20Calculo.mws"):                
+read("src/porticos/zanca20Tex.mws"):         #210414
+
+read("src/porticos/zanca30.mws"):       
+read("src/porticos/zanca30Dibujo.mws"):               
+read("src/porticos/zanca30Tex.mws"):        
+read("src/porticos/zanca30Calculo.mws"):  
+read("src/porticos/zanca30Datos.mws"):       #210920
+
+read("src/porticos/zanca31.mws"):     
+read("src/porticos/zanca31Calculo.mws"):     #210920
+
+read("src/porticos/zanca35.mws"):     
+read("src/porticos/zanca35Calculo.mws"):     #210920
+
+read("src/porticos/mansa10.mws"):        
+read("src/porticos/mansa10Dibujo.mws"):         
+read("src/porticos/mansa10Calculo.mws"):           
+read("src/porticos/mansa10Psfrag.mws"):                
+read("src/porticos/mansa10Tex.mws"):
+read("src/porticos/mansa10Datos.mws"):       #210921
+read("src/porticos/mansa20Datos.mws"):       #220918
+
+
+read("src/porticos/mansa11.mws"):     
+read("src/porticos/mansa11Calculo.mws"):     #210921
+
+read("src/porticos/mansa15.mws"):     
+read("src/porticos/mansa15Calculo.mws"):     #210921
+
+read("src/porticos/mansa35.mws"):     
+read("src/porticos/mansa35Calculo.mws"):     #210921
+
+read("src/porticos/portico50.mws"):        
+read("src/porticos/portico50Dibujo.mws"):         
+read("src/porticos/portico50Calculo.mws"):  
+read("src/porticos/portico51.mws"):        
+read("src/porticos/portico51Dibujo.mws"):         
+read("src/porticos/portico51Calculo.mws"):         
+read("src/porticos/portico50Datos.mws"):     #211020
+
+read("src/porticos/portico02.mws"):        
+read("src/porticos/portico02Dibujo.mws"):         
+read("src/porticos/portico02Calculo.mws"):          
+read("src/porticos/portico02Tex.mws"):          
+read("src/porticos/portico02Datos.mws"):     #210426
+
+read("src/porticos/portico03.mws"):        
+read("src/porticos/portico03Dibujo.mws"):         
+read("src/porticos/portico03Calculo.mws"):  
+read("src/porticos/portico04.mws"):        
+read("src/porticos/portico04Dibujo.mws"):         
+read("src/porticos/portico04Calculo.mws"):
+
+
+read("src/porticos/portico05.mws"):          #210426    
+read("src/porticos/portico05Dibujo.mws"):    #210426         
+read("src/porticos/portico05Calculo.mws"):   #210426           
+read("src/porticos/portico05Tex.mws"):       #210426         
+read("src/porticos/portico05Datos.mws"):     #210426
+read("src/porticos/portico06.mws"):          #210426      
+read("src/porticos/portico06Dibujo.mws"):    #210426         
+read("src/porticos/portico06Calculo.mws"):   #210426 
+read("src/porticos/portico07.mws"):          #210426      
+read("src/porticos/portico07Dibujo.mws"):    #210426         
+read("src/porticos/portico07Calculo.mws"):   #210426
+
+
+read("src/porticos/portico60.mws"):           
+read("src/porticos/portico60Dibujo.mws"):           
+read("src/porticos/portico60Calculo.mws"):           
+read("src/porticos/portico60Tex.mws"):         
+read("src/porticos/portico60Datos.mws"):
+
+read("src/porticos/portico61.mws"):          
+read("src/porticos/portico61Dibujo.mws"):          
+read("src/porticos/portico61Calculo.mws"):
+
+read("src/porticos/portico62.mws"):          
+read("src/porticos/portico62Dibujo.mws"):          
+read("src/porticos/portico62Calculo.mws"):               
+
+read("src/porticos/portico63.mws"):          
+read("src/porticos/portico63Dibujo.mws"):          
+read("src/porticos/portico63Calculo.mws"):               
+
+read("src/porticos/portico64.mws"):          
+read("src/porticos/portico64Dibujo.mws"):          
+read("src/porticos/portico64Calculo.mws"):
+
+read("src/porticos/viga60.mws"):               #210203
+read("src/porticos/viga60Dibujo.mws"):          
+read("src/porticos/viga60Calculo.mws"):           
+read("src/porticos/viga60Datos.mws"):             
+
+read("src/porticos/viga50.mws"):               #210203
+read("src/porticos/viga50Dibujo.mws"):          
+read("src/porticos/viga50Calculo.mws"):           
+read("src/porticos/viga50Datos.mws"):             
+
+
+read("src/porticos/viga10.mws"):               #210128  
+read("src/porticos/viga10Dibujo.mws"):          
+read("src/porticos/viga10Calculo.mws"):           
+read("src/porticos/viga10Datos.mws"):             
+
+
+read("src/porticos/viga20.mws"):               #210128  
+read("src/porticos/viga20Dibujo.mws"):          
+read("src/porticos/viga20Calculo.mws"):           
+read("src/porticos/viga20Datos.mws"):             
+read("src/porticos/viga20Psfrag.mws"):              
+read("src/porticos/viga20Tex.mws"):
+
+read("src/porticos/viga30.mws"):               #210125
+read("src/porticos/viga30Datos.mws"):               
+read("src/porticos/viga30Calculo.mws"):            
+read("src/porticos/viga30Dibujo.mws"):
+
+read("src/porticos/viga31.mws"):               #210125
+read("src/porticos/viga31Calculo.mws"):        
+
+read("src/porticos/viga32.mws"):               #210125
+
+read("src/porticos/viga33.mws"):               #210204
+
+read("src/porticos/viga11.mws"):               #210204         
+read("src/porticos/viga11Calculo.mws"):
+
+read("src/porticos/viga12.mws"):               #210204  
+read("src/porticos/viga13.mws"):               #210204   
+read("src/porticos/viga15.mws"):               #210204         
+read("src/porticos/viga15Calculo.mws"):      
+read("src/porticos/viga16.mws"):               #210204      
+read("src/porticos/viga17.mws"):               #210204  
+read("src/porticos/viga25.mws"):               #210204         
+read("src/porticos/viga25Calculo.mws"):      
+read("src/porticos/viga26.mws"):               #210204      
+read("src/porticos/viga27.mws"):               #210204  
+
+read("src/porticos/viga35.mws"):               #210204
+read("src/porticos/viga35Datos.mws"):               
+read("src/porticos/viga35Calculo.mws"):            
+read("src/porticos/viga35Dibujo.mws"):
+
+read("src/porticos/viga36.mws"):               #210204
+read("src/porticos/viga36Calculo.mws"):        
+
+read("src/porticos/viga37.mws"):               #210204
+
+read("src/porticos/viga38.mws"):               #210204
+
+read("src/porticos/viga111.mws"):              #210206         
+read("src/porticos/viga111Calculo.mws"):
+
+read("src/porticos/viga115.mws"):              #210206         
+read("src/porticos/viga115Calculo.mws"):
+
+read("src/porticos/viga130.mws"):              #210207         
+read("src/porticos/viga130Calculo.mws"):
+
+read("src/porticos/viga135.mws"):              #210207         
+read("src/porticos/viga135Calculo.mws"):
+
+read("src/porticos/viga70.mws"):               #210207         
+read("src/porticos/viga70Dibujo.mws"):          
+read("src/porticos/viga70Datos.mws"):
+read("src/porticos/viga70Tex.mws"):
+
+
+read("src/porticos/viga10DatosPosterCargas.mws"):  #210221    
+read("src/porticos/viga50DatosPosterCargas.mws"):  #210221    
+read("src/porticos/viga60DatosPosterCargas.mws"):  #210221     
+read("src/porticos/viga70DatosPosterCargas.mws"):  #210402    
+
+read("src/porticos/viga40.mws"):              
+read("src/porticos/viga40Datos.mws"):              #210228             
+read("src/porticos/viga40Calculo.mws"):            
+read("src/porticos/viga40Dibujo.mws"):
+
+read("src/porticos/viga41.mws"):         
+read("src/porticos/viga41Calculo.mws"):
+
+read("src/porticos/viga240.mws"):                  #210228 
+read("src/porticos/viga240Calculo.mws"):           #210228
+read("src/porticos/viga340.mws"):                  #210228 
+read("src/porticos/viga340Calculo.mws"):           #210228
+read("src/porticos/vigaDibujoGerber.mws"):         #210228
+
+read("src/porticos/viga42.mws"):              	   #210309
+read("src/porticos/viga42Datos.mws"):              #210309             
+read("src/porticos/viga42Calculo.mws"):            #210309  
+read("src/porticos/viga42Dibujo.mws"):             #210309
+
+read("src/porticos/viga242.mws"):              	   #210309         
+read("src/porticos/viga242Calculo.mws"):           #210309
+
+read("src/porticos/viga342.mws"):              	   #210309         
+read("src/porticos/viga342Calculo.mws"):           #210309
+
+read("src/porticos/viga43.mws"):              	   #210309
+read("src/porticos/viga43Datos.mws"):              #210309             
+read("src/porticos/viga43Calculo.mws"):            #210309  
+read("src/porticos/viga43Dibujo.mws"):             #210309
+
+read("src/porticos/viga243.mws"):              	   #210309         
+read("src/porticos/viga243Calculo.mws"):           #210309
+
+read("src/porticos/viga343.mws"):              	   #210309         
+read("src/porticos/viga343Calculo.mws"):           #210309
+
+read("src/porticos/viga44.mws"):              	   #210309
+read("src/porticos/viga44Datos.mws"):              #210309             
+read("src/porticos/viga44Calculo.mws"):            #210309  
+read("src/porticos/viga44Dibujo.mws"):             #210309
+
+read("src/porticos/viga244.mws"):              	   #210309         
+read("src/porticos/viga244Calculo.mws"):           #210309
+
+read("src/porticos/viga344.mws"):              	   #210309         
+read("src/porticos/viga344Calculo.mws"):           #210309
+
+ampliacionViga20Tex:=proc(s) r:="%-";  end;        #210404
+
+
+read("src/porticos/portico70.mws"):        
+read("src/porticos/portico70Dibujo.mws"):         
+read("src/porticos/portico70Calculo.mws"):           
+#read("src/porticos/portico10Psfrag.mws"):                
+read("src/porticos/portico70Tex.mws"):               
+read("src/porticos/portico70Datos.mws"):           #210921
+  
+read("src/porticos/portico71.mws"):        
+read("src/porticos/portico71Dibujo.mws"):          
+read("src/porticos/portico71Calculo.mws"):         #210921
+
+read("src/porticos/portico76.mws"):        
+read("src/porticos/portico76Dibujo.mws"):         
+read("src/porticos/portico76Calculo.mws"):         #210921
+
+read("src/porticos/portico77.mws"):        
+read("src/porticos/portico77Dibujo.mws"):         
+read("src/porticos/portico77Calculo.mws"):         #210921
+
+
+read("src/porticos/portico6110.mws"):              
+read("src/porticos/portico6110Dibujo.mws"):          
+read("src/porticos/portico6110Datos.mws"):
+read("src/porticos/portico6110Tex.mws"):        
+read("src/porticos/portico6110Calculo.mws"):       #210927
+
+read("src/porticos/portico6120.mws"):      
+read("src/porticos/portico6120Calculo.mws"):       #210927
+
+read("src/porticos/portico6130.mws"):      
+read("src/porticos/portico6130Calculo.mws"):       #210927
+
+read("src/porticos/portico6140.mws"):      
+read("src/porticos/portico6140Calculo.mws"):       #210927
+
+
+read("src/porticos/portico6210.mws"):              
+read("src/porticos/portico6210Dibujo.mws"):          
+read("src/porticos/portico6210Datos.mws"):
+read("src/porticos/portico6210Tex.mws"):        
+read("src/porticos/portico6210Calculo.mws"):       #211009
+
+read("src/porticos/portico6310.mws"):              
+read("src/porticos/portico6310Dibujo.mws"):          
+read("src/porticos/portico6310Datos.mws"):
+read("src/porticos/portico6310Tex.mws"):        
+read("src/porticos/portico6310Calculo.mws"):       #211009
+
+read("src/porticos/portico6410.mws"):              
+read("src/porticos/portico6410Dibujo.mws"):          
+read("src/porticos/portico6410Datos.mws"):
+read("src/porticos/portico6410Tex.mws"):        
+read("src/porticos/portico6410Calculo.mws"):       #211025
+
+read("src/porticos/portico6610.mws"):              
+read("src/porticos/portico6610Dibujo.mws"):          
+read("src/porticos/portico6610Datos.mws"):
+read("src/porticos/portico6610Tex.mws"):        
+read("src/porticos/portico6610Calculo.mws"):       #211101
+
+read("src/porticos/portico6710.mws"):              
+read("src/porticos/portico6710Dibujo.mws"):          
+read("src/porticos/portico6710Datos.mws"):
+read("src/porticos/portico6710Tex.mws"):        
+read("src/porticos/portico6710Calculo.mws"):       #211102
+read("src/porticos/portico6750.mws"):              
+read("src/porticos/portico6750Dibujo.mws"):  
+read("src/porticos/portico6750Calculo.mws"):       #211106
+
+
+read("src/porticos/portico80.mws"):                #TODO
+read("src/porticos/portico80Calculo.mws"):            
+read("src/porticos/portico80Dibujo.mws"):            
+read("src/porticos/portico80Datos.mws"):
+
+
+read("src/porticos/portico81.mws"):           
+read("src/porticos/portico81Calculo.mws"):

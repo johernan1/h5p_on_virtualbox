@@ -1,0 +1,178 @@
+printf("------------- read(portico6310Calculo)----------------\n");
+portico6310Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                         subestructura)
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+
+    #              
+    #   ------------------------------
+    #   |               |            |               
+    #   |               |            | 
+    #   |               |            | 
+    #   |               |            | 
+    #   |               |            |           
+    #   ------------------------------
+    #   |               |            |               
+    #   |               |            |
+    #   |               |            |
+    #   |               |            |
+    #   |               |            |           
+    #   ------------------------------
+    #   |      4        |     5      |               
+    #   |               |            |
+    #   |1              | 2          |3
+    #   |               |            |
+    #   |               |            | 
+
+
+    printf("-------------     (portico6310Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lc   :=Ls[1];
+    Lv1  :=Ls[4];
+    Lv2  :=Ls[5];
+
+
+    dgMV:=diagramaMV(0,Lc,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+    printf("V11=%a,...%a,%a,%a\n",V11,V12,Mf11,Mf12);
+    print(Lc,combinacionesX[1],variacionesP[1],variacionesq[1]);
+    print(Lc,combinacionesX[2],variacionesP[2],variacionesq[2]);
+    dgMVv1:=dgMV[1];
+
+    dgMV:=diagramaMV(0,  Lc,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];
+    printf("V21=%a,...%a,%a,%a\n",V21,V22,Mf21,Mf22);
+    dgMVv2:=dgMV[1];
+    
+    dgMV:=diagramaMV(0,  Lc,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+    printf("V31=%a,...%a,%a,%a\n",V31,V32,Mf31,Mf32);
+    dgMVv3:=dgMV[1];
+    
+    dgMV:=diagramaMV(0,  Lv1,combinacionesX[4],variacionesP[4],variacionesq[4],[1,1]); 
+    V41:=dgMV[6]; V42:=dgMV[7]; Mf41:=dgMV[12]; Mf42:=dgMV[13];
+    printf("V41=%a,...%a,%a,%a\n",V41,V42,Mf41,Mf42);
+    
+    dgMV:=diagramaMV(0,  Lv2,combinacionesX[5],variacionesP[5],variacionesq[5],[1,1]); 
+    V51:=dgMV[6]; V52:=dgMV[7]; Mf51:=dgMV[12]; Mf52:=dgMV[13];
+    printf("V51=%a,...%a,%a,%a\n",V51,V52,Mf51,Mf52);
+    
+    A:=1/Lc;
+    M:=-1/Lc;
+    mH:=[[0,1,0,0,0, 0,1,0,0,0,    1,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0],
+         [0,0,0,0,1, 0,0,1,1,0,    0,0,1,0,0, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0],
+         [0,0,0,0,0, 1,0,0,0,1,    0,0,0,0,1, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0],
+	 
+         [0,0,0,0,0, 0,0,0,0,0,    0,1,0,0,0, 0,1,0,0,0,    1,0,0,0,0, 0,0,0,0,0],
+         [0,0,0,0,0, 0,0,0,0,0,    0,0,0,1,0, 0,0,1,1,0,    0,0,1,0,0, 0,0,0,0,0],
+         [0,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 1,0,0,0,1,    0,0,0,0,1, 0,0,0,0,0],
+	 
+         [0,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0,    0,1,0,0,0, 0,1,0,0,0],
+         [0,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0,    0,0,0,1,0, 0,0,1,1,0],
+         [0,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 1,0,0,0,1],
+	 
+         [0,0,0,0,0, 0,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0,    A,A,A,A,A, A,0,0,0,0],
+         [0,0,0,0,0, 0,0,0,0,0,    A,A,A,A,A, A,0,0,0,0,    M,M,M,M,M, M,0,0,0,0],	 
+         [A,A,A,A,A, A,0,0,0,0,    M,M,M,M,M, M,0,0,0,0,    0,0,0,0,0, 0,0,0,0,0]
+         ];
+	 
+
+    cddc:=evalm([[4,2],[2,4]]):
+
+    # EI soportes=1/2 EI vigas
+    mD:=evalm(diag( evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lv1), evalm(cddc/Lv2),
+    		    evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lv1), evalm(cddc/Lv2),
+		    evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lv1), evalm(cddc/Lv2))):		  printf ("211013 ---subestructura=%a\n",subestructura);
+    if (subestructura=1) then
+        print ("211013 ---arti");
+        xArti:=0.5;
+        alpha:=xArti;
+    	beta:=1-xArti;
+	mdA:=evalm(3/(alpha^3+beta^3)*[[alpha^2, alpha*beta],[alpha*beta, beta^2]]);
+	
+    	MArti:=diagramaMV_x(dgMVv1, xArti);
+    	print("MArti=",MArti);
+    	phiMArti:=MArti*Lc/2;
+    	print("phiMArti=",phiMArti);
+    	mfA:=evalm(mdA/Lc &* [phiMArti,-phiMArti]);
+    	print("mdA",mdA);
+    	print("mfA",mfA);
+    	print([Mf21, Mf22]);
+    	Mf11A:=Mf11+MArti-mfA[1];
+    	Mf12A:=Mf12-MArti-mfA[2];
+    	print([Mf11, Mf12, Mf11A, Mf12A, MArti, mfA[1], mfA[2]]);#quit;
+
+        MArti:=diagramaMV_x(dgMVv2, xArti);
+    	print("MArti=",MArti);
+    	phiMArti:=MArti*Lc/2;
+    	print("phiMArti=",phiMArti);
+    	mfA:=evalm(mdA/Lc &* [phiMArti,-phiMArti]);
+    	print("mdA",mdA);
+    	print("mfA",mfA);
+    	print([Mf21, Mf22]);
+    	Mf21A:=Mf21+MArti-mfA[1];
+    	Mf22A:=Mf22-MArti-mfA[2];
+    	print([Mf21, Mf22, Mf21A, Mf22A, MArti, mfA[1], mfA[2]]);#quit;
+
+        MArti:=diagramaMV_x(dgMVv3, xArti);
+    	print("MArti=",MArti);
+    	phiMArti:=MArti*Lc/2;
+    	print("phiMArti=",phiMArti);
+    	mfA:=evalm(mdA/Lc &* [phiMArti,-phiMArti]);
+    	print("mdA",mdA);
+    	print("mfA",mfA);
+    	print([Mf31, Mf32]);
+    	Mf31A:=Mf31+MArti-mfA[1];
+    	Mf32A:=Mf32-MArti-mfA[2];
+    	print([Mf31, Mf32, Mf21A, Mf22A, MArti, mfA[1], mfA[2]]);#quit;
+    
+        print (" ---arti 211013");
+	
+    	mD:=evalm(diag( evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lc/2), evalm(cddc/Lv1), evalm(cddc/Lv2),
+    			evalm(mdA/Lc/2), evalm(mdA/Lc/2), evalm(mdA/Lc/2), evalm(cddc/Lv1), evalm(cddc/Lv2),
+		    	evalm(mdA/Lc/2), evalm(mdA/Lc/2), evalm(mdA/Lc/2), evalm(cddc/Lv1), evalm(cddc/Lv2))):
+    fi;
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12,  Mf21, Mf22,  Mf31, Mf32,  Mf41, Mf42,  Mf51, Mf52,
+    	 Mf11, Mf12,  Mf21, Mf22,  Mf31, Mf32,  Mf41, Mf42,  Mf51, Mf52,
+    	 Mf11, Mf12,  Mf21, Mf22,  Mf31, Mf32,  Mf41, Mf42,  Mf51, Mf52]:
+    printf("211013 sf=%a\n",sf);	 
+    if (subestructura=1) then
+       sf:=[Mf11, Mf12,  Mf21, Mf22,  Mf31, Mf32,  Mf41, Mf42,  Mf51, Mf52,
+       	    Mf11A, Mf12A,  Mf21A, Mf22A,  Mf31A, Mf32A,  Mf41, Mf42,  Mf51, Mf52,
+    	    Mf11A, Mf12A,  Mf21A, Mf22A,  Mf31A, Mf32A,  Mf41, Mf42,  Mf51, Mf52]:
+    	    printf("211013 sfArt=%a\n",sf);
+    fi;	 
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0,0,0,0,0,0,0,0, -V12-V32-vf[10], -V12+V11-V32+V31-vf[11], -V12+V11-V32+V31-vf[12]]; # Vij es el hiperestático. Hay que restarle el término de H*sf
+    
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    #print (evalm(mD));
+    #printf("\n\nH=%a\n",mH);
+    #print (evalm(mK));
+    #print (sf);
+    #print (vf);
+    print ("211012");
+    print (u);
+    print (s);
+    #print ([op(op((s), op(u)]);
+    
+    printf("------------- fin (portico6310Calculo)----------------\n");
+    #[op(s), op(u)];
+    [op(convert(s,list)),op(convert(u,list))];
+    
+end;
+#--------------------
+#print(portico6310Calculo); # Para fijar variables locales
+printf("-------------     (portico6310Calculo)----------------\n");
+
+
+
+
+
+

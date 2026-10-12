@@ -1,0 +1,56 @@
+printf("------------- read(mansa10Datos)----------------\n");
+mansa10Datos:=proc(bcargas)
+    
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM,
+    	   VariacionesM, posiPRelativa, CODIGO;
+    local P, q, z, X;
+
+    printf("-------------     (mansa10Datos)----------\n");
+    Ls            :=[        4/0.707,      4/0.707, 4 ];	 
+    variacionesM:=[[0,  0], [0,  0], [0,  0]];  # Escala del dibujo. Si 0 no dib
+    VariacionesM:=[[1,  0], [1,  0], [1,  0]];  #
+
+    # TODO Ver asignacion de cargas en portico10Datos
+
+
+    #-------horizontal
+    q0:=cargasVano14(25,20);
+    q0:=cargasVano04(25,20);
+    #-------barra izq
+    q1:=unionCargas(cargas(     0,100000,  20,  01000),  # Carga uniforme
+			cargasVano00());
+    #q1:=cargasVoli02(50,20);
+    #q1:=unionCargas(cargasVano00(), q1);
+    #q1:=cargasVano00();
+    #-------barra der
+    q2:=unionCargas(cargas(     0,100000,  20,  01000),  # Carga uniforme
+			cargasVano00());
+    q2:=cargasVold02(50,20);
+    q2:=unionCargas(cargasVano00(), q2);			
+    #q2:=cargasVano00();
+
+    P0:=q0[1];
+    z0:=q0[2];
+    X0:=q0[3];
+    q0:=q0[4];
+    
+    P1:=q1[1];
+    z1:=q1[2];
+    X1:=q1[3];
+    q1:=q1[4];
+    
+    P2:=q2[1];
+    z2:=q2[2];
+    X2:=q2[3];
+    q2:=q2[4];
+    
+   
+    variacionesP:=CartesianoR(P2,Cartesiano(P1,P0));
+    variacionesq:=CartesianoR(q2,Cartesiano(q1,q0));
+    combinacionesX:=CartesianoR(X2,Cartesiano(X1,X0));
+    posiPRelativa:=CartesianoR(z2,Cartesiano(z1,z0));   
+
+    
+    printf("fin: -------------     (mansa10Datos)----------\n");	
+end;
+

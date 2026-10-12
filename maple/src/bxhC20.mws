@@ -1,0 +1,244 @@
+printf("-------------     read(bxhC20)--------------------\n");
+tablabxh:=[
+["150x150",	150,	150,	225,	4219,	563,	844],
+["150x200",	150,	200,	300,	10000,	1000,	1500],
+["200x200",	200,	200,	400,	13333,	1333,	2000],
+["150x250",	150,	250,	375,	19531,	1562,	2344],
+["200x250",	200,	250,	500,	26042,	2083,	3125],
+["250x250",	250,	250,	625,	32552,	2604,	3906],
+["150x300",	150,	300,	450,	33750,	2250,	3375],
+["200x300",	200,	300,	600,	45000,	3000,	4500],
+["150x350",	150,	350,	525,	53594,	3063,	4594],
+["250x300",	250,	300,	750,	56250,	3750,	5625],
+["200x350",	200,	350,	700,	71458,	4083,	6125],
+["150x400",	150,	400,	600,	80000,	4000,	6000],
+["250x350",	250,	350,	875,	89323,	5104,	7656],
+["200x400",	200,	400,	800,	106667,	5333,	8000],
+["150x450",	150,	450,	675,	113906,	5062,	7594],
+["250x400",	250,	400,	1000,	133333,	6667,	10000],
+["200x450",	200,	450,	900,	151875,	6750,	10125],
+["150x500",	150,	500,	750,	156250,	6250,	9375],
+["250x450",	250,	450,	1125,	189844,	8438,	12656],
+["200x500",	200,	500,	1000,	208333,	8333,	12500],
+["250x500",	250,	500,	1250,	260417,	10417,	15625]
+];
+
+
+hashbxh["150x150"]:=1;hashbxh[1]:="150x150";
+hashbxh["150x200"]:=2;hashbxh[2]:="150x200";
+hashbxh["200x200"]:=3;hashbxh[3]:="200x200";
+hashbxh["150x250"]:=4;hashbxh[4]:="150x250";
+hashbxh["200x250"]:=5;hashbxh[5]:="200x250";
+hashbxh["250x250"]:=6;hashbxh[6]:="250x250";
+hashbxh["150x300"]:=7;hashbxh[7]:="150x300";
+hashbxh["200x300"]:=8;hashbxh[8]:="200x300";
+hashbxh["150x350"]:=9;hashbxh[9]:="150x350";
+hashbxh["250x300"]:=10;hashbxh[10]:="250x300";
+hashbxh["200x350"]:=11;hashbxh[11]:="200x350";
+hashbxh["150x400"]:=12;hashbxh[12]:="150x400";
+hashbxh["250x350"]:=13;hashbxh[13]:="250x350";
+hashbxh["200x400"]:=14;hashbxh[14]:="200x400";
+hashbxh["150x450"]:=15;hashbxh[15]:="150x450";
+hashbxh["250x400"]:=16;hashbxh[16]:="250x400";
+hashbxh["200x450"]:=17;hashbxh[17]:="200x450";
+hashbxh["150x500"]:=18;hashbxh[18]:="150x500";
+hashbxh["250x450"]:=19;hashbxh[19]:="250x450";
+hashbxh["200x500"]:=20;hashbxh[20]:="200x500";
+hashbxh["250x500"]:=21;hashbxh[21]:="250x500";
+
+
+
+
+get_h_nbxh:=proc(n) tablabxh[n][3]; end;     ###### OK
+get_b_nbxh:=proc(n) tablabxh[n][2]; end;     ###### OK
+get_A_nbxh:=proc(n) tablabxh[n][4]; end;     ###### OK
+get_Iy_nbxh:=proc(n) tablabxh[n][5]; end;    ###### OK
+get_Wel_nbxh:=proc(n) tablabxh[n][6]; end;   ###### OK
+
+get_id_bxh:=proc(bxh) get_texto2_datos_bxh(bxh,0); end;
+get_h_bxh:=proc(bxh) get_h_nbxh(hashbxh[bxh]); end;      ###### OK
+get_b_bxh:=proc(bxh) get_b_nbxh(hashbxh[bxh]); end;      ###### OK
+get_A_bxh:=proc(bxh) get_A_nbxh(hashbxh[bxh]); end;      ###### OK
+get_Iy_bxh:=proc(bxh) get_Iy_nbxh(hashbxh[bxh]); end;    ###### OK
+get_Wel_bxh:=proc(bxh) get_Wel_nbxh(hashbxh[bxh]); end;  ###### OK
+get_Wpl_bxh:=get_Wel_bxh;                                ###### OK
+
+
+get_m_A_M_bxh  :=proc(val) local i; for i from 1 to 20 do if (get_A_nbxh(i)>=val)   then break; fi; od; hashbxh[i]; end;  ##### OK
+get_m_Iy_M_bxh :=proc(val) local i; for i from 1 to 20 do if (get_Iy_nbxh(i)>=val)  then break; fi; od; hashbxh[i]; end;  ##### OK
+get_m_Wel_M_bxh:=proc(val) local i; for i from 1 to 20 do if (get_Wel_nbxh(i)>=val) then break; fi; od; hashbxh[i]; end;  ##### OK
+get_m_Wpl_M_bxh:=get_m_Wel_M_bxh;                                                                                ##### OK
+
+
+get_texto2_datos_bxh:=proc(val, gammaF)
+    global gammaM, kmod, fvk;
+    
+    local aux;
+    if (gammaF=0) then
+        sprintf("$%s$ $C20$ ", val);
+    else
+        sprintf("$%s$ $C20$, $\\gamma_F=%0.2f$, $\\gamma_M=%0.2f$, $k_{mod}=%04.2f$, $f_{V,k}=%0.2f N/mm^2$", 
+    	            val, gammaF, gammaM, kmod, fvk);
+    fi;
+    end;
+
+
+get_texto2_sigma_bxh:=proc(texto)
+    sprintf("\n\n Tensiones normales de la sección %s, $\\sigma$ en $N/mm^2$ ".
+            "\n\n \\hfill \\Resul \\Resul \n\n \\vfill", texto); 
+    end;
+
+
+get_textoM_Iy_bxh:=proc(perfil)
+         sprintf("\n\n \\moodleQue{\\n\\n Momento de inercia de la sección respecto a su centro de gravedad, ".
+                 " $I_{y}$ en $cm^4$}".
+	    	               "{%f}{0.05*%f}", get_Iy_bxh(perfil), get_Iy_bxh(perfil));
+    end;
+
+get_textoM_sigma_bxh:=proc(perfil,Mmax, texto)
+            local M_I, h, textoMER;
+
+            h  :=get_h_bxh(perfil); 
+            M_I:=Mmax/get_Iy_bxh(perfil)*100;
+
+            
+            textoMER:= sprintf("\n\n\\moodleQue{Tensión normal en la fibra superior de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}", texto, -M_I*(h/2),-M_I*(h/2));
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión normal en la fibra inferior de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, M_I*(h/2),M_I*(h/2));
+            textoMER;
+    end;
+
+get_texto2_tau_bxh:=proc(texto)
+    sprintf("\n\n Tensiones tangenciales en la sección %s, $\\tau$ en $N/mm^2$ ".
+            "\n\n \\hfill \\Resul\n\n \\vfill", texto); 
+    end;
+
+get_textoM_tau_bxh:=proc(perfil,Vmax, texto)
+            local V_I, h, b, S0,  textoMER;
+           
+            V_I:=Vmax/get_Iy_bxh(perfil)/10;  #N/mm4
+            h  :=get_h_bxh(perfil);
+            b  :=get_b_bxh(perfil);
+            S0 :=b*h/2*h/4; #mm^3  
+#print("Vmax, I, V_I, h, b, S0",Vmax,get_Iy_bxh(perfil), V_I, h, b, S0); quit;      
+        
+	    textoMER:= sprintf("\n%s get_textoM_tau_bxh. Chequeo: V=%a, h=%a, b=%a ", "%", Vmax, h, b); 
+            textoMER:= sprintf("\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                 " $S_{y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0/1000, S0/1000); 
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$ ($b_{ef}=0.67 b$)}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$ ($b_{ef}=0.67 b$)}".
+                               "{%f}{0.05*%f}",textoMER, texto, 1.5*V_I*S0/b,1.5*V_I*S0/b);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$ ($b_{ef}=0.67 b$)}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            textoMER;
+    end;
+
+
+get_texto2_MEMR_bxh:=proc(texto)
+    local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+    fi;
+    mireturn;
+    end;
+
+
+
+get_textoM_MEMR_bxh:=proc(perfil, Mmax, gammaf, texto)
+        local MEd_MRd,MRd, textoM;
+
+        MRd:=(fmk*kmod/gammaM)*get_Wel_bxh(perfil)/1000;
+
+        textoM:=sprintf("\n \n \\moodleQue{ $M_{el,Rd}$ en $kN m$ }{%f}{0.05*%f}", MRd,MRd);
+
+	MEd_MRd:=Mmax*gammaf/(get_Wel_bxh(perfil)*(fmk*kmod/gammaM)/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{ $M_{Ed}/M_{el,Rd}$ en la sección %s.}{%f}{0.05*%f}",textoM, texto, MEd_MRd,MEd_MRd);
+    end;
+
+
+
+get_textoM_bxh:=proc(perfil, Mmax, gammaf, texto) 
+    sprintf(" ");
+    end;
+
+
+
+get_texto2_MEMRVEVR_bxh:=proc()
+    sprintf(" ");
+    end;
+
+get_textoM_MEMRVEVR_bxh:=proc(perfil, Mmax, gammaf, Vmax)
+    sprintf(" ");
+    end;
+
+
+
+get_texto2_sigEsigR_bxh:=proc(texto)
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $\\sigma_{m,d}/f_{m,d}$, donde $f_{m,d}=k_{mod} f_{m,k}/\\gamma_M$, en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+    fi;
+
+    mireturn;
+    end;
+
+get_textoM_sigEsigR_bxh:=proc(perfil, Mmax, gammaf, texto)
+        global fmk, kmod, gammaM; 
+        local SEd_SRd, textoM;
+
+
+    print("get_textoM_sigEsigR_bxh hola:",perfil, Mmax, gammaf, get_Wel_bxh(perfil),fmk,kmod,gammaM);
+	SEd_SRd:=abs(Mmax*gammaf/(get_Wel_bxh(perfil)*fmk*kmod/gammaM/1000));
+	textoM:=sprintf(" \n \n \\moodleQue{ Calcular $|\\sigma_{m,d}|/f_{m,d}$, donde $f_{m,d}=k_{mod} f_{m,k}/\\gamma_M$, en la sección %s}{%f}{0.05*%f}", texto, SEd_SRd,SEd_SRd);
+ 
+    end;
+
+get_texto2_sigtauEsigtauR_bxh:=proc(perfil, Mmax, gammaf, Vmax, texto)   
+      local mireturn;
+
+      mireturn:= " ";
+      if (textoAmpliado=1) then
+            if (Mmax=0) then 
+                mireturn:=sprintf("\n\n Calcular $|\\tau_{d}|/f_{v,d}$, ".
+                          "donde $f_{v,d}=k_{mod} f_{v,k}/\\gamma_M$, en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+            else
+                mireturn:=sprintf("\n\n Calcular $|\\sigma_{m,d}|/f_{m,d}$, $\\tau_{d}/f_{v,d}$, ".
+                                  " donde $f_{m,d}=k_{mod} f_{m,k}/\\gamma_M$ y $f_{v,d}=k_{mod} f_{v,k}/\\gamma_M$, ".
+                                  "en la sección %s.".
+                                  "\n\n \\hfill \\Resul \\Resul \\vfill", texto);
+            fi; 
+       fi;
+       mireturn;
+    end;
+
+get_textoM_sigtauEsigtauR_bxh:=proc(perfil, Mmax, gammaf, Vmax, texto)
+            local mireturn, V_I, h, b, S0,  textoMER, SEd_SRd;
+           
+            V_I:=Vmax/get_Iy_bxh(perfil)/10;  #  N/mm^4
+            h  :=get_h_bxh(perfil);
+            b  :=get_b_bxh(perfil);
+            S0 :=b*h/2*h/4;   #mm3
+
+            mireturn:=" ";
+            if (Mmax<>0) then 
+                mireturn:=get_textoM_sigEsigR_bxh(perfil, Mmax, gammaf, texto);
+            fi;
+            SEd_SRd:=abs(V_I*S0/b*gammaf/(fvk*kmod/gammaM)*1.5);
+
+	    mireturn:=sprintf("%s \n \n \\moodleQue{ Calcular $|\\tau_{d}|/f_{v,d}$, ".
+                              " donde $f_{v,d}=k_{mod} f_{v,k}/\\gamma_M$, en la sección %s ($b_{ef}=0.67 b$)}{%f}{0.05*%f}", 
+                              mireturn, texto, SEd_SRd,SEd_SRd);
+             
+
+            mireturn;
+    end;

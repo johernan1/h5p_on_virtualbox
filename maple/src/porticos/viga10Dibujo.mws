@@ -1,0 +1,70 @@
+printf("------------- read(viga10Dibujo)----------------\n");
+viga10Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq,
+		       variacionesM, VariacionesM, 
+                       escal, escalP, escalq, escalM, posiPRelativa, emp_apo)
+
+    global xArti, opcionC;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+ 
+    #                              
+    #  ------------------------
+    #  ^                      ^
+
+    printf("-------------     (viga10Dibujo)----------------\n");
+    
+
+    nElem:=nops(Ls);
+    Lv   :=Ls[1];
+
+    nudos:=[     [0,0],     [Lv,0]]:
+    angul:=[         0,          0]:
+    despl:=[     [0,0],      [0,0]]:
+    ccont:=[[nudoiv,0], [nudodv,0]]:
+    if (emp_apo=0) then
+       ccont:=[[nudoivAF,0], [nudodvA,0]]:
+    elif (emp_apo=1) then
+       ccont:=[[Empo,-3.141592654/2], [nudodvA,0]]:
+    elif (emp_apo=3) then
+       ccont:=[[Empo,-3.141592654/2], [Empo,3.141592654/2]]:
+    elif (emp_apo=2) then
+       ccont:=[[nudoivA,0], [Empo,3.141592654/2]]:
+    else
+       ccont:=[[nudoivAF,0], [nudodv,0]]:
+    fi;
+    nombr:=[       " ",        " "]:
+    aux:=0.1:
+    postx:=[       aux,        aux]:
+    conex:=[ [1,2]]:
+
+    vigas:=[  viga11]:
+    XYcot:=[      0 ];     # Despl ABSOLUTO de las cotas respecto posicion std 
+    xycot:=[      0 ];     # Despl RELATIVO (% del despl de las cargas)
+                           #   Es decir, si +-1 se desplazan las cotas
+			   #   el valor de las cargas de la barra 
+    apoyo:= [Apoyodes(Lv,-escal,0.6*escal,0), Apoyofijo(0,-escal,0.6*escal,0)]:      # Apoyos de nudos interiores
+    apoyo:=[];
+    
+    if type(xArti,numeric) then            #Gerber
+       apoyo:=vigaDibujoGerber(Lv, xArti, opcionC, 0, escal);
+    fi;
+
+    print(variacionesM, VariacionesM); 
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq,
+    	   		      variacionesM, VariacionesM, 
+               		      escal, escalP, escalq, escalM,
+                               Lv, nudos, ccont, conex, vigas, apoyo, XYcot,
+			      xycot, posiPRelativa);
+
+    printf("------------- fin (viga10Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (viga10Dibujo)----------------\n");
+
+
+
+
+
+
+
+

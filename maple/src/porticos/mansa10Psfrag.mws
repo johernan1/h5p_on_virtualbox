@@ -1,0 +1,53 @@
+printf("------------- read(mansa10Psfrag)----------------\n");
+mansa10Psfrag:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, s 
+                     )
+    global CODIGO;
+    local nElem, psfrag, iElem, Lv, variacionP, variacionq, combinacionX,
+    	  formatoP, formatoq;
+
+    #    1     3     2
+    #       -------  
+    #      /       \           
+    #     /         \ 
+    #    /           \
+    #   /             \       
+    #  /               \
+    #
+
+    printf("-------------     (mansa10Psgrag)----------------\n");
+
+    nElem:=nops(Ls);
+
+    psfrag:="";
+    #----------------- Psfrag de abscisas y cargas en viga -----------------------------------------------------
+    for iElem from 1 to nElem do
+    	Lv := Ls[iElem];
+        variacionP := variacionesP[iElem];
+        variacionq := variacionesq[iElem];
+        combinacionX := combinacionesX[iElem];
+	
+        formatoP:="4.1f"; if (nops(variacionP)>=1 and abs(variacionP[1])<10) then formatoP:="4.2f"; fi;
+        formatoq:="4.1f"; if (nops(variacionq)>=1 and abs(variacionq[1])<10) then formatoq:="4.2f"; fi;
+        psfrag:=sprintf("%s\n%s\n\n%s\n\n%s",
+                psfrag, 
+                textoPsfragCombinacionX(Lv,combinacionX),
+                textoPsfragVariacionPq(variacionP, "kN", formatoP, 0, 0, 1),
+                textoPsfragVariacionPq(variacionq, "{kN\\over m}", formatoq, 0, 0, 1)):
+
+    od;
+    #------------------ Fichero fig con "psgraf+includegraphics" para "input{file}" desde fichero tex ----------------
+    texFig(psfrag);
+    
+    printf("------------- fin (mansa10Psfrag)----------------\n");
+    
+    
+end;
+#--------------------
+#print(mansa10Psfrag); # Para fijar variables locales
+printf("-------------     (mansa10Psfrag)----------------\n");
+
+
+
+
+
+

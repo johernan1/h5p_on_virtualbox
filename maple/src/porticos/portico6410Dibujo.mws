@@ -1,0 +1,84 @@
+printf("------------- read(portico6410Dibujo)----------------\n");
+portico6410Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa)
+
+    global MiCELESTE, miCELESTE, MiAZUL, MiROJO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+
+    #           5          6
+    #   ---------------------
+    #   |               |               
+    #   |               | 
+    #   |               | 3
+    #   |               | 
+    #   |               |      4    
+    #   |               |-------------
+    #   |               |           
+    #   | 1             | 2
+    #   |               |
+    #   |               |
+    #   |               |   
+
+
+    printf("-------------     (portico6410Dibujo)----------------\n");
+   
+    nElem:=nops(Ls);
+    Lc1  :=Ls[1];
+    Lc2  :=Ls[2];
+    Lv1  :=Ls[4];
+    Lv2  :=Ls[5];
+    Lvo  :=Ls[6];
+
+    nudos:=[   [-Lv2, Lc1],  [0,Lc1], [Lvo, Lc1],       
+                             [0,Lc2],        [Lv1,Lc2],
+               [-Lv2,   0],  [0,  0]        ]:
+    angul:=[         0,     0,     0,     0,     0,     0     ,0]:
+    despl:=[     [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0]]:
+    ccont:=[[0,0],  [0,0], [nudodv,0],
+                    [0,0],     [nudodv,0],
+                 [Empo,0],     [Empo,0]]:
+    nombr:=[       " ",    " ",           " ",
+                   " ",    " ",
+		   " ",           " "]:
+    aux:=0.1:
+    postx:=[       aux,    aux,           aux,
+                   aux,    aux,          
+                   aux,           aux  ]:
+    conex:=[ [6,1],[7,4], [4,2], [4,5], [1,2], [2,3]]:
+
+    vigas:=[ viga12,  viga12,  viga22,  viga21,  viga22, viga21]:
+    XYcot:=[      0,Lv2/11,Lv2/11,0,0,Lv2*1.1];       # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0,0,0,0,0,0];       # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                      #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra
+#    if (subestructura=0) then
+        Misgraf[Micolor()];
+        nudo1 := [[Lv1,0], [Lv1+1,0], [Lv1+1, Lc2+escal], [Lv1, Lc2+escal]];
+	
+        nudo1:=PLOT(CURVES([[Lv1,0], [Lv1, Lc2-escal]]),
+	            CURVES([[Lv1+1,Lc2+escal], [Lv1, Lc2+escal]]),
+		    CURVES([[Lv1,0], [Lv1, Lc2+escal]], COLOUR(MiROJO)),
+	            POLYGONS(nudo1, STYLE(PATCHNOGRID), COLOUR(MiROJO)));
+       	apoyo:= [nudo1];         # Apoyos de nudos interiores
+#    else
+#	apoyo:=[	arti(-Lv1,1.5*Lc,escal,0),arti(0,1.5*Lc,escal,0),arti(Lv2,1.5*Lc,escal,0),
+#			arti(-Lv1,2.5*Lc,escal,0),arti(0,2.5*Lc,escal,0),arti(Lv2,2.5*Lc,escal,0)];
+#    fi;
+
+			  
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+               		  escal, escalP, escalq, escalM,
+                          Lv2/1.2, nudos, ccont, conex, vigas, apoyo, XYcot, xycot, posiPRelativa);
+
+    printf("------------- fin (portico6410Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (portico6410Dibujo)----------------\n");
+
+
+
+
+
+
+
+

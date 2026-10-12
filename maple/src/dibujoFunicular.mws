@@ -1,0 +1,166 @@
+dibujoFunicular:=proc(L0, combinacionX, variacionP, variacionq, variacionM, VariacionM, variacionU,M_x)
+global nq;
+printf("Inicio de dibujoFunicular");
+    escal:=.15*L0/5.;
+    nudos:=[       [0,0],  [L0,0]]:
+    angul:=[           0,       0]:
+    despl:=[       [0,0],   [0,0]]:
+    ccont:=[[nudoiv,0],      [nudodv,0]]:
+    nombr:=[        " ",            " "]:
+    aux:=0.1:
+    postx:=[         aux,     aux,        aux]:
+    conex:=[ [1,2]]:
+    vigas:=[viga11]:
+    escaq:=0.05:
+    posiq:=0.3:
+    potxq:=0.5:
+    nudosf:=porticoNN(nudos,conex,escal,angul,despl,ccont,nombr,postx);
+    viga:=porticovig(nudos,conex,escal,vigas):
+
+
+    apoyo:=arti(0,VariacionM[1],0.6*escal,0),
+           arti(L0,-VariacionM[2],0.6*escal,0),
+           display(textplot([0,VariacionM[1], "A"]),textplot([L0,-VariacionM[2], "B"]));
+
+
+    auxzCotas:=0;
+    if (variacionU[1]=3) then auxzCotas:=M_x[-3] fi;
+    #printf("%a\n",[-VariacionM[1],VariacionM[2],0,M_x[-3]]);quit;
+    ziCot:=-max(-VariacionM[1],VariacionM[2],auxzCotas,0);
+
+    cotas:= cotas_c(     0,    -1.25*L0/5+ziCot,L0,1,0,.05*L0/5,convert(L0,string),.15*L0/5):
+
+    cotas2:=[];
+    combinacionX0L:=[0,op(combinacionX),1]:
+
+
+    for iX from 1 to nops(combinacionX)+1 do
+        cotas2:=[op(cotas2),
+                    cotas_c(L0*combinacionX0L[iX],  -0.75*L0/5+ziCot,
+	                L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+		        1,0,.05*L0/5,
+		        convert(L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+                                    string),
+		                        .15*L0/5)]: 
+    od:
+    
+    if (VariacionM[1]<>0) then
+        cotas2:=[op(cotas2),
+                    cotas_c(-.75*L0/5,  0,
+	                -VariacionM[1],
+		        1,-evalf(Pi/2),.05*L0/5,
+		        convert(-VariacionM[1],
+                                    string),
+		                        .15*L0/5)]: 
+
+    fi;
+    if (VariacionM[2]<>0) then
+#printf("hola");
+        cotas2:=[op(cotas2),
+                    cotas_c(L0+.75*L0/5,  0,
+	                VariacionM[2],
+		        1,-evalf(Pi/2),.05*L0/5,
+		        convert(VariacionM[2],
+                                    string),
+		                        .15*L0/5)]: 
+
+    fi;
+
+    if (variacionU[1]=3) then
+        cotas2:=[op(cotas2),
+                    cotas_c(combinacionX[-2]*L0+.75*L0/5,0,
+                        M_x[-3],
+		        1,-evalf(Pi/2),.05*L0/5,
+		        convert(M_x[-3],
+                                    string),
+		                        .15*L0/5)]:    
+    fi;
+#printf("adios%a\n",VariacionM[2]);quit;
+    accioP:=[];
+
+
+
+    #printf("%a\n",[-VariacionM[1],VariacionM[2],0,M_x[-3]]);quit;
+    ziP:=min(-VariacionM[1],VariacionM[2],0,auxzCotas);
+#printf("ziP=%a----%a\n",ziP,[-VariacionM[1],variacionM[2],0,auxzCotas]); quit;
+    for iP from 1 to nops(combinacionX) do
+       if(variacionP[iP]<>0) then
+            cargP:=[[1.5*escal*variacionP[iP]/40,combinacionX[iP],0]]:
+           
+            posiP:=[       4.0*escal-ziP]:
+            #if (nq=0) then
+            if (variacionq[iP]=0 and variacionq[iP+1]=0) then
+                posiP:=[       1.5*escal-ziP]:
+            fi;
+            textP:=[           convert(variacionP[iP],string)]:
+            potxP:=1.25*escal*variacionP[iP]/40:
+
+
+            accioP:=[op(accioP),
+	             porticoP(nudos,conex,escaq,cargP,posiP,textP,potxP)]:
+       fi;
+    od;
+
+    combinacion0XL:=[0,op(combinacionX),1];
+    accion:=[];
+    for iq from 1 to nops(variacionq) do
+       if(variacionq[iq]<>0) then
+        nudosq:=[       [L0*combinacion0XL[iq],0],  [L0*combinacion0XL[iq+1],0]]:
+        cargq:=[1.5*escal*variacionq[iq]/2]:
+        textq:=[sprintf("%2.0f",variacionq[iq])]:
+        #posiq:=0:
+        potxq:=.20;
+
+        accion:=[op(accion),
+                 porticoqh(nudosq,conex,escaq,cargq,posiq,textq,potxq)]:
+       fi;
+    od;
+
+    momento:=[]:
+    if(variacionM[1]<>0) then
+          textq:=sprintf("%s",convert(VariacionM[1],string)):
+          momento:=[flechaCN(0,0,-.25*variacionM[1],0,textq,0)]
+    fi;
+    if(variacionM[2]<>0) then
+          textq:=sprintf("%s",convert(VariacionM[2],string)):
+          momento:=[op(momento),flechaC_N(0+L0,0,-.25*variacionM[2],Pi,textq,0)]
+    fi;
+
+    linaux:=[];
+    if (variacionU[1]=1) then
+        ang:=arctan(-M_x[2]-VariacionM[1],combinacionX[1]*L0-0);
+        linaux:=[op(linaux),line([0,VariacionM[1]],[combinacionX[1]*L0,-M_x[2]],linestyle=2),
+                            Angulo(ang,combinacionX[1]*L0,-M_x[2],4*escal,0,"alpha",0)];
+    fi;
+
+    if (variacionU[1]=2) then
+        ang:=arctan(-M_x[-1]+M_x[-2],-combinacionX[-1]*L0+L0);
+        linaux:=[op(linaux),line([combinacionX[-1]*L0,-M_x[-2]],[L0,-M_x[-1]],linestyle=2),
+                            Angulo(ang,combinacionX[-1]*L0,-M_x[-2],4*escal,Pi,"beta",0)];
+    fi;
+#printf("hola-------%a\n%a\n%a\n%a,%a",linaux,combinacionX[-2],M_x[-3],combinacionX,M_x);quit;
+
+    if (variacionU[1]=3) then
+        linaux:=[op(linaux), arti(combinacionX[-2]*L0,-M_x[-3],0.6*escal,0),
+                            display(textplot([combinacionX[-2]*L0,-M_x[-3], "C"]))];
+    fi;
+    
+    
+
+    G:=display(
+               #viga,
+               #nudosf,
+               line([0,0],[L0,0],linestyle=1),
+               line([0,VariacionM[1]],[L0,-VariacionM[2]],linestyle=2), 
+               op(linaux),           
+               op(accioP),
+               op(accion),
+               cotas,
+	       cotas2,
+               apoyo,
+               #momento,
+ 
+               axes=none,scaling=constrained):
+    Fich():
+    G;
+end:

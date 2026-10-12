@@ -1,0 +1,50 @@
+printf("------------- read(portico70Datos)----------------\n");
+portico70Datos:=proc(bcargas)
+    # Datos para portico70, 
+    # Datos para portico70, 71
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM,
+    	   VariacionesM, posiPRelativa;
+
+    printf("-------------     (portico70Datos)----------\n");
+    Ls            :=[        1,        6,       3.5];
+    #Ls            :=[        1,        5,      3.5];
+    #Ls            :=[        1,        5,      3.0];
+    
+    variacionesM:=[[0,  0], [0,  0], [0,  0]];  # Escala del dibujo. Si 0 no dib
+    VariacionesM:=[[1,  0], [1,  0], [1,  0]];  #
+
+    #---- Cargas Generales-----------------------------------------------------
+    #---------------------------------------Soporte
+    q0:=cargasVano00();
+    #---------------------------------------Voladizo
+    q1:=cargasVoli01(40,45);
+    #---------------------------------------Viga derecha
+    q2:=cargasVano15(40,45);
+    #---- Fin Cargas generales ------------------------------------------------
+
+    
+    P0:=q0[1];
+    z0:=q0[2];
+    X0:=q0[3];
+    q0:=q0[4];
+    
+    P1:=q1[1];
+    z1:=q1[2];
+    X1:=q1[3];
+    q1:=q1[4];
+    
+    P2:=q2[1];
+    z2:=q2[2];
+    X2:=q2[3];
+    q2:=q2[4];
+      
+
+    variacionesP:=CartesianoR(P1,Cartesiano(P2,P0));
+    variacionesq:=CartesianoR(q1,Cartesiano(q2,q0));
+    combinacionesX:=CartesianoR(X1,Cartesiano(X2,X0));
+    posiPRelativa:=CartesianoR(z1,Cartesiano(z2,z0));;	
+    
+    printf("%a\n", variacionesP);
+    printf("fin: -------------     (portico70Datos)----------\n");	
+end;
+

@@ -1,0 +1,16 @@
+printf("------------- read(texFIG)------------------------\n");
+texFig:=proc(psfrag)
+    global FICH, CODIGO;
+    local texto, fd;
+
+    #texto:=sprintf(%s,psfrag);
+    #texto:=sprintf("%s\n\n\\includegraphics[width=\\ESCALA]{f%d.ps}",
+    #               psfrag,FICH); 
+    texto:=sprintf("%s\n\n\\includegraphics[width=\\ESCALA]{f%d_%s.ps}",
+                   psfrag,FICH,CODIGO); 
+
+    fd:=fopen("tex/ffig".CODIGO."_".FICH,WRITE);
+    fprintf(fd,"%s",texto);
+    fclose(fd);   
+end;   
+printf("-------------     (texFIG)------------------------\n");

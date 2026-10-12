@@ -1,0 +1,71 @@
+printf("------------- read(viga30Calculo)----------------\n");
+viga30Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lviga, Lvol, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+    global FICH;
+
+    #    1                2      
+    #  |------------------------
+    #                 ^
+
+    printf("-------------     (viga30Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lviga :=Ls[1];
+    Lvol   :=Ls[2];
+   
+
+
+    print ("200927");
+    dgMV:=diagramaMV(0,Lviga,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    dgMV:=diagramaMV(0,  Lvol,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];
+
+
+    mH:=[[      0,       1,    1,    0],
+         [      0,       0,     0,    1],
+	 [      0,       0,  1/Lvol, 1/Lvol]];
+    print ("200927---1 ",mH);  
+    cddc:=evalm([[4,2],[2,4]]);
+    mD:=evalm(diag(evalm(cddc/Lviga), evalm(cddc/Lvol)));
+    print ("200927---2 ",mD);  
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    print ("200927---2 ",mK);  
+    sf:=[Mf11, Mf12, Mf21, Mf22]:
+    print ("200927---2 ",sf);  
+    print ("200927---2 ",mH&*sf);  
+    vf:=evalm(-mH&*sf);  
+    vf:=-evalm(mH&*sf) + [0,0, -V22-evalm(vf[3])];
+    u:=evalm(mK^(-1)&*vf);
+    print ("200927---2 ",u);  
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    print (evalm(mK));
+    printf ("190717xxxx\%an", FICH);
+    print (sf);
+    print (vf);
+    print (u);
+    print (s);
+    #if (s) then
+    #fi;
+
+    printf("------------- fin (viga30Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(viga30Calculo); # Para fijar variables locales
+printf("-------------     (viga30Calculo)----------------\n");
+
+
+
+
+
+

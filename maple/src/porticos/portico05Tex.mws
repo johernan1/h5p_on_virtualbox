@@ -1,0 +1,123 @@
+printf("------------- read(portico05Tex)----------------\n");
+portico05Tex:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, s 
+                     )
+    global CODIGO, ER;
+    local nElem, dgMV1, dgMV5, dgMV14, iElem, dgMV, Mf11, Mf12, ruido, Lv0,
+    	  Mf2_anterior, textELS, textB, textoCol1, textoCol2, texto2Col2,
+	  textoDiagM_Mdl, textoAcotM_Mdl, textoDiagV_Mdl, textoAcotV_Mdl,
+	  textoELS_Mdl, MmaxVanos, textoELUM_Mdl, VmaxiElem, VmaxVanos, textoELUV_Mdl,
+	  VvanoAnterior, fd, texto_Mdl;
+	  
+    ER:=0;
+
+    #  1           
+    #----------------------
+    #|
+    #|   
+    #|2
+    #|
+    #|
+
+    printf("-------------     (portico05Tex)----------------\n");
+
+    nElem:=nops(Ls);
+
+
+    dgMV1:="";
+    dgMV5:="";
+    dgMV14:="";
+
+    for iElem from 1 to nElem do
+        dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],variacionesP[iElem],
+				variacionesq[iElem],[1,1]); 
+        Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+        ruido:=0.00001;
+        dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],variacionesP[iElem],
+				variacionesq[iElem],
+		         [(s[2*iElem-1]+ruido)/Mf11,(s[2*iElem]+ruido)/Mf12]);
+
+        
+        if (iElem=1) then
+	   dgMV[14]:=sprintf("%f,%f,%f,%f",0,0,Ls[iElem],0); fi;
+	if (iElem=2) then
+	   dgMV[14]:=sprintf("%f,%f,%f,%f",0,-Ls[2],0,0); fi;
+	
+
+
+        if (dgMV1 <> "") then
+           dgMV[1] :=sprintf("%s; %s",  dgMV1, dgMV[1]);
+           dgMV[5] :=sprintf("%s; %s",  dgMV5, dgMV[5]); 
+           dgMV[14]:=sprintf("%s; %s", dgMV14, dgMV[14]);
+	fi;
+
+        dgMV1:=dgMV[1];
+        dgMV5:=dgMV[5];
+        dgMV14:=dgMV[14];
+        Lv0:=Lv0+Lv;
+        Mf2_anterior:=Mf2; 
+
+        textELS:=texELS(dgMV,variacionU,textoAmpliado, nElem, iElem, dgVol,
+				VolIzq);
+
+
+        textB:=texBiapoyada(psfrag,dgMV,variacionU,textoAmpliado,dim, 0,
+				nElem, iElem);
+        textoCol1:=sprintf("%s    %s", textoCol1,textB[1]);
+        textoCol2:=textB[2];
+        texto2Col2:=sprintf("%s \n\n %s", texto2Col2,textB[3]);
+        texto2Col2:=sprintf("%s \n\n %s", texto2Col2,textELS[1]);
+       
+        textoDiagM_Mdl :=sprintf("%s \n\n %s", textoDiagM_Mdl, textB[4]);
+        textoAcotM_Mdl :=sprintf("%s \n\n %s", textoAcotM_Mdl, textB[5]);
+        textoDiagV_Mdl :=sprintf("\n\n %s", textB[6]);
+        textoAcotV_Mdl :=sprintf("%s \n\n %s", textoAcotV_Mdl, textB[7]);
+        textoELS_Mdl :=sprintf("%s \n\n %s", textoELS_Mdl, textB[8]);
+        textoELS_Mdl :=sprintf("%s \n\n %s", textoELS_Mdl, textELS[2]);
+        if (textoAmpliado =0) then
+            if (dgMV[3]> MmaxVanos) then
+
+                MmaxVanos:=dgMV[3];
+
+                textoELUM_Mdl :=sprintf(" \n\n %s",  textB[9]);
+            fi;
+        else 
+            textoELUM_Mdl :=sprintf("%s \n\n %s", textoELU_Mdl, textB[9]);
+        fi;
+        VmaxiElem:=max(abs(dgMV[6]),abs(dgMV[7]));
+        if (textoAmpliado =0) then
+            if (VmaxiElem > VmaxVanos) then
+               VmaxVanos:=max(abs(dgMV[6]),abs(dgMV[7]));
+               textoELUV_Mdl :=sprintf(" \n\n %s",  textB[10]); 
+            fi;
+        else
+            textoELUV_Mdl :=sprintf("%s \n\n %s", textoELU_Mdl, textB[10]);
+        fi;
+        VvanoAnterior := textB[11];  # Para calcular las reacciones 
+     od;
+
+    
+
+    #------------------ Fichero tex ----------------------------------------------------------------------------------
+    fd:=fopen("tex/".CODIGO."n".FICH.".tex",WRITE);
+    
+    textoCol2:=sprintf("%s \n\n %s", textoCol2,texto2Col2);
+    texto_Mdl:=sprintf("\n\n%s \n\n %s \n\n %s \n\n %s \n\n %s \n\n %s\n\n %s",
+                       textoDiagM_Mdl, textoAcotM_Mdl, textoDiagV_Mdl, textoAcotV_Mdl,
+                       textoELUM_Mdl, textoELUV_Mdl, textoELS_Mdl);
+    fprintf(fd,"%s",texModelo(opcion,textoCol1, textoCol2, texto_Mdl));
+    fclose(fd);
+    
+    printf("------------- fin (portico05Tex)----------------\n");
+    
+    
+end;
+#--------------------
+#print(portico05Tex); # Para fijar variables locales
+printf("-------------     (portico05Tex)----------------\n");
+
+
+
+
+
+

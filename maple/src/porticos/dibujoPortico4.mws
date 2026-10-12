@@ -1,0 +1,28 @@
+printf("------------- read(dibujoPortico2)----------------\n");
+dibujoPortico4:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM)
+    local Lvol, Lv, Lc1, Lc2, nudos, ccont, conex, vigas, apoyo;
+
+    printf("-------------     (dibujoPortico4)----------------\n");
+
+    nElem:=nops(Ls);
+    Lvol :=Ls[2];
+    Lv   :=Ls[1];
+    Lc1   :=Ls[3];
+    Lc2   :=Ls[4];
+
+    nudos:=[     [0,0], [Lv,0], [Lv+Lvol,0], [0,-Lc1], [Lv,-Lc2]]:
+    ccont:=[[nudoiv,0],  [0,0],  [nudodv,0], [Empo,0], [Empo,0]]:
+    conex:=[ [1,2],[2,3],[4,1],[5,2]]:
+    apoyo:=[]:                                         # Apoyos de nudos interiores
+
+    vigas:=[ viga22, viga21, viga12, viga12]:
+    XYcot:=[      0,      0,      0,   Lv+Lvol+2*Lv/4+0.3*escal];  # Desplazamiento de las cotas respecto posicion estandar 
+    xycot:=[      0,      0,     -1, 1];                     #   Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                                             #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra 
+    dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                   escal, escalP, escalq, escalM,
+                   Lv, nudos, ccont, conex, vigas, apoyo, XYcot, xycot);  
+end;
+
+printf("-------------     (dibujoPortico4)----------------\n");

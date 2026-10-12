@@ -1,0 +1,51 @@
+printf("------------- read(viga35Datos)----------------\n");
+viga35Datos:=proc(N1)
+    # Datos para viga35
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, VariacionesM, posiPRelativa, CODIGO;
+
+    printf("-------------     (viga35Datos)----------\n");
+    Ls            :=[           1.25,       5];	 
+    variacionesM:=[ [0,  0], [0,  1]];  # Escala del dibujo. Si 0 no se dibuja  	 
+    VariacionesM:=[ [0,  0], [0,  1]];  # Factor por el que se multiplica el valor que se acota del momento
+    
+  
+    #-----------------------------------------Voladizo derecho
+   
+    q:=unionCargas(cargasVoli03(40,45),
+		   cargasVoli00());
+    q:=cargasVoli03(40,45);
+    q:=cargasVoli02(40,45);
+    
+    P1:=q[1];
+    z1:=q[2];
+    X1:=q[3];
+    q1:=q[4];
+
+    #-----------------------------------------Viga
+
+    q:=cargasVano07(40,45);
+#    q:=cargasVano04(40,45);
+#    q:=cargasVano15(40,45);
+#    q:=unionCargas(cargasVano00(),  # CUIDADO. SE INVIERTE EL SIGNO DE M
+#		   cargasVano06(40,45));
+	
+	
+    P2:=q[1];
+#	P2[1]:=P2[1]*2;  #Si solo hay carga puntual en el vano se multiplica 2
+#    	P2[2]:=P2[2]*2;
+#    	P2[3]:=P2[3]*2;
+    z2:=q[2];
+    X2:=q[3];
+    q2:=q[4];
+
+   
+
+
+    variacionesP  :=Cartesiano(P1,P2);
+    variacionesq  :=Cartesiano(q1,q2);
+    combinacionesX:=Cartesiano(X1,X2);
+    posiPRelativa :=Cartesiano(z1,z2);
+    
+    printf("fin: -------------     (viga35Datos)----------\n");	
+end;
+

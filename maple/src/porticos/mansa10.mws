@@ -1,0 +1,49 @@
+printf("------------- read(mansa10)----------------\n");
+mansa10:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+
+    #    1     3     2
+    #       -------  
+    #      /       \           
+    #     /         \ 
+    #    /           \
+    #   /             \       
+    #  /               \
+    #
+    
+    printf("-------------     (mansa10)----------------\n");
+
+    CODIGO:=M10;
+
+    s :=     mansa10Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM);
+
+             mansa10Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+             mansa10Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    Empotrado_apoyado:=0;
+    print(display(
+             mansa10Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,Empotrado_apoyado)));
+				 
+    printf("------------- fin (mansa10)----------------\n");
+end;
+#--------------------
+#print(mansa10); # Para fijar variables locales
+printf("-------------     (mansa10)----------------\n");
+
+
+
+
+
+

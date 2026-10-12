@@ -1,0 +1,24 @@
+printf("------------- read(viga12)----------------\n");
+# OJO viga12 se usa en Misgraf
+viga_12:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa)
+
+  
+    printf("-------------     (viga12)----------------\n");
+    _variacionesM:=[ [1,  0], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  	 
+    _VariacionesM:=[ [1,  0], [1,  0]];  # Factor por el que se multiplica el valor que se acota del momento
+
+    viga_11(Ls, combinacionesX, variacionesP, variacionesq, _variacionesM, _VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa);
+				 
+    printf("------------- fin (viga12)----------------\n");
+end;
+#--------------------
+#print(viga_12); # Para fijar variables locales
+printf("-------------     (viga12)----------------\n");
+
+
+
+
+
+

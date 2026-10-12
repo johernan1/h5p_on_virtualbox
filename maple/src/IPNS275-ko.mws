@@ -1,0 +1,365 @@
+
+tablaIPN:=[
+["IPN 80",	80,42,3.9,5.9,3.9,2.3,	7.58,59,77.8,19.5,22.8,6.29,3,3.2,3.41],
+["IPN 100",	100,50,4.5,6.8,4.5,2.7,	10.6,75.7,171,34.2,39.8,12.2,4.88,4.01,4.85],
+["IPN 120",	120,58,5.1,7.7,5.1,3.1,	14.2,92.4,328,54.7,63.6,21.5,7.41,4.81,6.63],
+["IPN 140",	140,66,5.7,8.6,5.7,3.4,	18.3,109.1,573,81.9,95.4,35.2,10.7,5.61,8.65],
+["IPN 160",	160,74,6.3,9.5,6.3,3.8,	22.8,125.8,935,117,136,54.7,14.8,6.4,10.83],
+["IPN 180",	180,82,6.9,10.4,6.9,4.1,	27.9,142.4,1450,161,187,81.3,19.8,7.2,13.35],
+["IPN 200",	200,90,7.5,11.3,7.5,4.5,	33.4,159.1,2140,214,250,117,26,8,16.03],
+["IPN 220",	220,98,8.1,12.2,8.1,4.9,	39.5,175.8,3060,278,324,162,33.1,8.8,19.06],
+["IPN 240",	240,106,8.7,13.1,8.7,5.2,	46.1,192.5,4250,354,412,221,41.7,9.59,22.33],
+["IPN 260",	260,113,9.4,14.1,9.4,5.6,	53.3,208.9,5740,442,514,288,51,10.4,26.08],
+["IPN 280",	280,119,10.1,15.2,10.1,6.1,	61,225.1,7590,542,632,364,61.2,11.1,30.18],
+["IPN 300",	300,125,10.8,16.2,10.8,6.5,	69,241.6,9800,653,762,451,72.2,11.9,34.58],
+["IPN 320",	320,131,11.5,17.3,11.5,6.9,	77.7,257.9,12510,782,914,555,84.7,12.7,39.26],
+["IPN 340",	340,137,12.2,18.3,12.2,7.3,	86.7,274.3,15700,923,1080,674,98.4,13.5,44.27],
+["IPN 360",	360,143,13,19.5,13,7.8,	97,290.2,19610,1090,1276,818,114,14.2,49.95],
+["IPN 380",	380,149,13.7,20.5,13.7,8.2,	107,306.7,24010,1260,1482,975,131,15,55.55],
+["IPN 400",	400,155,14.4,21.6,14.4,8.6,	118,322.9,29210,1460,1714,1160,149,15.7,61.69],
+["IPN 450",	450,170,16.2,24.3,16.2,9.7,	147,363.6,45850,2040,2400,1730,203,17.7,77.79],
+["IPN 500",	500,185,18,27,18,10.8,	179,404.3,68740,2750,3240,2480,268,19.6,95.6],
+["IPN 550",	550,200,19,30,19,11.9,	212,445.6,99180,3610,4240,3490,349,21.6,111.3],
+["IPN 600",	600,215,21.6,32.4,21.6,13,	254,485.8,138800,4627,5452,4674,435,23.39,138]
+
+];
+
+hashIPN[160]:=5: hashIPN[5]:=160:
+hashIPN[180]:=6: hashIPN[6]:=180:
+hashIPN[200]:=7: hashIPN[7]:=200:
+hashIPN[220]:=8: hashIPN[8]:=220:
+hashIPN[240]:=9: hashIPN[9]:=240:
+hashIPN[260]:=10: hashIPN[10]:=260:
+hashIPN[280]:=11: hashIPN[11]:=280:
+hashIPN[300]:=12: hashIPN[12]:=300:
+hashIPN[320]:=13: hashIPN[13]:=320:
+hashIPN[340]:=14: hashIPN[14]:=340:
+hashIPN[360]:=15: hashIPN[15]:=360:
+hashIPN[380]:=16: hashIPN[16]:=380:
+hashIPN[400]:=17: hashIPN[17]:=400:
+hashIPN[450]:=18: hashIPN[18]:=450:
+hashIPN[500]:=19: hashIPN[19]:=500:
+hashIPN[550]:=20: hashIPN[20]:=550:
+hashIPN[600]:=21: hashIPN[21]:=600:
+
+
+
+get_h_nIPN:=proc(n) tablaIPN[n][2]; end;
+get_b_nIPN:=proc(n) tablaIPN[n][3]; end;
+get_tw_nIPN:=proc(n) tablaIPN[n][4]; end;
+get_tf_nIPN:=proc(n) tablaIPN[n][5]; end;
+get_r1_nIPN:=proc(n) tablaIPN[n][6]; end;
+get_r2_nIPN:=proc(n) tablaIPN[n][7]; end;
+get_A_nIPN:=proc(n) tablaIPN[n][8]; end;
+get_d_nIPN:=proc(n) tablaIPN[n][9]; end;
+get_Iy_nIPN:=proc(n) tablaIPN[n][10]; end;
+get_Wel_nIPN:=proc(n) tablaIPN[n][11]; end;
+get_Wpl_nIPN:=proc(n) tablaIPN[n][12]; end;
+get_Iz_nIPN:=proc(n) tablaIPN[n][13]; end;
+get_Av_nIPN:=proc(n) tablaIPN[n][16]; end;
+get_S_nIPN:=proc(n) tablaIPN[n][12]/2; end;
+
+get_id_IPN:=proc(IPN) sprintf("$IPN%d[S275]$", IPN); end;
+get_h_IPN:=proc(IPN) get_h_nIPN(hashIPN[IPN]); end;
+get_b_IPN:=proc(IPN) get_b_nIPN(hashIPN[IPN]); end;
+get_tw_IPN:=proc(IPN) get_tw_nIPN(hashIPN[IPN]); end;
+get_tf_IPN:=proc(IPN) get_tf_nIPN(hashIPN[IPN]); end;
+get_r1_IPN:=proc(IPN) get_r1_nIPN(hashIPN[IPN]); end;
+get_r2_IPN:=proc(IPN) get_r2_nIPN(hashIPN[IPN]); end;
+get_A_IPN:=proc(IPN) get_A_nIPN(hashIPN[IPN]); end;
+get_Iy_IPN:=proc(IPN) get_Iy_nIPN(hashIPN[IPN]); end;
+get_E_IPN:=210000;
+get_Wel_IPN:=proc(IPN) get_Wel_nIPN(hashIPN[IPN]); end;
+get_Wpl_IPN:=proc(IPN) get_Wpl_nIPN(hashIPN[IPN]); end;
+get_Iz_IPN:=proc(IPN) get_Iz_nIPN(hashIPN[IPN]); end;
+get_Av_IPN:=proc(IPN) get_Av_nIPN(hashIPN[IPN]); end;
+get_S_IPN:=proc(IPN) get_S_nIPN(hashIPN[IPN]); end;
+
+
+#-------------------------------------------------------------------------------------------------------------
+#----- Lo que sigue esta copiado de IPES275.mws (+ buscar y reemplazar IPE por IPN)
+#----- cualquier cambio debería, por tanto, hacerse en IPES275.mws 
+
+
+get_m_A_M_IPN  :=proc(val) for i from 1 to 18 do if (get_A_nIPN(i)>=val)   then break; fi; od; hashIPN[i]; end;
+get_m_Iy_M_IPN :=proc(val) for i from 1 to 18 do if (get_Iy_nIPN(i)>=val)  then break; fi; od; hashIPN[i]; end;
+get_m_Wel_M_IPN:=proc(val) for i from 1 to 18 do if (get_Wel_nIPN(i)>=val) then break; fi; od; hashIPN[i]; end;
+get_m_Wpl_M_IPN:=proc(val) for i from 1 to 18 do if (get_Wpl_nIPN(i)>=val) then break; fi; od; hashIPN[i]; end;
+
+
+
+get_texto2_datos_IPN:=proc(val, gammaF)
+    local aux;
+    if (gammaF=0) then
+        aux:=sprintf("$IPN%d[S275]$,  ".
+                " $h=%a mm$, $b=%a mm$, $t_f=%a mm$, $t_w=%a$". 
+                " $I_{y}=%a cm^4$, $W_{el,y}=%a cm^3$, $W_{pl,y}=%a cm^3$.", 
+	            val,  
+                    get_h_IPN(val), get_b_IPN(val), get_tf_IPN(val), get_tw_IPN(val), 
+                    get_Iy_IPN(val),  get_Wel_IPN(val), get_Wpl_IPN(val));
+    else
+        aux:=sprintf("$IPN%d[S275]$, $\\gamma_F=%0.2f$, $\\gamma_M=1.05$,".
+                " $h=%a mm$, $b=%a mm$, $t_f=%a mm$, $t_w=%a$". 
+                " $I_{y}=%a cm^4$, $W_{el,y}=%a cm^3$, $W_{pl,y}=%a cm^3$,  $A_v= %acm^2$.", 
+	            val, gammaF,  
+                    get_h_IPN(val), get_b_IPN(val), get_tf_IPN(val), get_tw_IPN(val), 
+                    get_Iy_IPN(val),  get_Wel_IPN(val), get_Wpl_IPN(val), get_Av_IPN(val));
+    fi;
+    aux;
+    end;
+
+
+get_texto2_sigma_IPN:=proc(texto)
+    sprintf("\n\n Tensiones normales de la sección %s, $\\sigma$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul \\Resul \n\n \\vfill", texto); 
+    end;
+
+get_textoM_Iy_IPN:=proc(perfil)
+         sprintf(""); ## No tiene sentido preguntar el Iy de un perfil de catálogo
+    end;
+
+get_textoM_sigma_IPN:=proc(perfil,Mmax, texto)
+            local M_I, h, tf;
+           
+            M_I:=Mmax/get_Iy_IPN(perfil)*100;
+            h  :=get_h_IPN(perfil);
+            tf :=get_tf_IPN(perfil);
+            
+            textoMER:= sprintf("\n\n%s\\moodleQue{Tensión normal en la fibra superior de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}", "%", texto, -M_I*(h/2),-M_I*(h/2));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra superior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, "%", texto,-M_I*(h/2-tf),-M_I*(h/2-tf));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h/2-tf), M_I*(h/2-tf));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h/2),M_I*(h/2));
+            textoMER;
+    end;
+
+get_texto2_tau_IPN:=proc(texto)
+    sprintf("\n\n Tensiones tangenciales de la sección %s, $\\tau$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul\n\n \\vfill", texto); 
+    end;
+
+get_textoM_tau_IPN:=proc(perfil,Vmax, texto)
+            local V_I, h, b, tf, tw, S0, S1, textoMER;
+           
+            V_I:=Vmax/get_Iy_IPN(perfil)*100;
+            h  :=get_h_IPN(perfil);
+            b  :=get_b_IPN(perfil);
+            tf :=get_tf_IPN(perfil);
+            tw :=get_tw_IPN(perfil);
+            S0 :=get_Wpl_IPN(perfil)/2;
+            S1 :=b*tf*(h/2-tf/2)/1000;
+            print("get_textoM_tau_IPN", S0, S1);
+            
+            textoMER:="";
+
+            textoMER:= sprintf("%s\n\\moodleQue{Momento estático del ala superior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S1, S1);
+            textoMER:= sprintf("\n\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                               " $S_{y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0, S0);
+    
+	    textoMER:= sprintf("%s \n \n %s get_textoM_tau_IPN. Chequeo: V=%a, h=%a, b=%a, tf=%a, tw=%a, S0=%a, S1=%a", textoMER, "%", Vmax, h, b, tf, tw, S0, S1); 
+            textoMER:= sprintf("%s\n\n\\moodleQue{\\n\\nTensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra superior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, texto,V_I*S1/tw,V_I*S1/tw);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*S0/tw,V_I*S0/tw);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*S1/tw,V_I*S1/tw);
+            textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            textoMER;
+    end;
+
+
+get_texto2_MEMR_IPN:=proc( texto)
+    local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$ y $M_{Ed}/M_{pl,Rd}$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\Resul \\vfill", texto);
+    fi;
+    mireturn;
+    end;
+
+get_textoM_MEMR_IPN:=proc(perfil, Mmax, gammaf, texto)
+        local MEd_MRd, textoM;
+
+
+        MRd:=(275/1.05)*get_Wel_IPN(perfil)/1000;
+        textoM:=sprintf("\n \n \\moodleQue{Calcular $M_{el,Rd}=W_{el} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", MRd,MRd);
+
+
+        MRd:=(275/1.05)*get_Wpl_IPN(perfil)/1000;
+        textoM:=sprintf("%s\n \n \\moodleQue{Calcular  $M_{pl,Rd}=W_{pl} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", textoM, MRd,MRd);
+
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_IPN(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{Calcular $M_{Ed}/M_{el,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wpl_IPN(perfil)*275/1.05/1000);
+	sprintf("%s \n \n \\moodleQue{Calcular  $M_{Ed}/M_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+    end;
+
+
+
+get_texto2_MEMRVEVR_IPN:=proc(texto, Mmax)
+   
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        
+
+      if (Mmax=0) then 
+        mireturn:=sprintf("Calcular $V_{Ed}/(V_{pl,Rd})$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+        
+      else
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$, $M_{Ed}/M_{pl,Rd}$ y $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto);
+      fi;
+    fi;
+
+    mireturn;
+
+    end;
+
+get_textoM_MEMRVEVR_IPN:=proc(perfil, Mmax, gammaf, Vmax, texto)
+    local VEd_VRd, mireturn;
+
+#print("perfil, Mmax, gammaf, Vmax, texto",perfil, Mmax, gammaf, Vmax, texto); 
+    
+    mireturn:=" ";
+    Vpl:=get_Av_IPN(perfil)/1.73*275/1.05/10;
+    Vel:=get_Iy_IPN(perfil)/get_S_IPN(perfil)*(get_tw_IPN(perfil)/10)/1.73*275/1.05/10;
+    mireturn:=sprintf(" \n \n \\moodleQue{Calcular $V_{el,Rd}=(I_y/S_{y}) t_w  (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      Vel,Vel); 
+    mireturn:=sprintf("%s \n \n \\moodleQue{Calcular $V_{pl,Rd}=A_v f_{yd}/\\sqrt{3}$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      mireturn, Vpl,Vpl); 
+    if (Mmax<>0) then   
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_IPN(perfil)/1.73*275/1.05/2)*10;
+        mireturn:=sprintf("%s \n\n %s\n\n  \\moodleQue{Calcular $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.}{%f}{0.05*%f}", 
+                get_textoM_MEMR_IPN(perfil,Mmax,gammaf, texto), mireturn,texto,VEd_VRd,VEd_VRd);
+    else    
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_IPN(perfil)/1.73*275/1.05)*10;
+        mireturn:=sprintf(" \n\n \n\n %s  \\moodleQue{Calcular $V_{Ed}/V_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", 
+                mireturn, texto,VEd_VRd,VEd_VRd);
+    fi;
+#print(mireturn); quit;
+
+    mireturn;
+ 
+    end;
+
+
+
+get_texto2_sigEsigR_IPN:=proc()
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $\\sigma_{Ed}/f_{yd}$ en la sección cuyo momento flector positivo es máximo.".
+            "\n\n \\hfill \\Resul \\vfill");
+    fi;
+    mireturn;
+    end;
+
+get_textoM_sigEsigR_IPN:=proc(perfil, Mmax, gammaf)
+
+        local MEd_MRd, textoM;
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_IPN(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{ Calcular $|\\sigma_{Ed}|/f_{yd}$}{%f}{0.05*%f}", "%", MEd_MRd,MEd_MRd);
+ 
+    end;
+
+get_texto2_sigtauEsigtauR_IPN:=proc(perfil, Mmax, gammaf, Vmax, texto)
+
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+
+      if (Mmax=0) then 
+
+        mireturn:=sprintf("Calcular $\\tau_{Ed}/(f_{yd}/\\sqrt{3})$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\vfill", texto);
+      else
+        mireturn:="Calcular $(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/(f_{yd})^2$ en ".
+                  " los puntos más significativos de la sección %s.".
+                  "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto;
+      fi;
+    fi;
+
+    mireturn;
+    
+    end;
+
+get_textoM_sigtauEsigtauR_IPN:=proc(perfil, Mmax, gammaf, Vmax, texto)
+            local mireturn, V_I, h, b, tf, tw, S0, S1, textoMER;
+           
+            V_I:=abs(Vmax)/get_Iy_IPN(perfil)*100;
+            h  :=get_h_IPN(perfil);
+            b  :=get_b_IPN(perfil);
+            tf :=get_tf_IPN(perfil);
+            tw :=get_tw_IPN(perfil);
+            S0 :=get_Wpl_IPN(perfil)/2;
+            S1 :=b*tf*(h/2-tf/2)/1000;
+            print("get_textoM_sigtauEsigtauR_IPN", S0, S1);
+
+            if (Mmax=0) then 
+                Ed_Rd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                mireturn:=sprintf(" \n \n %s\\moodleQue{ Calcular $|\\tau_{Ed}|/(f_{yd}/\\sqrt{3})$}{%f}{0.05*%f}",
+				  "%", Ed_Rd,Ed_Rd);
+            else
+	        textoMER:= sprintf(" \n \n %s get_textoM_tau_IPN. Chequeo: V=%a, M=%a, h=%a,   tw=%a, S0=%a, Sf1=%a,  Sf2=%a", "%", Vmax, Mmax, h,   tw, S0, Sf1, Sf2); 
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_IPN(perfil)*275/1.05/1000);
+                Ed_Rd:=(MEd_MRd)^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{ Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior de la sección %s}".
+	    	                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_IPN(perfil)*
+                         (get_h_IPN(perfil)/2-get_tf_IPN(perfil))/(275/1.05/1000)/10;
+                VEd_VRd:=gammaf*V_I*S1/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior del alma de la sección %s}".
+	    	       	           "{%f}{0.05*%f}",textoMER, texto,Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                VEd_VRd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                Ed_Rd:=VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   " en la fibra neutra de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_IPN(perfil)*
+			 (get_h_IPN(perfil)/2-get_tf_IPN(perfil))/10/(275/1.05/1000);
+                VEd_VRd:=gammaf*V_I*S1/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior del alma de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_IPN(perfil)*275/1.05/1000);
+                Ed_Rd:=MEd_MRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                
+                mireturn:=textoMER;
+            fi;
+
+    mireturn;
+
+    end;

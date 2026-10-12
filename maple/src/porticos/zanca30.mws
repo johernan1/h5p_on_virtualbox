@@ -1,0 +1,50 @@
+printf("------------- read(zanca30)----------------\n");
+zanca30:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+
+    #    1         
+    #  -------  
+    #         \           
+    #          \ 
+    #           \3
+    #            \       2
+    #             \------------
+    #
+    
+    printf("-------------     (zanca30)----------------\n");
+    printf("posiPRelativa=%a\n", posiPRelativa);
+    
+    CODIGO:=Z30;
+
+    s :=     zanca30Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM);
+
+             zanca10Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+             zanca30Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    Empotrado_apoyado:=0;
+    print(display(
+             zanca30Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,Empotrado_apoyado)));
+				 
+    printf("------------- fin (zanca30)----------------\n");
+end;
+#--------------------
+#print(zanca30); # Para fijar variables locales
+printf("-------------     (zanca30)----------------\n");
+
+
+
+
+
+

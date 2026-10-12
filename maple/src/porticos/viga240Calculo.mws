@@ -1,0 +1,103 @@
+printf("------------- read(viga240Calculo)----------------\n");
+viga240Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lviga, Lvol, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+    global FICH;
+
+    #     1         2         3     
+    #  -----O-------------------
+    #  ^        ^          ^
+
+    printf("-------------     (viga240Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lvig0 :=Ls[1];
+    Lviga :=Ls[2];
+    Lvol   :=Ls[3];
+   
+
+
+   
+    dgMV:=diagramaMV(0,Lvig0,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+    dgMVv:=dgMV[1];
+ 
+    dgMV:=diagramaMV(0,  Lviga,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];
+print ("hola", combinacionesX[3],variacionesP[3],variacionesq[3]);
+    dgMV:=diagramaMV(0,  Lvol,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+print ("adios");
+    mH:=[[      1,       0,       0,       0,       0,       0],
+         [      0,       1,       1,       0,       0,       0],
+         [      0,       0,       0,       1,       1,       0],
+         [      0,       0,       0,       0,       0,       1],
+	 [      0,       0,       0,       0,  1/Lvol,  1/Lvol]];
+
+
+
+
+    cddc:=evalm([[4,2],[2,4]]);
+    #---------------------------------------------------------------------
+    Lv:=Lvig0;
+    alpha:=xArti;
+    beta:=1-xArti;
+    
+    mdA:=evalm(3/(alpha^3+beta^3)*[[alpha^2, alpha*beta],[alpha*beta, beta^2]]);
+    
+    print(mdA);
+
+    MArti:=diagramaMV_x(dgMVv, xArti);
+    ##print("MArti=",MArti);
+    phiMArti:=MArti*Lv/2;
+    ##print("phiMArti=",phiMArti);
+
+    mfA:=evalm(mdA/Lv &* [phiMArti,-phiMArti]);
+    ##print("mdA",mdA);
+    ##print("mfA",mfA);
+    ##print([Mf21, Mf22]);
+    Mf11:=Mf11+MArti-mfA[1];
+    Mf12:=Mf12-MArti-mfA[2];
+
+    print([Mf11, Mf12, MArti, mfA[1], mfA[2]]);#quit;
+    #-----------------------------------------------------------------------
+    mD:=evalm(diag(evalm(mdA/Lvig0), evalm(cddc/Lviga), evalm(cddc/Lvol)));
+      
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    print ("200927---2 ",mK);  
+    sf:=[Mf11, Mf12, Mf21, Mf22, Mf31, Mf32]:
+    print ("200927---2 ",sf);  
+    print ("200927---2 ",mH&*sf);  
+    vf:=evalm(-mH&*sf);   
+    vf:=-evalm(mH&*sf) + [0,0,0,0, -V32-evalm(vf[5])];
+    u:=evalm(mK^(-1)&*vf);
+    print ("200927---2 ",u);  
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    print (evalm(mK));
+    printf ("190717xxxx\%an", FICH);
+    print (sf);
+    print (vf);
+    print (u);
+    print (s);
+    #if (s) then
+    #fi;
+
+    printf("------------- fin (viga240Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(viga240Calculo); # Para fijar variables locales
+printf("-------------     (viga240Calculo)----------------\n");
+
+
+
+
+
+

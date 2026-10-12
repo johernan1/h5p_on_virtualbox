@@ -1,0 +1,80 @@
+printf("------------- read(zanca30Calculo)----------------\n");
+zanca30Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lmi, Lmd, Lznc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+    global FICH;
+
+    #    1         
+    #  ------- 
+    #         \           
+    #          \ 
+    #           \3
+    #            \       2
+    #             \------------
+    #  
+  
+
+    printf("-------------     (zanca30Calculo)----------------\n");
+    
+    nElem:=nops(Ls);
+    Lmi :=Ls[1];
+    Lmd   :=Ls[2];
+    Lznc   :=Ls[3];
+
+
+    dgMV:=diagramaMV(0,Lmi,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    dgMV:=diagramaMV(0,  Lmd,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];  
+
+    # Los M y V del estado f se calculan con la Lx de la zanca 
+    dgMV:=diagramaMV(0,  Lznc*0.866,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+
+    mH:=[[      1,       0,     0,     0,             0,    0, 0],
+         [      0,       1,     0,     0,             1,    0, 0],
+         [      0,       0,     1,     0,             0,    1, 0],
+         [      0,       0,     0,     1,             0,    0, 0],
+	 [  1/Lmi,   1/Lmi,     0,     0, -1/Lznc*0.866, -1/Lznc*0.866, -0.5],
+	 [      0,       0,-1/Lmd,-1/Lmd,  1/Lznc*0.866,  1/Lznc*0.866,  0.5],
+	 [      0,       0,     0,     0, -1/Lznc*  0.5, -1/Lznc*  0.5,  0.866]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    mD:=evalm(diag(evalm(cddc/Lmi), evalm(cddc/Lmd), evalm(cddc/Lznc), 100000)):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12, Mf21, Mf22, Mf31, Mf32,0]:
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0,0,0,-V12+V31-evalm(vf[5]),-V32+V21-evalm(vf[6]),0];
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    #print (evalm(mD));
+    #printf ("210920xxxx%a\n", FICH);
+    print ("Ls=----------------");
+    print (Ls);
+    print ("sf=----------------");
+    print (sf);
+    print ("vf=----------------");
+    print (vf);
+    #print (u);
+    print (s);
+    
+    printf("------------- fin (zanca30Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(zanca30Calculo); # Para fijar variables locales
+printf("-------------     (zanca30Calculo)----------------\n");
+
+
+
+
+
+

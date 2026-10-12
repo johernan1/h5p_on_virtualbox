@@ -1,0 +1,47 @@
+printf("------------- read(viga135)----------------\n");
+viga135:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM,
+		  VariacionesM, escal, escalP, escalq, escalM, posiPRelativa)
+		  
+    global CODIGO, xArti, ER;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+
+ 
+    printf("-------------     (viga135)----------------\n");
+    _variacionesM:=[ [0,  0], [0,  0]];  # Escal del dibujo. Si 0 no se dibuja
+  
+    #CODIGO:=V135;
+    ER:=[1,3];
+
+    s :=     viga135Calculo(Ls, combinacionesX, variacionesP, variacionesq,
+      	     			_variacionesM, VariacionesM, xArti);
+ 
+ 	     VariacionesMt:=VariacionesM*s[4];
+	     
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq,
+	     		   _variacionesM, VariacionesMt, s);
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq,
+	     		   _variacionesM, VariacionesMt, s);
+
+
+ 
+
+    #----------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    Empotrado_apoyado:=1;
+    print(display(
+             viga35Dibujo(Ls, combinacionesX, variacionesP, variacionesq,
+	     		      _variacionesM, VariacionesMt,
+	       	              escal, escalP, escalq, escalM, posiPRelativa,Empotrado_apoyado)));
+				 
+    printf("------------- fin (viga135)----------------\n");
+end;
+#--------------------
+#print(viga135); # Para fijar variables locales
+printf("-------------     (viga135)----------------\n");
+
+
+
+
+
+

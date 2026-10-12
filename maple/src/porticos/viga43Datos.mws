@@ -1,0 +1,58 @@
+printf("------------- read(viga43Datos)----------------\n");
+viga43Datos:=proc(N1)
+    # Datos para viga43
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, VariacionesM, posiPRelativa, CODIGO;
+
+    printf("-------------     (viga43Datos)----------\n");
+    Ls            :=[ 1,      5.5,          5,  1.2]; 
+    variacionesM:=[[0,0], [0,  0], [0,  0], [0,  0]];
+    	# Escala del dibujo. Si 0 no se dibuja  	 
+    VariacionesM:=[[0,0], [0,  0], [0,  0], [0,  0]];
+    	# Factor por el que se multiplica el valor que se acota del momento
+
+  
+    #-----------------------------------------Voladizo izquierdo
+   
+    q:=cargasVoli01(40,45);
+    
+    P2:=q[1];
+    z2:=q[2];
+    X2:=q[3];
+    q2:=q[4];
+        #-----------------------------------------Viga derecha
+
+    q:=cargasVano06(40,45);
+    q:=cargasVano15(40,45);
+    q:=unionCargas(cargasVano00(),  
+		   cargasVano15(40,45));
+    P1:=q[1];
+    z1:=q[2];
+    X1:=q[3];
+    q1:=q[4];
+        #---------------------------------------Viga izquierda
+
+    q:=cargasVano06(40,45);
+    q:=cargasVano15(40,45);
+    #q:=unionCargas(cargasVano00(), 
+    #		   cargasVano15(40,45));
+    P0:=q[1];
+    z0:=q[2];
+    X0:=q[3];
+    q0:=q[4];
+    
+    #-----------------------------------------Voladizo derecho
+   
+    q:=cargasVold01(40,45);
+    
+    P3:=q[1];
+    z3:=q[2];
+    X3:=q[3];
+    q3:=q[4];
+
+    variacionesP:=  CartesianoR(P2,CartesianoR(P1,Cartesiano(P0,P3)));
+    variacionesq:=  CartesianoR(q2,CartesianoR(q1,Cartesiano(q0,q3)));
+    combinacionesX:=CartesianoR(X2,CartesianoR(X1,Cartesiano(X0,X3)));
+    posiPRelativa:= CartesianoR(z2,CartesianoR(z1,Cartesiano(z0,z3)));    
+    printf("fin: -------------     (viga43Datos)----------\n");	
+end;
+

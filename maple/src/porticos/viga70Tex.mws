@@ -1,0 +1,158 @@
+printf("------------- read(viga70Tex)----------------\n");
+viga70Tex:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, s 
+                     )
+    global CODIGO, ER, gammaf, fy, gammaM, perfilVano1;
+    local nElem, dgMV1, dgMV5, dgMV14, iElem, dgMV, Mf11, Mf12, ruido, Lv0,
+    	  Mf2_anterior, textELS, textB, textoCol1, textoCol2, texto2Col2,
+	  textoDiagM_Mdl, textoAcotM_Mdl, textoDiagV_Mdl, textoAcotV_Mdl,
+	  textoELS_Mdl, MmaxVanos, textoELUM_Mdl, VmaxiElem, VmaxVanos, textoELUV_Mdl,
+	  VvanoAnterior, fd, texto_Mdl;
+	  
+    ER:=[1,1];
+    variacionU:=[1]:
+    selectSeccion();
+    
+    gammaf:=1.45;
+    fy:=275;
+    gammaM:=1.05;
+
+    #    2                      
+    #  |
+    #  |
+    #  |
+    #  | 1
+    # ---
+    
+    
+    printf("-------------     (viga70Tex)----------------\n");
+
+    nElem:=nops(Ls);
+
+
+    dgMV1:="";
+    dgMV5:="";
+    dgMV14:="";
+
+    for iElem from 1 to nElem do
+         printf("------------- iElem %d -----------------\n",iElem);
+         printf("------------  P=%a -----------------\n",variacionesP[iElem]);
+         printf("------------  q=%a -----------------\n",variacionesq[iElem]);
+         printf("------------  X=%a -----------------\n",combinacionesX[iElem]);
+         printf("-------------  L=%a -------------------\n",Ls[iElem]);
+        
+        dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],
+			 variacionesP[iElem],variacionesq[iElem],[1,1]); 
+        Mf11:=dgMV[12]; Mf12:=dgMV[13];
+
+
+        #----------------- Dimensionado ---------------------------------------
+	# Solo del vano. En viga20Tex se dimensiona el vano más desfavorable
+	# Aquí sólo hay un vano por lo que no es necesario
+	
+	if (iElem=1) then
+	    perfilVano1:=0;
+	    # se dimensiona con Misos,max
+            dim:=dimM(dgMV[3],dgMV[2], dgMV[6], dgMV[4], dgMV[7],perfilVano1);
+	    # se dimensiona como voladizo...
+	    dim:=dimM(max(abs(dgMV[6]),abs(dgMV[7]))*Ls[iElem],
+	    	      dgMV[2], dgMV[6], dgMV[4], dgMV[7],0);
+            perfilVano1:=dim[1];
+	fi;
+#if variacionesM then
+#fi;
+	#----------------- fin dimensionado-------------------------------------
+         printf("-------------  xxx  -------------------\n",Ls[iElem]);
+
+
+        ruido:=0.00001;
+        dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],variacionesP[iElem],
+	                 variacionesq[iElem],
+		         [(s[2*iElem-1]+ruido)/Mf11,(s[2*iElem]+ruido)/Mf12]);
+
+
+        #---Solo hay un elemento. Ver viga20Tex para otros casos 	
+        if (iElem=1) then
+	   dgMV[14]:=sprintf("%f,%f,%f,%f",0,0,0*Ls[1]/10,Ls[1]); fi;
+
+
+        if (dgMV1 <> "") then
+           dgMV[1] :=sprintf("%s; %s",  dgMV1, dgMV[1]);
+           dgMV[5] :=sprintf("%s; %s",  dgMV5, dgMV[5]); 
+           dgMV[14]:=sprintf("%s; %s", dgMV14, dgMV[14]);
+	fi;
+
+        dgMV1:=dgMV[1];
+        dgMV5:=dgMV[5];
+        dgMV14:=dgMV[14];
+        Lv0:=Lv0+Lv;
+        Mf2_anterior:=Mf2; 
+        # Solo para el primer vano
+        textELS:=texELS(dgMV,variacionU,textoAmpliado, nElem*0+iElem,
+	                iElem, dgVol, VolIzq);
+
+
+        textB:=texBiapoyada(psfrag,dgMV,variacionU,textoAmpliado,
+	                    dim, 0, nElem, iElem);
+	
+#if (VariacionesM) then
+# Esto para el guion. Se usa en depuracion
+#fi;
+        #-----------------------------------------------------------------------
+	#if (iElem=1) then
+        textoCol1:=sprintf("%s    %s", textoCol1,textB[1]);
+        textoCol2:=textB[2];
+        texto2Col2:=sprintf("%s \n\n %s", texto2Col2,textB[3]);
+        texto2Col2:=sprintf("%s \n\n %s", texto2Col2,textELS[1]);
+     
+        textoDiagM_Mdl :=sprintf("%s \n\n %s", textoDiagM_Mdl, textB[4]);
+        textoAcotM_Mdl :=sprintf("%s \n\n %s", textoAcotM_Mdl, textB[5]);
+        textoDiagV_Mdl :=sprintf("\n\n %s", textB[6]);
+        textoAcotV_Mdl :=sprintf("%s \n\n %s", textoAcotV_Mdl, textB[7]);
+        textoELS_Mdl :=sprintf("%s \n\n %s", textoELS_Mdl, textB[8]);
+        textoELS_Mdl :=sprintf("%s \n\n %s", textoELS_Mdl, textELS[2]);
+
+        if (textoAmpliado =0) then
+            if (dgMV[3]> MmaxVanos) then
+                MmaxVanos:=dgMV[3];
+                textoELUM_Mdl :=sprintf(" \n\n %s",  textB[9]);
+            fi;
+        else 
+            textoELUM_Mdl :=sprintf("%s \n\n %s", textoELU_Mdl, textB[9]);
+        fi;
+        VmaxiElem:=max(abs(dgMV[6]),abs(dgMV[7]));
+        if (textoAmpliado =0) then
+            if (VmaxiElem > VmaxVanos) then
+               VmaxVanos:=max(abs(dgMV[6]),abs(dgMV[7]));
+               textoELUV_Mdl :=sprintf(" \n\n %s",  textB[10]); 
+            fi;
+        else
+            textoELUV_Mdl :=sprintf("%s \n\n %s", textoELU_Mdl, textB[10]);
+        fi;
+        VvanoAnterior := textB[11];  # Para calcular las reacciones
+	#fi;
+     od;
+
+ 
+    #------------------ Fichero tex --------------------------------------------
+    fd:=fopen("tex/".CODIGO."n".FICH.".tex",WRITE);
+    
+    textoCol2:=sprintf("%s \n\n %s", textoCol2,texto2Col2);
+    texto_Mdl:=sprintf("\n\n%s \n\n %s \n\n %s \n\n %s \n\n %s \n\n %s\n\n %s",
+                       textoDiagM_Mdl, textoAcotM_Mdl, textoDiagV_Mdl,
+		       textoAcotV_Mdl,
+                       textoELUM_Mdl, textoELUV_Mdl, textoELS_Mdl);
+    fprintf(fd,"%s",texModelo(opcion,textoCol1, textoCol2, texto_Mdl));
+    fclose(fd);
+    
+    printf("------------- fin (viga70Tex)----------------\n");
+
+end;
+#--------------------
+#print(viga70Tex); # Para fijar variables locales
+printf("-------------     (viga70Tex)----------------\n");
+
+
+
+
+
+

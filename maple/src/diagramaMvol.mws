@@ -1,0 +1,32 @@
+printf("------------- read(diagramaMvol)------------------\n");
+#----------------------------------------------------------------------------
+#--- Momento y cortante de un voladizo  -----|
+diagramaMvol:=proc(O,L0,combinacionX,variacionP,variacionq)
+local combinacionX0L, variacionP0L, M0, M, V, iP, V1, incx, medx, V2, M1, M2;
+    combinacionX0L:=[0,op(combinacionX),1]:
+      
+    combinacionX0L:=[0,op(combinacionX),1]:
+    variacionP0L:=[0,op(variacionP)]:
+    M0:=0;
+    M:=M0;
+    V:=0;
+    for iP from 1 to nops(variacionP)+1 do
+
+        V1:=V-variacionP0L[iP];
+        incx:=combinacionX0L[iP+1]-combinacionX0L[iP];
+        medx:=(combinacionX0L[iP]+combinacionX0L[iP+1])/2;
+        V2:=V1-incx*variacionq[iP]*L0;
+        M1:=M+(V1)*L0*(combinacionX0L[iP+1]-combinacionX0L[iP])-
+             variacionq[iP]*incx^2/2*L0^2;
+        M2:=M+(V1)*L0*(combinacionX0L[iP+1]-combinacionX0L[iP])/2-
+             variacionq[iP]*(incx/2)^2/2*L0^2;
+     
+        M:=M1;
+        V:=V2;
+        
+    od:
+
+    [M1,V2];
+end:
+printf("-------------     (diagramaMvol)------------------\n");
+#print(diagramaMvol);

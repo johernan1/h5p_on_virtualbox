@@ -1,0 +1,46 @@
+printf("------------- read(viga27)----------------\n");
+
+viga27:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa)
+
+  
+    printf("-------------     (viga27)----------------\n");
+    _variacionesM:=[ [1,  1], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  	 
+    #_VariacionesM:=[ [0,  1], [1,  0]];  # Factor por el que se multiplica el valor que se acota del momento
+
+ 
+    CODIGO:=V13;
+
+    s :=     viga25Calculo(Ls, combinacionesX, variacionesP, variacionesq,
+      	     		       variacionesM, VariacionesM);
+
+ 	     VariacionesMt:=VariacionesM;
+	     VariacionesMt[1,1]:=s[1];
+	     VariacionesMt[1,2]:=s[2];
+
+
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq,
+	     		       _variacionesM, VariacionesMt, s);
+
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq,
+	     		       _variacionesM, VariacionesMt, s);
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    Empotrado_apoyado:=0;
+    print(display(
+             viga10Dibujo(Ls, combinacionesX, variacionesP, variacionesq,
+	     		      _variacionesM, VariacionesMt, escal, escalP, escalq,
+			      escalM, posiPRelativa, Empotrado_apoyado)));
+				 
+    printf("------------- fin (viga27)----------------\n");
+end;
+#--------------------
+#print(viga27); # Para fijar variables locales
+printf("-------------     (viga27)----------------\n");
+
+
+
+
+
+

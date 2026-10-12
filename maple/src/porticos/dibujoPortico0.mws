@@ -1,0 +1,336 @@
+printf("------------- read(dibujoPortico0)----------------\n");
+dibujoPortico0:=proc(Ls, combinacionesX, variacionesP, variacionesq,
+			 variacionesM, VariacionesM, 
+                     	 escal, escalP, escalq, escalM,
+                     	 Lv, nudos, ccont, conex, vigas, apoyo, posicionCota,
+			 posicionRelativaCota, posiPRelativa)
+    local angul, despl, nombr, aux, postx,
+    posiq, potxq, nudosf, viga, cotas, cotas2, combinacionX0L, iX,
+    accioP, dibujoP, accionP, dibujoq, combinacion_Xvol, variacion_Pvol,
+    variacion_qvol, accion, momento, textq, G,
+    nElem, iElem;
+    global opcionC;
+
+    printf("-------------     (dibujoPortico0)----------------\n");
+    printf("-------------     ultimos cambios 211011 ---------\n");
+
+    nElem :=nops(Ls);
+    nNudos:=nops(nudos);
+
+    angul:=[seq(0    , iNudos=1..nNudos)]:
+    despl:=[seq([0,0], iNudos=1..nNudos)]:
+    nombr:=[seq(" "  , iNudos=1..nNudos)]:
+    postx:=[seq(0.1  , iNudos=1..nNudos)]:
+
+
+    #----------------calibración de posiq. Lv es una 'longitud caracteristica' del modelo que se pasa a la función
+    posiq:=0.6*Lv*escal*(1+(Lv-5)/(1.2-5)*2):
+  
+    potxq:=0.5:
+    
+
+    #----------------dibujo topología
+    nudosf:=porticoNN(nudos,conex,escal,angul,despl,ccont,nombr,postx);
+    viga:=porticovig(nudos,conex,escal,vigas):
+
+
+
+    min_x:=min(seq(nudos[inudo,1],inudo=1..nops(nudos)));
+    min_y:=min(seq(nudos[inudo,2],inudo=1..nops(nudos)));
+
+    #----------------------------------------------------------------------------------------------------------------------------------------
+    printf("---- Se dibujan las cargas puntuales -----------------------------\n");
+    printf("------- y se ajusta la posicion de las cotas ---------------------\n");
+    accioP:=[];
+    posRelCota:=[seq(0,iB=1..nops(posicionRelativaCota))];
+
+    dibujoP:=proc(ibarr) 
+        local iElem, iP, cargP, textP, posiP, potxP, variacionP, combinacionX, variacionq, posiPrelativa;
+        
+        variacionP:=variacionesP[ibarr];
+        combinacionX:=combinacionesX[ibarr];
+        variacionq:=variacionesq[ibarr];
+        posiPrelativa:=posiPRelativa[ibarr];
+
+	
+	#-----210920----Cargas en barras inclinadas
+	esZanca:=0;
+	nudosq:=nudos;
+        nudo10:=nudos[conex[ibarr,1]];
+        nudo20:=nudos[conex[ibarr,2]];
+	
+
+        if (abs(nudo10[1]-nudo20[1])>0.001 and
+	    abs(nudo10[2]-nudo20[2])>0.001) then
+	    esZanca:=1;
+	    print ("dibujoPortico0: BARRA INCLINADA: (ahora se imprime coor de nudos)");
+	    print (nudo10, nudo20);
+	    	if (nudo10[2]> nudo20[2]) then
+		   nudo20[2]:=nudo10[2];
+		else
+		   nudo10[2]:=nudo20[2];
+		fi;
+	    print (" se transforman en:");	
+	    print (nudo10, nudo20);
+   	fi;
+	nudosq[conex[ibarr,1]]:=nudo10;
+        nudosq[conex[ibarr,2]]:=nudo20;    
+        #-----210920----Fin
+	
+        for iP from 1 to nops(combinacionX) do
+            if(variacionP[iP]<>0) then
+                cargP:=[seq([0,0,0],iElem=1..nElem)];
+                textP:=[seq(     "",iElem=1..nElem)];
+                
+                #---- Hay que escalar aqui cargP, pues no esta programado escal en porticoP
+                cargP[ibarr]:=[escalP*variacionP[iP], combinacionX[iP],0];
+                textP[ibarr]:=convert(variacionP[iP],string);
+
+  
+                #---- distancia de la carga puntual a la viga
+		#---- Se comprueba si hay cargas distribuidas antes o despues para
+		#---- dibujar la carga puntual sobre las distribuidas
+                # comentadas dos lineas 211011. La primera linea 'no comentaba' anulaba las dos siguientes
+                #qadyacente:=max(abs(variacionq[iP]),abs(variacionq[iP+1]))*escalq;
+                #posiP:=[seq(qadyacente+posiq,iElem=1..nElem)]:
+                 
+		posiP:=[seq(1,        iElem=1..nElem)]:      
+
+                #---- se ajusta la posicion de la cota
+		# modificado 211011. El if no hacia nada. Se sustituye por linea depues de comentarios
+                #if   (posicionRelativaCota[ibarr] < 0) then
+	        #    posRelCota[ibarr]:=max(posRelCota[ibarr],  posiP[iP]+0*2.5*variacionP[iP]*escalP);
+                #elif (posicionRelativaCota[ibarr] > 0) then
+	        #    posRelCota[ibarr]:=max(posRelCota[ibarr],  posiP[iP]-0*2.5*variacionP[iP]*escalP);
+                #fi;
+		posRelCota[ibarr]:=max(posRelCota[ibarr],  posiP[iP]);    
+
+                #---- Se añade el desplazamiento de la carga distribuida, si existe
+                if (variacionq[iP]<>0 or variacionq[iP+1]<>0) then
+                    posiP:=posiP+[seq(posiq/2,iElem=1..nElem)]:
+                fi;
+                posiP:=signum(variacionP[iP])*posiP*posiPrelativa[iP];
+		#---- Se anulan los posiP de las barras que no se estan dibujando.
+		#---- de ptro modo queda una "traza" en las otras vigas que puede
+		#---- alterar los margenes del dibujo
+		for ibar from 1 to nElem do
+		    if ibar=ibarr then
+		    else
+		    posiP[ibar]:=escal; # No se pone en 0 pues se dibuja un puntito
+		                        # en mitad de la viga que "despista" mucho
+		    fi
+		od;
+
+
+                potxP:=1.25*escal*escalP*variacionP[iP]/40:
+
+print("1111 x-x-x-x-x-x-x- ibar=",ibarr,posiP,"parametros de porticoP=");
+print(nudos,conex,escalq,cargP,posiP,textP,potxP);
+                #-------210920    zancas
+                #accioP:=[op(accioP),
+	        #         porticoP(nudos,conex,escalq,cargP,posiP,textP,potxP)]:
+                accioP:=[op(accioP),
+	                 porticoP(nudosq,conex,escalq,cargP,posiP,textP,potxP)]:
+                #-------fin 210920    zancas
+           fi;
+        od;
+        accionP;    
+    end;  #proc dibujoP
+
+
+   accionP:=[seq(op(dibujoP(iElem)),iElem=1..nElem)];
+#    accionP:=[seq(op(dibujoP(iElem)),iElem=3..3)];
+    printf("------- Posicion cotas:="); 
+print(posRelCota);
+print(posicionRelativaCota);
+print(posicionCota);
+
+    #----------------------------------------------------------------------------------------------------------------------------------------
+    printf("---- Se dibujan las cargas distribuidas -----------------------------\n");
+    dibujoq:=proc(ibarr) 
+        local iElem, iP, cargP, textP, posiP, potxP, variacionP, combinacionX, variacionq, esZanca;
+   
+	accion:=[];     
+        variacionP:=variacionesP[ibarr];
+        combinacionX:=combinacionesX[ibarr];
+        combinacion0XL:=[0,op(combinacionX),1];
+        nudo10:=nudos[conex[ibarr,1]];
+        nudo20:=nudos[conex[ibarr,2]];
+
+	esZanca:=0;
+	#-----210920----Cargas en barras inclinadas
+        if (abs(nudo10[1]-nudo20[1])>0.001 and
+	    abs(nudo10[2]-nudo20[2])>0.001) then
+	    esZanca:=1;
+	    print ("dibujoPortico0: BARRA INCLINADA (ahora se imprime coor nudos)");	
+	    print (nudo10, nudo20);
+	    	if (nudo10[2]> nudo20[2]) then
+		   nudo20[2]:=nudo10[2];
+		else
+		   nudo10[2]:=nudo20[2];
+		fi;
+	    print (" se transforman en:");	
+	    print (nudo10, nudo20);
+   	fi;
+	    
+        #-----210920----Fin
+        variacionq:=variacionesq[ibarr];
+        for iq from 1 to nops(combinacionX)+1 do
+	    if(variacionq[iq]<>0) then
+              nudosq:=nudos;
+              
+              nudosq[conex[ibarr,1]]:=nudo20*combinacion0XL[iq]  +nudo10*(1-combinacion0XL[iq]);
+              nudosq[conex[ibarr,2]]:=nudo20*combinacion0XL[iq+1]+nudo10*(1-combinacion0XL[iq+1]);
+               
+              cargq:=[seq(0,iElem=1..nElem)];
+              textq:=[seq(     "",iElem=1..nElem)];
+              cargq[ibarr]:=escalq*variacionq[iq]; 
+              textq[ibarr]:=sprintf("%a",variacionq[iq]):
+              potxq:=.20;
+print("ibar,combiacionX,nudo10,nudo20",ibarr,combinacionX,nudo10,nudo20);
+print("xxxxxxxxxxxxxxxxxx nudo10, nudo20", nudo10,nudo20);
+print("xxxxxxxxxxxxxxxxxx",nudos,nudosq);
+              accion:=[op(accion),
+                       porticoq(nudosq,conex,1,cargq,posiq  *  signum(variacionq[iq]),textq,potxq*Lv/5)]:
+            fi;
+        od;
+        accion;
+    end;
+    accionq:=[seq(op(dibujoq(iElem)),iElem=1..nElem)];
+    #-------------------------------------------------------fin dibujoq
+
+
+    #------ Se acota la longitud de las barras ---------------------------------------------------
+    cotas:=[]:
+    posicioncota:=Lv/4;
+    for iElem from 1 to nElem do
+        cota_x:=nudos[conex[iElem,1],1];
+        cota_y:=nudos[conex[iElem,1],2];
+        cota_x2:=nudos[conex[iElem,2],1];
+        cota_y2:=nudos[conex[iElem,2],2];
+        angulo:=arctan(cota_y2-cota_y, cota_x2-cota_x);
+        if (angulo=0) then
+            cota_y:= min_y-posicioncota+posicionCota[iElem]+posicionRelativaCota[iElem]*posRelCota[iElem];
+        else
+            cota_x:= min_x-posicioncota+posicionCota[iElem]+posicionRelativaCota[iElem]*posRelCota[iElem];
+        fi;
+        cotas:=[op(cotas),
+            cotas_c( cota_x, cota_y,   Ls[iElem], 1,     angulo, .05*Lv/5,   convert(Ls[iElem],string), .15*Lv/5)];
+    od;
+
+    #------ Se acota la posición de las cargas ---------------------------------------------------
+    cotas2:=[];
+    momento:=[];
+    for iElem from 1 to nElem do
+        cota_x1:=nudos[conex[iElem,1],1];
+        cota_y1:=nudos[conex[iElem,1],2];
+        cota_x2:=nudos[conex[iElem,2],1];
+        cota_y2:=nudos[conex[iElem,2],2];
+        angulo:=arctan(cota_y2-cota_y1, cota_x2-cota_x1);
+
+        combinacionX0L:=[0,op(combinacionesX[iElem]),1]:
+
+        print("211011");
+        print("combinacionX", combinacionesX[iElem],"combinacionX0L",combinacionX0L);
+
+        if (nops(combinacionX0L)>2 and      # si nops es 2 no hay cargas puntuales y no se dibuja
+	    not(nops(combinacionX0L)=3 and  # nops=3 y el valor 'intrmedio'<0.01 y >.99
+	        (combinacionX0L[2]<0.001 or combinacionX0L[2]>0.999)
+	       )
+	    ) then
+	  print("Se dibuja ",combinacionX0L, nops(combinacionesX0L)=3, combinacionX0L[2], combinacionX0L[2]<0.001, combinacionX0L[2]>0.999);   
+          for iX from 1 to nops(combinacionX0L)-1 do
+            if (angulo=0) then
+                posicioncota:=Lv/8;
+                if (min_y+posicionCota[iElem]) > 0 then posicioncota:=3*posicioncota; fi;;
+                cota_y:= min_y-posicioncota+posicionCota[iElem]+posicionRelativaCota[iElem]*posRelCota[iElem];
+                cota_x:= cota_x1+Ls[iElem]*combinacionX0L[iX];
+            else
+                posicioncota:=Lv/8;
+                if (min_x+posicionCota[iElem]) > 0 then posicioncota:=3*posicioncota; fi;;
+                cota_x:= min_x-posicioncota+posicionCota[iElem]+posicionRelativaCota[iElem]*posRelCota[iElem];
+                cota_y:= cota_y1+Ls[iElem]*combinacionX0L[iX];
+            fi;
+
+            cotas2:=[op(cotas2),
+                        cotas_c(cota_x,  cota_y,
+    	                        Ls[iElem]*combinacionX0L[iX+1]-Ls[iElem]*combinacionX0L[iX],
+		                1,angulo,.05*Lv/5,
+		                convert(Ls[iElem]*combinacionX0L[iX+1]-Ls[iElem]*combinacionX0L[iX],
+                                        string),
+				.15*Lv/5)]: 
+          od:
+        fi;
+
+
+
+
+   
+    #momento:=[]:
+print(variacionesM);
+#print(variacionesM);quit;
+
+    variacionM:=variacionesM[iElem];
+    VariacionM:=VariacionesM[iElem];
+    print (variacionM);
+    print (variacionM[1]);
+    #if (variacionesM) then
+    #fi;
+    
+    if (nops(variacionM)>1) then
+    print ("----hola----");
+    print (variacionM);
+    print (VariacionM);
+    #quit;
+    if(variacionM[1]<>0) then
+          print ("----hola 2");
+          textq:=sprintf("%s",convert(VariacionM[1],string)):
+	  print (textq);
+	  print (cota_x1,0,-.25*variacionM[1]*Lv/5*escalM,0,textq,0);
+          momento:=[op(momento),flechaCN(cota_x1,0,-.25*variacionM[1]*Lv/5*escalM,0,textq,0)];
+	  print ("----????---");
+	  #if (variacionM) then
+	  #fi;
+    fi;
+    if(variacionM[2]<>0) then
+          print ("----hola 3");
+          textq:=sprintf("%s",convert(VariacionM[2],string)):
+          momento:=[op(momento),flechaC_N(cota_x1+Ls[iElem],0,-.25*variacionM[2]*Lv/5*escalM,Pi,textq,0)]
+    fi;
+    fi;
+    print(momento);
+    od:
+    
+    if opcionC=0 then
+      G:=display(
+               	 apoyo,
+                 viga,
+               	 nudosf,            
+               	 op(accioP),
+               	 op(accionq),
+               	 #cotas,
+	       	 #cotas2,
+               	 momento,
+               	 apoyo,
+ 
+		axes=none,scaling=constrained);
+    else
+      G:=display(
+               	 apoyo,
+                 viga,
+               	 nudosf,            
+               	 op(accioP),
+               	 op(accionq),
+               	 cotas,
+	       	 cotas2,
+               	 momento,
+               	 apoyo,
+ 
+		axes=none,scaling=constrained);
+    fi;
+    
+    #Fich();
+    G;
+end;
+#--------------------print(dibujoPortico0); # Para fijar variables locales
+printf("-------------     (dibujoPortico0)----------------\n");

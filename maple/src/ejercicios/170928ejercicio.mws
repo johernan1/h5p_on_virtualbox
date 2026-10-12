@@ -1,0 +1,104 @@
+printf("------------- read(EEjercicios)-------------------\n");
+ejercicio170928:=proc()
+    # Diagramas de vigas biapoyadas
+    local signosARIO;
+    global  
+      cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+      Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado;
+
+    ### Se define como una lista para preservar el orden de los resultados
+    ### Cuando se genera automaticamente con la función 'variaciones' se 
+    ### define como un conjunto para evitar la repeticion de elementos
+  
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	[[[[[[35], [.5]], [35, 45]], [0, 0]], [1]],
+    	 [[[[[35], [.5]], [45, 35]], [0, 0]], [1]],
+         [[[[[40], [.5]], [34, 43]], [0, 0]], [1]],
+    	 [[[[[40], [.5]], [44, 33]], [0, 0]], [1]],
+         [[[[[45], [.5]], [33, 42]], [0, 0]], [1]],
+    	 [[[[[45], [.5]], [43, 32]], [0, 0]], [1]],
+         [[[[[50], [.5]], [32, 41]], [0, 0]], [1]],
+    	 [[[[[50], [.5]], [42, 31]], [0, 0]], [1]],
+    	 [[[[[55], [.5]], [31, 40]], [0, 0]], [1]],
+    	 [[[[[55], [.5]], [41, 30]], [0, 0]], [1]],
+
+         [[[[[35], [.5]], [35, 45]], [0, 1]], [1]],
+    	 [[[[[35], [.5]], [45, 35]], [0, 1]], [1]],
+         [[[[[40], [.5]], [34, 43]], [0, 1]], [1]],
+    	 [[[[[40], [.5]], [44, 33]], [0, 1]], [1]],
+         [[[[[45], [.5]], [33, 42]], [0, 1]], [1]],
+    	 [[[[[45], [.5]], [43, 32]], [0, 1]], [1]],
+         [[[[[50], [.5]], [32, 41]], [0, 1]], [1]],
+    	 [[[[[50], [.5]], [42, 31]], [0, 1]], [1]],
+    	 [[[[[55], [.5]], [31, 40]], [0, 1]], [1]],
+    	 [[[[[55], [.5]], [41, 30]], [0, 1]], [1]]];
+    
+
+    
+    Lvig:=proc(i)
+        local giroIsos, MfSinVol, incL, L, Mf, Mfsv;
+	global  
+      		cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+       		perfilVano1;
+       perfilVano1:=360;    ### Se dimensionan igual todas la barras
+                            ### para poder 'combinar' resultados de ficheros
+                            ### n* y n(*+10). La diferencia entre ambos
+                            ### es que los segundos tiene el momento mf
+                            ### en el nudo 2  
+       ### Lo que sigue son datos particulares para este ejercicio
+       giroIsos:=[	
+			190.4296875,
+			212.4150000,
+			224.7700000,
+			232.3789141,
+			245.3236875,
+			255.8251953,	
+			269.5000000,
+			280.2854766,
+			294.6828958,
+			305.7025078];
+			
+      MfSinVol:=[
+	       -104.036459,
+	       -113.076563, 
+	       -108.658333,
+	       -120.572240,
+	       -115.543125,
+	       -129.722656,
+	       -124.110000,
+	       -139.017656,
+	       -132.789792,
+	       -148.437240];
+
+
+
+
+       incL:=(i mod 10)/10.; 
+       L:=5+incL;
+       ### en valoresM se pasa un % del Mf del vano (sin voladizo). De ahí este follón.
+       Mf:=(-giroIsos[(i mod 10)+1]*3/L);
+       if (i<=10) then Mf:=0; fi;
+       Mfsv:=MfSinVol[(i mod 10)+1];
+       cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU[i][1][2]:=[0,Mf/Mfsv];
+#cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU[i][1][2]:=[1,1];
+       L;
+    end;
+
+    VolIzq:=1;    
+
+    opcion:=2;          ### 2: Fichero tex para incluir; 
+    			### 1: Fichero tex para procesar
+
+    ER:=[1,0];          ### IPE, 'sin peguntas'.  Ver init.mws
+
+    minIncL:=0;         ### Distancia mínima entre cargas puntuales. 
+    			### Se ajusta con 'cocina'. Aquí es intrascendente
+
+    Nv:=1;              ###
+    escalP:=1;          ###
+    textoAmpliado:=0:   ###
+    signosARIO:=0:      ###
+    
+
+end;
+printf("-------------     (EEjercicios)-------------------\n");

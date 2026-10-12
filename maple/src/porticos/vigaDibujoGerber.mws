@@ -1,0 +1,45 @@
+printf("------------- read(vigaDibujoGerber)----------------\n");
+vigaDibujoGerber:=proc(Lv, xArti, opcionC, X0, escal);
+ 
+    #                              
+    #  Dibuja la articulación de la viga y la cota si procede
+    # 
+
+    printf("-------------     (vigaDibujoGerber)----------------\n");
+    
+
+    
+    
+    if type(xArti,numeric) then                    # Gerber
+	artigerber:=[arti(X0+Lv*xArti,0,escal,0)]:   # La articulación
+	if opcionC=1 then                          # La cota
+	   x0:=0;
+	   x1:=Lv*xArti;
+	   y0:=-3*Lv/8;
+	   txt:=convert(Lv*xArti,string);
+	   if xArti>0.5 then
+	      x0:=Lv*xArti;
+	      x1:=Lv-x0;
+	      y0:=-3*Lv/8;
+	      txt:=convert(Lv-Lv*xArti,string);
+	   fi;
+	   artigerber:=[op(artigerber),
+	   cotas_c( x0+ X0, y0,   x1, 1,     0, .05*Lv/5,
+	   	 txt, .15*Lv/5)];
+	fi;
+	#artigerber:=[op(artigerber),arti(X0+Lv*xArti,0,escal,0)]:
+    fi;
+
+    printf("%a\n",artigerber);
+    printf("------------- fin (vigaDibujoGerber)----------------\n");
+    artigerber;
+end;
+printf("-------------     (vigaDibujoGerber)----------------\n");
+
+
+
+
+
+
+
+

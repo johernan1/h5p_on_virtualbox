@@ -1,0 +1,105 @@
+printf("------------- read(viga20Psfrag)----------------\n");
+viga20Psfrag:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, s 
+                     )
+    global CODIGO, xArti;
+    local nElem, psfrag, iElem, Lv, variacionP, variacionq, combinacionX,
+    	  formatoP, formatoq, aux;
+
+    #      Varias vigas  2020,2030,2040
+    #----------------------
+    # ^                  ^
+    # 
+   
+
+    printf("-------------     (viga20Psgrag)----------------\n");
+
+    nElem:=nops(Ls);
+
+    psfrag:="";
+    #----------------- Psfrag de abscisas y cargas en viga -----------------------------------------------------
+    for iElem from 1 to nElem do
+        # printf("----------- iElem %d -------------------\n",iElem);
+        # printf("-----------  P=%a -------------------\n",variacionesP[iElem]);
+        # printf("-----------  q=%a -------------------\n",variacionesq[iElem]);
+    	Lv := Ls[iElem];
+        variacionP := variacionesP[iElem];
+        variacionq := variacionesq[iElem];
+        combinacionX := combinacionesX[iElem];
+	
+        formatoP:="4.1f";
+	if (nops(variacionP)>=1 and
+	    abs(variacionP[1])<10) then formatoP:="4.2f"; fi;
+        formatoq:="4.1f";
+	if (nops(variacionq)>=1 and
+	    abs(variacionq[1])<10) then formatoq:="4.2f"; fi;
+        psfrag:=sprintf("%s\n%s\n\n%s\n\n%s",
+                psfrag, 
+                textoPsfragCombinacionX(Lv,combinacionX),
+                textoPsfragVariacionPq(variacionP, "kN", formatoP, 0, 0, 1),
+                textoPsfragVariacionPq(variacionq, "{kN\\over m}",
+		formatoq, 0, 0, 1)):
+		
+    	#-------------------------Gerber
+    	if type(xArti,numeric) then                    # Gerber
+    	   psfrag:=sprintf("%s\n%s\n%s\n%s\n",
+                psfrag, "%%% Gerber\n",
+		textoPsfragCombinacionX(Lv,[xArti, 1-xArti, 1-xArti, xArti]),
+		"%%% Fin Gerber\n");
+    	fi;
+    od;
+
+    print (psfrag);
+    print (variacionesM);
+    print (VariacionesM);
+    aux:=-8;
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag,
+                textoPsfragVariacionPq([VariacionesM[1,1]],
+				   "{kN\\cdot m}", "4.1f", 0, 0, aux)):
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag, "\\psfrag{m1f}[c][c][1][0.000000]{\\scriptsize \\mipsfrag{0.000000}{-8.000000}{$m_{f,1}$}}"):
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag,
+                textoPsfragVariacionPq([VariacionesM[1,2]],
+				   "{kN\\cdot m}", "4.1f", 0, 0, aux)):
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag,
+                textoPsfragVariacionPq([VariacionesM[2,1]],
+				   "{kN\\cdot m}", "4.1f", 0, 0, aux)):
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag,
+                textoPsfragVariacionPq([VariacionesM[2,2]],
+				   "{kN\\cdot m}", "4.1f", 0, 0, aux)):
+#\psfrag{3.49965}[c][c]{\scriptsize \mipsfrag{0}{0}{$3.500 m$}}
+
+
+    #####################Unas ñapas para portico80###########################
+    if (CODIGO="P80S11" or CODIGO="P81S11" or CODIGO="P80" or CODIGO="P81") then
+#    print (CODIGO);
+#    if (variacionesM) then
+#    fi;
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag,"\\psfrag{3.49965}[c][c][1][0.000000]{\\scriptsize \\mipsfrag{0.000000}{-8.000000}{$$}}"):
+    psfrag:=sprintf("%s\n\n%s",
+                psfrag,"\\psfrag{3.5}[c][c][1][90.000000]{\\scriptsize \\mipsfrag{0.000000}{-8.000000}{$3.500m$}}"):
+    fi;
+    ##########################################################################
+				   
+    #if (variacionesP) then
+    #fi;
+    #------------------ Fichero fig con "psgraf+includegraphics" para "input{file}" desde fichero tex ----------------
+    texFig(psfrag);
+    
+    printf("------------- fin (viga20Psfrag)----------------\n");
+    
+    
+end;
+#--------------------
+#print(viga20Psfrag); # Para fijar variables locales
+printf("-------------     (viga20Psfrag)----------------\n");
+
+
+
+
+
+

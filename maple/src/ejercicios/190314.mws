@@ -1,0 +1,37 @@
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------
+ejercicio190314:=proc()
+    # Diagramas de viga con voladizo
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO, variacionesP, variacionesq;
+
+
+    escalP:=1;
+    ER:=[1,9];
+
+    Lvig:=proc(i)
+       global VolIzq, ER;
+       
+       ER:=[1,9];
+       VolIzq:=0;
+       6.0;
+    end;
+
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=[
+      #- 1 ------ Vigueta Gran Via -------------------------------
+      [[[[[0.0, 60], [0.25, .75]], [31.5, 68 , 0]], [125.4/181.5, 90/195.6]],[0]]
+      ];
+
+   
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+
+end;
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------

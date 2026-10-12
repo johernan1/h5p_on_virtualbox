@@ -1,0 +1,73 @@
+printf("------------- read(texModelo1)--------------------\n");
+texModelo1:=proc(columna1,columna2,apendice)
+    global FICH, CODIGO;
+    local texto;
+
+printf("texModelo1-------------------------------------------------------");
+    texto:=sprintf("\n".
+"\\documentclass[10pt,a4paper]{report}\n".
+"\\usepackage{graphicx}\n".
+"\\usepackage[latin1]{inputenc}\n".
+"\\usepackage[spanish]{babel}\n".
+"\\usepackage{epsf,graphicx,psfrag,calc}\n".
+"\\usepackage{rotating}\n\n\n".
+
+
+"\\newcommand{\\ASIGNATURA}{ESTRUCTURAS 1}\n".
+"\\newcommand{\\TEST}{}\n\n".
+
+"\\usepackage{/home/johernan/ETSAM/stytest/sty/ptest1}\n\n\n".
+
+
+
+"\\newcommand{\\Resul}{\\fbox{\\rule{2.5cm}{0mm}\\rule{0cm}{1cm}}\\rule{0.5cm}{0cm}}\n".
+"\\newcommand{\\Hrule}{\\rule{\\linewidth}{0.35mm}}\n".
+"\\newcommand{\\inicio}[1]{\\begin{tabular}{@{}cc}#1&\\rule{0mm}{.6cm}\\end{tabular}\n\n".
+
+"		}\n\n".
+
+"\\begin{document}\n\n".
+
+
+"\\renewcommand{\\baselinestretch}{0,85}\n\n".
+
+
+
+"\\testdos{}{FEB 16}\n".
+"{\n".
+"    \\setlength{\\fboxrule}{.2mm}\n".
+"    \\inicio{\\bf \\sc \\large   }\n\n".
+        
+"    \\Hrule	\n\n\n".	
+
+
+         
+"	{\n".
+"        \\begin{center}\n".
+"        \\renewcommand{\\ESCALA}{.7\\linewidth}\n".
+"        \\centering \\moodleFig{\\input{ffig".CODIGO."_".FICH."}}{.7}\n".
+"        \\end{center}}\n".
+"	{\n".
+"	}\n\n".
+
+
+"%s   \n\n".
+
+
+"}\n".
+"{  \\setlength{\\fboxrule}{.2mm}\n".
+"    \\inicio{\\bf \\sc \\large   }\n".
+"    \\Hrule\n\n".		
+
+"%s\n\n".
+
+"}\n".
+"\\end{document}\n\n".
+
+"%s\n",
+columna1,columna2,apendice);
+
+    texto;
+end;                    
+#-------------------------------------------------------------------------------
+printf("-------------     (texModelo1)--------------------\n");

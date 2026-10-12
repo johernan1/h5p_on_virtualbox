@@ -1,0 +1,565 @@
+printf("------------- read(cargas)----------------\n");
+#
+#  Lista de funciones
+#
+#  cargas          : define patrones
+#  unionCargas     : union patrones de carga
+#
+#  cargasVano00,   |  
+#  cargasVano01,   | cargas 'comunes' en vanos
+#  cargasVano...   |
+#
+#  cargasVoli00,   |  
+#  cargasVoli01,   | cargas 'comunes' en voladizos
+#  cargasVoli...   |
+#
+#  cargasVold00,   |  
+#  cargasVold01,   | cargas 'comunes' en voladizos
+#  cargasVold...   |
+#
+#  cargasMens00,   |  
+#  cargasMens01,   | cargas 'comunes' en soportes
+#  cargasMens...   |
+#  cargasMensm...  |
+#  cargasMenspm... |
+#
+#  union2Col       : elimina cargas incoherentes de dos columnas 
+#
+
+cargas:=proc(valP,idP,valq,idq)
+    local P0, z0, q0, X0, Xcer, Xuno, P, z, X, q, P1, z1, q1, X1,
+    	  posicion, Q1, Q2;
+   
+    printf("------------------     (cargas)----------\n");
+    
+    P0:=[];
+    z0:=[];
+    X0:=[];
+    q0:=[];
+    #----------------NO CAMBIAR----------------------------------------------
+    Xcer:=0.00001;   # Estos valores estan ajustados para 'eliminar' los ceros
+    Xuno:=0.99999;   # de los diagramas con postGrifos.pl NO CAMBIAR
+    #----------------NO CAMBIAR----------------------------------------------
+
+    #-------------------------------Puntuales---------------------------------
+    
+    if (modp(iquo(idP,10^0),10)=1) then #--------------1- Carga cero 
+       P0:=[op(P0),[0]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[Xuno]];
+       q0:=[op(q0),q_];
+    fi;
+    if (modp(iquo(idP,10^1),10)=1) then #-------------10- Carga puntual centrada
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[0.5]];
+       q0:=[op(q0),q_];
+    fi;
+    if (modp(iquo(idP,10^2),10)=1) then #------------100- Carga puntual 1/3
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[.333]];
+       q0:=[op(q0),q_];
+    fi;
+    if (modp(iquo(idP,10^3),10)=1) then #-----------1000- Carga puntual 2/3
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[0.667]];
+       q0:=[op(q0),q_];
+    fi;
+    if (modp(iquo(idP,10^4),10)=1) then #----------10000- Carga puntual 0L
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[Xcer]];
+       q0:=[op(q0),q_];
+    fi;
+    if (modp(iquo(idP,10^5),10)=1) then #---------100000- Carga puntual 1L
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[Xuno]];
+       q0:=[op(q0),q_];
+    fi;
+    
+    if (modp(iquo(idP,10^6),10)=1) then #--------1000000- Carga puntual L/4
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[0.25]];
+       q0:=[op(q0),q_];
+    fi;
+    
+    if (modp(iquo(idP,10^7),10)=1) then #-------10000000- Carga puntual 3L/4
+       P0:=[op(P0),[valP]];
+       z0:=[op(z0),[1]];
+       X0:=[op(X0),[0.75]];
+       q0:=[op(q0),q_];
+    fi;
+
+
+
+    #print (X0);
+   
+    
+    #-------------------------------Uniformes---------------------------------
+    P:=[];
+    z:=[];
+    X:=[];
+    q:=[];
+
+
+    if (modp(iquo(idq,10^1),10)=1) then #-------------10- q=0
+       P:=[op(P),op(P0)];
+       z:=[op(z),op(z0)];
+       X:=[op(X),op(X0)];
+       q:=[op(q), op(subs(q_=[0,0],q0))];
+    fi;
+
+    if (modp(iquo(idq,10^2),10)=1) then #------------100- [q,q]
+       P:=[op(P),op(P0)];
+       z:=[op(z),op(z0)];
+       X:=[op(X),op(X0)];
+       q:=[op(q), op(subs(q_=[valq,valq],q0))];
+ 
+    fi;
+    if (modp(iquo(idq,10^3),10)=1) then #-----------1000- [q,0]
+       P1:=P0;
+       z1:=z0;
+       X1:=X0;
+       q1:=q0;
+       for posicion from 1 to nops(X1) do
+       	   if (X1[posicion,1]-Xcer<=Xcer) then
+       	      q1[posicion]:=[Xcer,0]; 
+       	   fi
+       od;
+       P:=[op(P),op(P1)];
+       z:=[op(z),op(z1)];
+       X:=[op(X),op(X1)];
+       q:=[op(q), op(subs(q_=[valq,0],q1))];
+ 
+    fi;
+    if (modp(iquo(idq,10^4),10)=1) then #----------10000- [0,q]
+       P1:=P0;
+       z1:=z0;
+       X1:=X0;
+       q1:=q0;
+       for posicion from 1 to nops(X1) do
+       	   if (-X1[posicion,1]+Xuno<=Xcer) then
+       	      q1[posicion]:=[0,Xcer]; 
+       	   fi
+       od;
+       P:=[op(P),op(P1)];
+       z:=[op(z),op(z1)];
+       X:=[op(X),op(X1)];
+       q:=[op(q), op(subs(q_=[0,valq],q1))];
+ 
+    fi;
+    if (modp(iquo(idq,10^5),10)=1) then #---------100000- [q/4,q]
+       P1:=P0;
+       z1:=z0;
+       X1:=X0;
+       q1:=q0;
+       P:=[op(P),op(P1)];
+       z:=[op(z),op(z1)];
+       X:=[op(X),op(X1)];
+       q:=[op(q), op(subs(q_=[valq/4,valq],q1))];
+    fi;
+    if (modp(iquo(idq,10^6),10)=1) then #--------1000000- [q,q/4]
+       P1:=P0;
+       z1:=z0;
+       X1:=X0;
+       q1:=q0;
+       P:=[op(P),op(P1)];
+       z:=[op(z),op(z1)];
+       X:=[op(X),op(X1)];
+       q:=[op(q), op(subs(q_=[valq,valq/4],q1))];
+    fi;
+
+    printf("fin: -------------     (cargas)----------\n"); 
+    [P,z,X,q];	
+end;
+
+
+#-----------------------------------------------------------------------------
+
+unionCargas:=proc()
+    local Q1, Q2;
+    printf("------------------(unionCargas)----------\n");
+
+    Q1:=args[1];
+    if nargs>2 then
+        Q2:=unionCargas(args[2..nargs])
+    else
+        Q2:=args[2];
+    fi;
+    printf("fin: -------------(unionCargas)----------\n"); 
+    [[op(Q1[1]),op(Q2[1])],
+     [op(Q1[2]),op(Q2[2])],
+     [op(Q1[3]),op(Q2[3])],
+     [op(Q1[4]),op(Q2[4])]];
+end;
+
+
+#-------------------------------------------------------------------------------
+
+cargasVano00:=proc()	
+    cargas( 0,010000,45,  01000);   # Sin cargas
+end;
+
+cargasVano01:=proc(valP, valq)  # P(L/2)
+			 	# q(0,L)
+
+    unionCargas(
+	cargas(2*valP,000010,  valq,  00010),   # Puntual centrada
+	cargas(     0,100000,  valq,  01000));  # Carga uniforme
+end;
+
+cargasVano02:=proc(valP)        # P(L/3, L/2, 2*L/3)
+    cargas(2*valP,001110, 1,  00010);          # Puntuales a 1/3
+end;
+
+cargasVano03:=proc(valP,valq)   # P(L/3, L/2, 2*L/3)
+				# q(0,L)  
+    unionCargas(
+	cargas(2*valP,001110, valq,  00010),   # Puntuales a 1/3
+	cargas(     0,100000, valq,  01000));  # Carga uniforme
+end;
+
+cargasVano04:=proc(valP, valq)  # P(L/3, L/2, 2*L/3)
+			 	# q(0,L)
+				# P(L/3, L/2, 2*L/3)+q(0,L)
+    unionCargas(
+	cargasVano03(valP, valq),       # P(L/3, L/2, 2*L/3), q(0,L)
+	cargas(valP,001110,valq,  00100));  # Carga uniforme y puntuales
+end;
+
+cargasVano05:=proc(valP, valq)  # P(L/3, L/2, 2*L/3)
+			 	# q(0,L)
+				# P(L/3, L/2, 2*L/3)+q(0,L)
+				# q(0,L/3), q(0,L/2),...
+    unionCargas(
+	cargasVano04(valP, valq),
+	cargas( 0,001110,valq,  11000));  # Cargas uniformes q:0
+end;
+
+cargasVano06:=proc(valP, valq)  # P(L/3, L/2, 2*L/3)
+			 	# q(0,L)
+				# P(L/3, L/2, 2*L/3)+q(0,L)
+				# q(0,L/3), q(0,L/2),...
+				# q(0,L/3), q(0,L/2),... +  P(L/3, L/2, 2*L/3)
+    unionCargas(
+	cargasVano05(valP, valq),
+	cargas(valP,001110,valq,  11000));   # Cargas uniformes q:0 y puntuales
+end;
+
+cargasVano07:=proc(valP, valq)  # P(L/3, L/2, 2*L/3)
+			 	# q(0,L)
+				# P(L/3, L/2, 2*L/3)+q(0,L)
+				# q(0,L/3), q(0,L/2),...
+				# q(0,L/3), q(0,L/2),... +  P(L/3, L/2, 2*L/3)
+				# q(0,L/3)+q/4(L/3,L),...+  P(L/3, L/2, 2*L/3)
+    unionCargas(
+	cargasVano06(valP, valq),
+	cargas(   0,001110,valq,1100000),   # Cargas uniformes q:q/4
+	cargas(valP,001110,valq,1100000));  # Cargas uniformes q:q/4 y puntuales
+end;
+
+#---Idem solo con carga puntual en el centro------------------------------------
+
+
+cargasVano13:=proc(valP,valq)   # P(L/2)
+				# q(0,L)  
+    unionCargas(
+	cargas(2*valP,000010, valq,  00010),   # Puntual a 1/2
+	cargas(   0,100000, valq,  01000));  # Carga uniforme
+end;
+
+cargasVano14:=proc(valP, valq)  # P(L/2)
+			 	# q(0,L)
+				# P(L/2)+q(0,L)
+    unionCargas(
+	cargasVano13(valP, valq),       # P(L/2), q(0,L)
+	cargas(valP,000010,valq,  00100));  # Carga uniforme y puntuales
+end;
+
+cargasVano15:=proc(valP, valq)  # P(L/2)
+			 	# q(0,L)
+				# P(L/2)+q(0,L)
+				# q(0,L/2), q(L/2,0)
+    unionCargas(
+	cargasVano14(valP, valq),
+	cargas( 0,000010,valq,  11000));  # Cargas uniformes q:0
+end;
+
+cargasVano16:=proc(valP, valq)  # P(L/2)
+			 	# q(0,L)
+				# P(L/2)+q(0,L)
+				# q(0,L/2),...
+				# q(0,L/2),... +  P(L/2)
+    unionCargas(
+	cargasVano15(valP, valq),
+	cargas(valP,000010,valq,  11000));   # Cargas uniformes q:0 y puntuales
+end;
+
+
+
+#-------------------------------------------------------------------------------
+
+cargasVoli00:=proc()	
+    cargasVano00();   # Sin cargas
+end;
+
+cargasVoli01:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+
+    unionCargas(
+	cargas(valP,010000, valq,  00010),   # Puntual extremo
+	cargas(   0,100000, valq,  01000));  # Carga uniforme
+end;
+
+
+cargasVoli02:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+
+    unionCargas(
+	cargasVoli01(valP, valq),
+	cargas(valP,010000, valq,  00100));  # P extremo + Carga uniforme
+end;
+
+cargasVoli03:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+
+    unionCargas(
+	cargasVoli02(valP, valq),
+	cargas(valP,000010, valq,  00110));  # P centro + Carga uniforme
+end;
+
+cargasVoli04:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+				# P(L/2)+q(0,L/2),q(L/2,0)...
+
+    unionCargas(
+	cargasVoli03(valP, valq),
+	cargas(   0,000010, valq,  11000),
+	cargas(valP,000010, valq,  11000));  # Carga uniforme
+end;
+
+cargasVoli05:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+				# P(L/2)+q(0,L/2),q(L/2,0)...
+				# P(L/2)+q(0,L/2)/2,q(L/2,0)...
+
+    unionCargas(
+	cargasVoli04(valP, valq),
+	cargas(   0,000010, valq, 1100000),
+	cargas(valP,000010, valq, 1100000));  # Carga uniforme/4
+end;
+#-------------------------------------------------------------------------------
+
+cargasVold00:=proc()	
+    cargasVano00();   # Sin cargas
+end;
+
+cargasVold01:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+
+    unionCargas(
+	cargas(valP,100000, valq,  00010),   # Puntual extremo
+	cargas(   0,100000, valq,  01000));  # Carga uniforme
+end;
+
+cargasVold02:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+
+    unionCargas(
+	cargasVold01(valP, valq),
+	cargas(valP,100000, valq,  00100));  # P extremo + Carga uniforme
+end;
+
+cargasVold03:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+
+    unionCargas(
+	cargasVold02(valP, valq),
+	cargas(valP,000010, valq,  00110));  # P centro + Carga uniforme
+end;
+
+cargasVold04:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+				# P(L/2)+q(0,L/2),q(L/2,0)...
+
+    unionCargas(
+	cargasVold03(valP, valq),
+	cargas(   0,000010, valq,  11000),
+	cargas(valP,000010, valq,  11000));  # Carga uniforme
+end;
+
+cargasVold05:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+				# P(L/2)+q(0,L/2),q(L/2,0)...
+				# P(L/2)+q(0,L/2)/2,q(L/2,0)...
+
+    unionCargas(
+	cargasVold04(valP, valq),
+	cargas(   0,000010, valq, 1100000),
+	cargas(valP,000010, valq, 1100000));  # Carga uniforme/4
+end;
+
+#-------------------------------------------------------------------------------
+cargasMens00:=proc()	
+    cargasVano00();   # Sin cargas
+end;
+
+setdespP:=proc(p) global despP; despP:=p; end;
+despP:=3;
+cargasD:=proc(c0)
+    # Desplaza las cargas puntuales
+    global despP;
+    #despP:=3; # calibrado para L=4 en sop.
+    #          # Si se define como varible global podría
+    #          # ajustarse con set
+    
+    c:=c0;
+    c[2]:=despP*c[2];
+    c;
+end;
+
+cargasMens01:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+    #c:=cargasVold01(valP, valq);
+    #c[2,1,1]:=3; # Calibrado para una longitud de la barra L=4 
+    #c;
+    cargasD(cargasVold01(valP, valq));
+end;
+
+
+cargasMens02:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+    unionCargas(
+	cargasMens01(valP, valq),
+	cargasD(cargas(valP,100000, valq,  00100))); 
+end;
+
+
+cargasMens03:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+
+    unionCargas(
+	cargasMens02(valP, valq),
+	cargasD(cargas(valP,000010, valq,  00110)));  # P cent + Carga uniforme
+end;
+
+cargasMens04:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+				# P(L/2)+q(0,L/2),q(L/2,0)...
+
+    unionCargas(
+	cargasMens03(valP, valq),
+	cargasD(cargas(   0,000010, valq,  11000)),
+	cargasD(cargas(valP,000010, valq,  11000)));  # Carga uniforme
+end;
+
+cargasMens05:=proc(valP, valq)  # P(0)
+			 	# q(0,L)
+			 	# P(0)+q(0,L)
+				# P(L/2)+q(0,L)
+				# P(L/2)+q(0,L/2),q(L/2,0)...
+				# P(L/2)+q(0,L/2)/2,q(L/2,0)...
+
+    unionCargas(
+	cargasMens04(valP, valq),
+	cargasD(cargas(   0,000010, valq, 1100000)));
+	# No se diferencia del caso en el que q es constante
+	# cargasD(cargas(valP,000010, valq, 1100000)));  # Carga uniforme/4
+end;
+
+
+cargasMens01m:=proc(valP, valq) cargasMens01(-valP, -valq); end;
+
+cargasMens01pm:=proc(valP, valq)
+    unionCargas(cargasMens01(valP, valq), cargasMens01m(valP, valq)); end;
+
+cargasMens02m:=proc(valP, valq) cargasMens02(-valP, -valq); end;
+
+cargasMens02pm:=proc(valP, valq)
+    unionCargas(cargasMens02(valP, valq), cargasMens02m(valP, valq)); end;
+    
+cargasMens03m:=proc(valP, valq) cargasMens03(-valP, -valq); end;
+
+cargasMens03pm:=proc(valP, valq)
+    unionCargas(cargasMens03(valP, valq), cargasMens03m(valP, valq)); end;
+  
+cargasMens04m:=proc(valP, valq) cargasMens04(-valP, -valq); end;
+
+cargasMens04pm:=proc(valP, valq)
+    unionCargas(cargasMens04(valP, valq), cargasMens04m(valP, valq)); end;
+
+  
+cargasMens05m:=proc(valP, valq) cargasMens05(-valP, -valq); end;
+
+cargasMens05pm:=proc(valP, valq)
+    unionCargas(cargasMens05(valP, valq), cargasMens05m(valP, valq)); end;
+
+
+#-----------------------------------------------------------------------------
+
+union2Col:=proc(Q1,Q2)
+    local P1,z1,X1,q1,P2,z2,X2,q2, P1P2, z1z2, X1X2, q1q2;
+
+    sumQ:=proc(qi)
+	local S,i; S:=0;
+	for i from 1 to nops(qi) do S:=S+qi[i];od;
+	if abs(S)<0.01 then S:=0; fi;
+	S;
+    end;
+    
+    P1:=Q1[1];
+    z1:=Q1[2];
+    X1:=Q1[3];
+    q1:=Q1[4];     
+    P2:=Q2[1];
+    z2:=Q2[2];
+    X2:=Q2[3];
+    q2:=Q2[4];
+    
+    P1P2:=Cartesiano(P1,P2); P1_P2:=[];
+    q1q2:=Cartesiano(q1,q2); q1_q2:=[]; 
+    X1X2:=Cartesiano(X1,X2); X1_X2:=[];
+    z1z2:=Cartesiano(z1,z2); z1_z2:=[];
+    printf ("210503 --- sumQ(P1P2[1][2])=%a\n", (P1P2[1][2]));
+    printf ("210503 --- sumQ(P1P2[1][2])=%a\n", sumQ(P1P2[1][2]));
+
+    for i from 1 to nops(P1P2) do
+    	if (sumQ(P1P2[i][1])*sumQ(P1P2[i][2])>=0 and # Mismo signo
+	    sumQ(P1P2[i][1])*sumQ(q1q2[i][2])>=0 and
+	    sumQ(q1q2[i][1])*sumQ(P1P2[i][2])>=0 and
+	    sumQ(q1q2[i][1])*sumQ(q1q2[i][2])>=0 and
+	    not (X1X2[i][1][1]>0.99 and X1X2[i][2][1]>0.99 and # Dos P en dintel
+	         sumQ(P1P2[i][1])*sumQ(P1P2[i][2])<>0) and
+            not (X1X2[i][2][1]>0.99 and P1P2[i][2][1]<>0) # P en dint. izq
+           )then
+	   P1_P2:=[op(P1_P2), P1P2[i]];
+	   q1_q2:=[op(q1_q2), q1q2[i]];
+	   X1_X2:=[op(X1_X2), X1X2[i]];
+	   z1_z2:=[op(z1_z2), z1z2[i]];
+	fi;
+    od;
+    [P1_P2, z1_z2, X1_X2, q1_q2];
+end;

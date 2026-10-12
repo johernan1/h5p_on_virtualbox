@@ -1,0 +1,126 @@
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------
+ejercicio190314:=proc()
+    # Diagramas de viga con voladizo
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO, variacionesP, variacionesq;
+
+
+    escalP:=1;
+    ER:=[5,9];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 2)/4.0; 
+       4-incL;
+       #6.0
+    end;
+
+
+    valoresM:=[0,1]:
+    abscisasP:=[0.25,0.5,0.75];
+    combinacionesAbscisasP:=convert(choose(abscisasP,2),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    P1:=40;P2:=45;
+    valoresP:=[0,0,P1,P2,P1,P2];
+    q1:=30; 
+    q2:=30;
+    valoresq:=[0,0,q1,q1,q1,q2,q2];
+    variacionesP:=variaciones(valoresP,2): # Hay 0, 1 o 2 cargas puntuales
+                                           # [0,0], [0,30], [30,0], [30,30]
+    variacionesq:=variaciones(valoresq,3): # Hay 1, 2 o 3 cargas distribuidas
+                                           # se evita el caso [0,0,0] pues
+                                           # si P=[0,0] => viga sin cargas
+                                           # pues M es proporcional a Mf
+                                           # [0,0,0], [35,0,0], [50,0,0]..
+                                           # Se eliminan casos ambiguos
+    variacionesq:=variacionesq minus { 
+    			       #[q2,0, 0], [ 0,q1, 0], [0,0,q2],
+			       #[q1,0,q2], [q2, 0,q1], # se mantiene q1,0,q1
+                               #[q1,q2,0],             # " q2,q1,0 y q1,q1,0 
+                               #[0,q1,q2]              # " 0,q2,q1 y 0,q1,q1 
+			       }:
+    #             print(variacionesq); quit;   
+    variacionesM:=variaciones(valoresM,2): # La siguiente linea inhabilita esta
+    variacionesM:={[0,0.7]}:               # Un momento de valor 0.7 del Mf
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+    #--------------------------------------------------------------------------
+#    # Solo puntuales
+#    valoresP:=[0,P1,P1];
+#    valoresq:=[0,0,0,0];
+#    variacionesP:=variaciones(valoresP,2):
+#    variacionesq:=variaciones(valoresq,3):
+#
+#
+#    cartesianoVariacionesPCombinacionesX:=
+#	cartesiano(variacionesP,combinacionesAbscisasP):
+#    cartesianoVariacionesPCombinacionesXVariacionesq:=
+#	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+#	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+#		   variacionesM):
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesUP:=
+#	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+#		   variacionesU):
+#    #print (cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU); quit;
+#
+#    # -------------------------------------------------------------------------
+#    # Se unen cargas solo puntuales y puntuales+distribuidas
+#    # Tiene sentido si en las cargas distribuidas no se incluye
+#    # el caso [0,0,0]
+#     cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+#       [op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) , op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesUP)];
+    # -------------------------------------------------------------------------
+    # Se hace un precocina para eliminar combinaciones redundantes
+    newComb:={};
+    for iC from 1 to nops(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) do
+       C:=cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU[iC];
+       C1:=C[1];  u:=C[2]:
+       C2:=C1[1]; m:=C1[2]:
+       C3:=C2[1]; q:=C2[2]: 
+       C4:=C3[1]; X:=C3[2]:
+       P:=C4:
+       printf ("adios %a \n      %a--%a--%a--%a--%a\n", C, P,X, q, m, u);
+       solcocina:=cocina (X,P,q,m,u,0.005);
+       X:=solcocina[1];
+       P:=solcocina[2];
+       q:=solcocina[3];
+       printf ("despues de cocina->      %a\n",[[[[P, X], q], m],u]);
+       newComb:=newComb union {[[[[P, X], q], m],u]};
+    od;
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=newComb;
+
+
+#signosARIO:=1;
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=1;
+    Gerber:=[[],[],[]];
+
+end;
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------

@@ -1,0 +1,186 @@
+printf("------------- read(portico6410Datos)----------------\n");
+portico6410Datos:=proc(bcargas_)
+    # Datos para portico6410, 
+    # Datos para portico6410, 11
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM,
+    	   VariacionesM, posiPRelativa, subestructura;
+    bcargas:=abs(bcargas_);
+
+    printf("-------------     (portico6410Datos)----------\n");
+#    subestructura:=0;
+#    if (bcargas>100) then
+#       subestructura:=1;
+#       bcargas:=bcargas-100;
+#    fi;
+#    printf("211013 subestructura=%a\n", subestructura);
+#    
+    if (bcargas=41) then
+       combinacionesX_:=[];
+       variacionesP_:=[];
+       variacionesq_:=[];
+       posiPRelativa_:=[];
+       for z in 5, 25 , 6, 26, 7, 27 do
+       #for z in 5 do
+           printf ("211025 bcargas=41, z=%d\n",z);
+           #portico6410Datos(5);
+           #combinacionesX_:=combinacionesX;
+           #variacionesP_:=variacionesP;
+           #variacionesq_:=variacionesq;
+           #posiPRelativa_:=posiPRelativa;
+           portico6410Datos(z);
+           combinacionesX_:=[op(combinacionesX_), op(combinacionesX)];
+           variacionesP_:=[op(variacionesP_),op(variacionesP)];
+           variacionesq_:=[op(variacionesq_),op(variacionesq)];
+           posiPRelativa_:=[op(posiPRelativa_),op(posiPRelativa)];
+       od;
+       
+       combinacionesX:=combinacionesX_;
+       variacionesP:=variacionesP_;
+       variacionesq:=variacionesq_;
+       posiPRelativa:=posiPRelativa_;
+       
+       printf("%a\n", variacionesP);
+       printf("fin: -------------     (portico6410Datos b=41)----------\n");
+    else
+    printf("---esto no debería verse con  41 (b=%d)\n", bcargas);
+
+    Ls            :=[ 2*3.2,  3.2,  3.2,   5,   6,  1.2];
+    
+    variacionesM:=[[0,  0], [0,  0], [0,  0], [0,  0], [0,  0],
+                   [0,  0]];  # Escala del dibujo. Si 0 no dib
+    VariacionesM:=[[1,  0], [1,  0], [1,  0], [1,  0], [1,  0], [1,  0]];  #
+
+    #--------------------------------------------------------------------------
+    #---- Cargas Generales-----------------------------------------------------
+    #---------------------------------------Soporte
+    q01:=unionCargas(cargasMens02(1.2*7*4,1.2*7),
+                     cargasVano00());    # soporte izquierdo
+    q02:=cargasVano00();                 # soporte inf derecho
+    q03:=unionCargas(cargasMens01(1.2*7*4,1.2*7),
+                     cargasVano00());                # soporte sup derecho
+    
+    q01[2]:=q01[2]*.25;        # se ajusta posicion de las cargas
+    if (bcargas>=20) then
+       bcargas:=bcargas-20;
+       q01:=unionCargas(cargasMens02m(1.2*7*4,1.2*7),
+                        cargasVano00());    # soporte izquierdo
+       q02:=cargasVano00();                 # soporte inf derecho
+       q03:=unionCargas(cargasMens01m(1.2*7*4,1.2*7),
+                        cargasVano00());                # soporte sup derecho 
+       q01[2]:=-q01[2]*.40;        # se ajusta posicion de las cargas      
+    fi;
+    
+    #---------------------------------------Viga 
+    q04:=cargasVano13(40,45);
+    q05:=unionCargas(q04, cargasVano00());
+    q06:=cargasVold01(40,45);
+    #---- Fin Cargas generales ------------------------------------------------
+    #--------------------------------------------------------------------------
+
+    #---- Funcion para eliminar elementos de la lista de cargas q
+    qi:=proc(q,i) [[q[1][i]],[q[2][i]],[q[3][i]],[q[4][i]]]; end;
+
+    #---- Se ajustan las cargas generales -------------------------------------
+    #----------------------------------------------------------
+
+    #---- Se elimina la carga puntual en cabeza del soporte derecho
+    q03:=unionCargas(qi(q03, 3), qi(q03, 2));
+    
+#    # Si bcargas = 1 se añade q=0 a soporte
+#    if (bcargas=1) then
+#       q0:=unionCargas(q0, cargasVano00());
+#    fi;
+#    
+    #----------------------------------------------------------
+    # Si bcargas = 2  se elimina q=0 en vigas
+    if (bcargas=2) then
+       q04:=cargasVano00();
+       q05:=cargasVano00();
+       q06:=cargasVano00();
+    fi;
+    
+    #----------------------------------------------------------
+    # Si bcargas > 2  (<2+nops(q1) + (nops(q2)+1)
+    # se eligen 1 a 1 los distinto elementos de
+    # de  q2 (a q2 se le añade cero)
+    # Se eligen las q "estandar" del soporte
+    # Se podrían elegir las q del soporte con cargasMens6410pm()
+    # pero habría que volver a ajustar las posiciones de las cargas
+    # puntuales
+    if (bcargas>=2) then
+        cerobcargas:=bcargas-2;
+        # --------- Se eliminan cargas del soporte
+#        q0:=unionCargas(
+#		qi(q0, 1),qi(q0, 2), qi(q0, 3),
+#	        qi(q0,12),qi(q0,13), qi(q0,14),
+#		cargasVano00());
+#	q0:=cargasVano00();	
+#        q4:=unionCargas( # No tiene sentido poner "dos" P en dintel
+#		qi(q4, 1),qi(q4, 2), qi(q4, 3),
+#		qi(q4,12),qi(q4,13), qi(q4,14),
+#		cargasVano00());
+#	# --------- Se añade q=0 a la viga	
+#       q2:=unionCargas(q2,cargasVano00());
+
+        
+         
+	nq04:=nops(q04[1]);
+	nq05:=nops(q05[1]);
+	nq06:=nops(q06[1]);
+	# -------- Se elige un solo elemento de q1 y q2
+	q04:=qi(q04,1+(cerobcargas mod nq04));
+	#q05:=qi(q02,1+(trunc(cerobcargas/nq05))); 
+	q05:=qi(q05,1+(cerobcargas mod nq05)); 
+	q06:=qi(q06,1+(cerobcargas mod nq06));
+    fi;
+  
+
+
+    #----
+    
+    
+    P01:=q01[1];
+    z01:=q01[2];
+    X01:=q01[3];
+    q01:=q01[4];
+    
+    P02:=q02[1];
+    z02:=q02[2];
+    X02:=q02[3];
+    q02:=q02[4];
+    
+    P03:=q03[1];
+    z03:=q03[2];
+    X03:=q03[3];
+    q03:=q03[4];
+    
+    P04:=q04[1];
+    z04:=q04[2];
+    X04:=q04[3];
+    q04:=q04[4];
+        
+    P05:=q05[1];
+    z05:=q05[2];
+    X05:=q05[3];
+    q05:=q05[4];
+    
+    P06:=q06[1];
+    z06:=q06[2];
+    X06:=q06[3];
+    q06:=q06[4];
+
+      
+
+    variacionesP  :=  CartesianoR(P01,CartesianoR(P02,CartesianoR(P03,CartesianoR(P04,Cartesiano(P05,P06)))));
+    variacionesq  :=  CartesianoR(q01,CartesianoR(q02,CartesianoR(q03,CartesianoR(q04,Cartesiano(q05,q06)))));
+    combinacionesX:=  CartesianoR(X01,CartesianoR(X02,CartesianoR(X03,CartesianoR(X04,Cartesiano(X05,X06)))));
+    posiPRelativa :=  CartesianoR(z01,CartesianoR(z02,CartesianoR(z03,CartesianoR(z04,Cartesiano(z05,z06)))));
+
+    printf("%a\n", variacionesP);
+#    printf("%a\n", variacionesq);
+#    printf("%a\n", combinacionesX);
+#    printf("%a\n", posiPRelativa);
+    printf("fin: -------------     (portico6410Datos)----------\n");
+    fi;
+end;
+

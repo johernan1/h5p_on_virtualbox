@@ -1,0 +1,39 @@
+printf("------------- read(dibujoGerber)------------------\n");
+dibujoGerber:=proc(L0, Xarti, escal)
+    local L00, cotas2, G;
+    printf("-------------dibujoGerber----------------\n");
+   
+    L00:=escal*5/.15;
+    if (Xarti<0.5) then
+        cotas2:=[
+                    cotas_c(0,  -1.75*L00/5,
+	                L0*Xarti,
+		        1,0,.05*L00/5,
+		        convert(L0*Xarti,
+                                    string),
+		                        .15*L00/5)]: 
+    else
+        cotas2:=[
+                    cotas_c(L0*Xarti,  -1.75*L00/5,
+	                L0*(1-Xarti),
+		        1,0,.05*L00/5,
+		        convert(L0*(1-Xarti),
+                                    string),
+		                        .15*L00/5)]: 
+
+    fi; 
+ 
+
+    
+    print("----------dibujoGerber. Solo queda display---------");
+    G:=display(
+               
+	       cotas2,
+               arti(L0*Xarti,0,escal,0),
+ 
+               axes=none,scaling=constrained):
+    #Fich():
+    G;
+end;
+
+printf("-------------     (dibujoGerber)------------------\n");

@@ -1,0 +1,77 @@
+printf("------------- read(mansa10Dibujo)----------------\n");
+mansa10Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, emp_apo)
+
+    local Lcol1, Lcol2, Lbeam, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+   
+    #    1     3     2
+    #       -------  
+    #      /       \           
+    #     /         \ 
+    #    /           \
+    #   /             \       
+    #  /               \
+    #
+    printf("-------------     (mansa10Dibujo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lcol1 :=Ls[1];
+    Lcol2   :=Ls[2];
+    Lbeam   :=Ls[3];
+
+    nudos:=[ [-Lcol1*0.707,0],  [0,Lcol1*0.707],     [Lbeam,Lcol1*0.707],  [Lcol2*0.707+Lbeam,(Lcol1-Lcol2)*0.707]]:
+    angul:=[         0,      0,          0,        0]:
+    despl:=[     [0,0],  [0,0],      [0,0],    [0,0]]:
+    ccont:=[[nudoiv,3.14161592654/4],  [0,0], [nudodv,-45], [nudodv,-3.14161592654/4]]:
+    nombr:=[       " ",    " ",        " ",      " "]:
+    aux:=0.1:
+    postx:=[       aux,    aux,        aux,      aux]:
+    conex:=[ [1,2],[3,4],[2,3]]:
+
+    vigas:=[ viga12, viga21, viga22]:
+    XYcot:=[      0,  0      ,  0];                  # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0,  0      ,-.5];                  # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                                     #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra
+						     
+    #apoyo:= [Apoyofijo(-Lcol1,-escal,0.6*escal,0), Apoyodes(Lcol2+Lbeam*0.866,-escal-Lbeam/2,0.6*escal,0)]:      # Apoyos de nudos interiores
+    if (emp_apo=0) then
+       apoyo:= [Apoyofijo(-Lcol1*0.707+escal*0.707,-escal*.9,0.6*escal,0),
+                Apoyodes(Lcol2*0.707+Lbeam-escal*0.707,(Lcol1-Lcol2)*0.707-escal*.9,0.6*escal,0)]:
+    elif (emp_apo=1) then
+       ccont:=[[Empo,-3.141592654/4],  [0,0], [nudodv,-45], [nudodv,-3.14161592654/4]]:
+       apoyo:= [Apoyodes(Lcol2*0.707+Lbeam-escal*0.707,(Lcol1-Lcol2)*0.707-escal*.9,0.6*escal,0)]:
+#    elif (emp_apo=3) then
+#    	 apoyo:= [Empo(-Lcol1,-escal,0.6*escal,-3.141592654/2), Apoyodes(Lcol2+Lbeam*0.866,-escal-Lbeam/2,0.6*escal,3.141592654/2)]:
+#       #ccont:=[[Empo,-3.141592654/2], [Empo,3.141592654/2]]:
+    elif (emp_apo=2) then
+       apoyo:= [Apoyodes(-Lcol1*0.707+escal*0.707,-escal*.9,0.6*escal,0)];
+       ccont:=[[nudoiv,3.14161592654/4],  [0,0], [nudodv,0], [Empo,3.141592654/4]]:
+#    elif (emp_apo=4) then
+#       apoyo:= [Apoyofijo(-Lcol1,-escal,0.6*escal,-3.141592654/2), Apoyodes(Lcol2+Lbeam*0.866,-escal-Lbeam/2,0.6*escal,3.141592654/2)]:
+#       #ccont:=[[nudoivA,0], [Empo,3.141592654/2]]:
+#    elif (emp_apo=5) then
+#    	 apoyo:= [Empo(-Lcol1,-escal,0.6*escal,-3.141592654/2), Apoyofijo(Lcol2+Lbeam*0.866,-escal-Lbeam/2,0.6*escal,3.141592654/2)]:
+    elif (emp_apo=6) then
+       apoyo:= [Apoyofijo(-Lcol1*0.707+escal*0.707,-escal*.9,0.6*escal,0),
+                Apoyofijo(Lcol2*0.707+Lbeam-escal*0.707,(Lcol1-Lcol2)*0.707-escal*.9,0.6*escal,0)]:
+    else
+       ccont:=[[nudoivAF,0], [nudodv,0]]:
+    fi;
+    
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+               		  escal, escalP, escalq, escalM,
+                          Lcol2, nudos, ccont, conex, vigas, apoyo, XYcot, xycot, posiPRelativa);
+
+    printf("------------- fin (mansa10Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (mansa10Dibujo)----------------\n");
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+# Se "cocina" un "estado". 
+#    Si en dos tramos consecutivos q=cte y P=0 se unifican
+#    Si un segmento de carga es muy pequeño se descarta el estado
+
+cocina:=proc(combinacionX,variacionP,variacionq,variacionM,variacionU,minX)
+global CODIGO, nq;
+   newcombinacionX:=[];
+   newvariacionP:=[];
+   newvariacionq:=[];
+   for iP from 1 to nops(variacionP) do
+     if (evalb(variacionP[iP] <> 0) or
+         evalb(variacionq[iP] <> variacionq[iP+1])) then
+         newcombinacionX:=[op(newcombinacionX),combinacionX[iP]];
+         newvariacionP:=[op(newvariacionP),variacionP[iP]];
+         newvariacionq:=[op(newvariacionq),variacionq[iP]];
+     fi
+   od;
+   newvariacionq:=[op(newvariacionq),variacionq[iP]];
+   nP:=nops(convert(newvariacionP,set) minus {0});
+   nq:=nops(convert(newvariacionq,set) minus {0});
+
+   nM:=nops(convert(variacionM,set) minus {0});
+
+   auxnewcombinacionX:=[0,op(newcombinacionX),1];
+   auxnewcombinacionX:=seq(auxnewcombinacionX[i+1]-auxnewcombinacionX[i],i=1..nops(auxnewcombinacionX)-1);
+
+
+   if (min(auxnewcombinacionX)<minX) then
+   print ("--------------------------------------------------------");
+   print ("----Combinacion X descartada----------------------------");
+   print(newcombinacionX);
+   print ("--------------------------------------------------------");
+   newcombinacionX:=0;
+   fi;
+
+   CODIGO:=sprintf("%sNP%dNq%dNm%dU%d",CODIGO,nP,nq,nM,variacionU[1]);
+   [newcombinacionX,newvariacionP,newvariacionq];
+end;

@@ -1,0 +1,61 @@
+printf("------------- read(texERMmax)---------------------\n");
+texERMmax:=proc(Mmax, perfil)
+    global ER, CODIGO, gammaF;
+    local localER, textoER2, textoERM, introER;
+    localER[2]:=ER[2] mod 10; 
+    print ("---Inicio de texERMmax--------------------------------------------------");
+
+    if (localER[2] = 2 or localER[2] = 3) then
+           textoER2:=" Cálculo de tensiones.  Datos: ";
+           textoER2:=sprintf("%s %s",textoER2, get_texto2_datos_Perfil(perfil, 0));
+           textoERM:=sprintf("%s\\moodleTxt{%s}\n\n\\moodleNL\n\n","%",textoER2);
+    else
+          print ("--- Perfil", perfil, "-----------------------------------------");
+          print ("--- gammaF", gammaF, "-----------------------------------------");
+          print ("--- ER", ER, "-----------------------------------------");
+
+
+           textoER2:=" Comprobación del ELU.  Datos: ";
+           textoER2:=sprintf("%s %s",textoER2, get_texto2_datos_Perfil(perfil, gammaF));
+           textoERM:=sprintf("%s\\moodleTxt{%s}\n\n\\moodleNL\n\n","%",textoER2);
+    fi;
+    textoER2:=sprintf("%s\n\n",textoER2);
+    introER:=textoER2;
+	
+    print ("---texERMmax: texto tensiones normales----------------------------------");
+    #### Texto tensiones normales
+    if (localER[2]>=2) then  ### Se comprueban tensiones normales
+            #textoER2:=sprintf("%s %s\n", textoER2, get_texto2_sigma_IPE(" $x=L/2$"));
+            textoER2:=sprintf("%s %s\n", textoER2, get_texto2_sigma_Perfil("  cuyo momento flector positivo es máximo"));
+            textoERM:=sprintf("%s %s\n", textoERM, get_textoM_Iy_Perfil(perfil));
+            textoERM:=sprintf("%s %s\n", textoERM, get_textoM_sigma_Perfil(perfil,Mmax, "  cuyo momento flector positivo es máximo")); 
+    fi;	
+    
+    print ("---texERMmax: texto VM -------------------------------------------------");
+    #### Texto VM
+    if (localER[2] mod 10 >=7) then
+        # Con Mmax no se comprueba tau
+            textoER2:=sprintf("%s %s\n", textoER2, 
+			    get_texto2_sigEsigR_Perfil("  cuyo momento flector positivo es máximo"));
+            textoERM:=sprintf("%s %s\n", textoERM, 
+			    get_textoM_sigEsigR_Perfil(perfil,Mmax,gammaF, "  cuyo momento flector positivo es máximo"));  
+
+    fi;
+    print ("---texERMmax: texto E/R -------------------------------------------------");
+    print ("---",textoER2, "***\n");
+    print ("---",textoERM, "***\n");
+    print (perfil,Mmax,gammaF,"\n");
+    #### Texto E/R
+    if (localER[2] = 1 or (localER[2] > 3 and  localER[2] <> 7)) then
+         
+        textoER2:=sprintf("%s %s\n", textoER2, 
+                           get_texto2_MEMR_Perfil("  cuyo momento flector positivo es máximo"));
+		   		   		   
+        textoERM:=sprintf("%s %s\n", textoERM, 
+			   get_textoM_MEMR_Perfil(perfil,Mmax,gammaF, "  cuyo momento flector positivo es máximo"));
+    fi;
+   
+    print ("---texERMmax: fin -------------------------------------------------");     
+    [textoER2, textoERM];
+end:
+printf("-------------     (texERMmax)---------------------\n");

@@ -1,0 +1,21 @@
+printf("------------- read(texModelo2)--------------------\n");
+texModelo2:=proc(columna1,columna2,apendice)
+    global FICH, CODIGO;
+    local texto;
+
+printf("texModelo2-------------------------------------------------");
+    texto:=sprintf("\n {  \n\n\n	{".
+        "\\begin{center}\n".
+        "\\renewcommand{\\ESCALA}{.7\\linewidth}\n".
+        "\\centering \\moodleFig{\\input{ffig".CODIGO."_".FICH."}}{.7}\n".
+        "\\end{center}".
+	"}\n	{\n	}\n\n\n".
+	"%s\n\n\n".
+        "}\n{\n\n\n".
+	"%s\n\n\n }\n\n".
+	"%s",
+columna1,columna2,apendice);
+
+    texto;
+end;   
+printf("-------------     (texModelo2)--------------------\n");

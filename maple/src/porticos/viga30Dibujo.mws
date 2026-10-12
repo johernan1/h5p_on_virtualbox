@@ -1,0 +1,64 @@
+printf("------------- read(viga30Dibujo)----------------\n");
+viga30Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, emp_apo)
+
+    global xArti, opcionC;
+    local Lviga, Lvol, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+ 
+    #           1         2
+    #  |---------------------
+    #                  ^
+
+    printf("-------------     (viga30Dibujo)----------------\n");
+    print (emp_apo);
+
+
+    nElem:=nops(Ls);
+    Lviga :=Ls[1];
+    Lvol   :=Ls[2];
+
+    nudos:=[ [-Lviga,0],  [0,0],     [Lvol,0]]:
+    angul:=[         0,      0,          0  ]:
+    despl:=[     [0,0],  [0,0],      [0,0]]:
+    
+    if (emp_apo=0) then
+       ccont:=[[nudoivAF,0],  [0,0], [nudodv,0]]:
+    else
+       ccont:=[[Empo,-3.141592654/2],  [0,0], [nudodv,0]]:
+    fi;
+    nombr:=[       " ",    " ",        " "]:
+    aux:=0.5:
+    postx:=[       aux,    aux,        aux]:
+    conex:=[ [1,2],[2,3]]:
+
+    vigas:=[ viga12, viga21]:
+    XYcot:=[      0,  0];    # Desp ABSOLUTO de las cotas respecto posicion std
+    xycot:=[      0,  0];    # Desp RELATIVO (% del desp de las cargas)
+                             #  Es decir, si +-1 se desplazan las cotas
+			     #  el valor de las cargas de la barra 
+    apoyo:= [Apoyodes(0,-escal,0.6*escal,0)]:      # Apoyos de nudos interiores
+
+    if type(xArti,numeric) then            #Gerber
+	#apoyo:=[op(apoyo), arti(-Lviga+Lviga*xArti,0,escal,0)]:
+        apoyo:=[op(apoyo),
+	        op(vigaDibujoGerber(Lviga,xArti,opcionC,-Lviga,escal))];
+    fi;
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq,
+    	   		      variacionesM, VariacionesM, 
+               		      escal, escalP, escalq, escalM,
+                              Lviga, nudos, ccont, conex, vigas, apoyo,
+			      XYcot, xycot, posiPRelativa);
+
+    printf("------------- fin (viga30Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (viga30Dibujo)----------------\n");
+
+
+
+
+
+
+
+

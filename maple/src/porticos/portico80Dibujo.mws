@@ -1,0 +1,79 @@
+printf("------------- read(portico80Dibujo)----------------\n");
+portico80Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, estadoF)
+
+    local Lviga, Lvol, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+ 
+    #          
+    #  ----------------------
+    #  ^     |            ^
+    #        |
+    #        |
+
+    printf("-------------     (portico80Dibujo)----------------\n");
+    print (estadoF);
+
+
+    nElem:=nops(Ls);
+    Lvig0 :=Ls[1];
+    Lviga :=Ls[2];
+    Lvol   :=Ls[3];
+    Lc:=Ls[4];
+   
+
+    nudos:=[ [-Lvig0-Lviga,0], [-Lviga,0],  [0,0],     [Lvol,0], [-Lviga,-Lc]]:
+    angul:=[                0,          0,      0,            0,            0]:
+    despl:=[            [0,0],      [0,0],  [0,0],        [0,0],        [0,0]]:
+    
+
+       ccont:=[       [nudoivA,0],    [0,0],[0,0], [nudodv,0], [Arti,0]]:
+
+    nombr:=[       " ",    " ",    " ",        " ",        " "]:
+    aux:=0.5:
+    postx:=[       aux,    aux,    aux,        aux,        aux]:
+    conex:=[ [1,2],[2,3],[3,4],[5,2]]:
+
+    vigas:=[ viga12, viga22, viga21, viga12]:
+    XYcot:=[      0,  0, 0,0];            # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0,  0, 0,0];            # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                     # Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra
+    if (estadoF=0) then 
+        apoyo:= [Apoyodes(0,-escal,0.6*escal,0)#,
+             #Apoyodes(-Lviga,-escal,0.6*escal,0)
+	     ]:      # Apoyos de nudos interiores
+    else
+
+        Empo(1,1,1,1);  # NO BORRAR, trampa para que empiece a contarse el número de fichero del dibujo
+        nudo1 := [[1, 1], [-1, 1], [-1, -1], [1, -1]];
+        nudo1 := trasf(nudo1,-Lviga , 0, 1.5*escal, 3.141592654/2);
+   
+        nudo1:=PLOT(POLYGONS(nudo1, STYLE(PATCHNOGRID), COLOUR(miROJO)));
+    
+
+        apoyo:= [Apoyodes(0,-escal,0.6*escal,0),
+             #Apoyodes(-Lviga,-escal,0.6*escal,0),
+	     #Empo(-Lviga,0,escal,3.141592654/2),
+	     #Empo(-Lviga,0,escal,-3.141592654/2),
+	     nudo1,
+	     flechaCN(-Lviga+8*escal,0,escalM/5,3.141592654,sprintf("%s",convert(VariacionesM[2][1],string)),-5),
+	     #flechaC_N(-Lviga-escal,0,-escalM/5,0,sprintf("%f",VariacionesM[1][2]),0),
+	     flechaC_N(-Lviga-8*escal,0,-escalM/5,3.141592654,"m1f",0)]:
+    fi;
+
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, 0*variacionesM, 0*VariacionesM, 
+               		  escal, escalP, escalq, escalM,
+                          Lviga, nudos, ccont, conex, vigas, apoyo, XYcot, xycot, posiPRelativa);
+
+    printf("------------- fin (portico80Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (portico80Dibujo)----------------\n");
+
+
+
+
+
+
+
+

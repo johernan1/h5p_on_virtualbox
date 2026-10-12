@@ -1,0 +1,49 @@
+printf("------------- read(viga242)----------------\n");
+viga242:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO, xArti, ER;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+
+ 
+    printf("-------------     (viga242)----------------\n");
+    ER:=[6,3];
+  
+    CODIGO:=V242;
+
+    s :=     viga242Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, xArti);
+      	      variacionesP; variacionesq;
+ 	     VariacionesMt:=VariacionesM*s[1];
+	     
+	     #if (VariacionesM) then
+	     #fi;
+	     
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+
+
+ 
+
+    #------------ Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    EstadoF:=0;
+    print(display(
+             viga42Dibujo(Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesMt,
+	       	               escal, escalP, escalq, escalM,
+			       posiPRelativa,EstadoF)));
+    printf("ER=%a\n",ER);				 
+    printf("------------- fin (viga242)----------------\n");
+end;
+#--------------------
+#print(viga242); # Para fijar variables locales
+printf("-------------     (viga242)----------------\n");
+
+
+
+
+
+

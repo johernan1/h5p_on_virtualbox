@@ -1,0 +1,46 @@
+printf("------------- read(viga15)----------------\n");
+
+viga15:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s, Empotrado_apoyado;
+  
+    printf("-------------     (viga15)----------------\n");
+
+    CODIGO:=V11;
+
+    s :=     viga15Calculo(Ls, combinacionesX, variacionesP, variacionesq,
+      	     		       variacionesM, VariacionesM);
+
+ 
+ 	     VariacionesMt:=VariacionesM;
+	     VariacionesMt[1,2]:=s[2];
+	     	    
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesMt, s);
+
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesMt, s);
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print("210204 viga15");
+    print(variacionesM, VariacionesMt);
+    Empotrado_apoyado:=2;
+    print(display(
+             viga10Dibujo(Ls, combinacionesX, variacionesP, variacionesq,
+	     		      variacionesM, VariacionesMt, escal, escalP, escalq,
+			      escalM, posiPRelativa, Empotrado_apoyado)));
+				 
+    printf("------------- fin (viga15)----------------\n");
+end;
+#--------------------
+#print(viga15); # Para fijar variables locales
+printf("-------------     (viga15)----------------\n");
+
+
+
+
+
+

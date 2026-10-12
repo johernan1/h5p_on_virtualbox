@@ -1,0 +1,266 @@
+printf("------------- read(viga20Tex)----------------\n");
+viga20Tex:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, s 
+                     )
+    global CODIGO, ER, gammaf, fy, gammaM, perfilVano1;
+    local nElem, dgMV1, dgMV5, dgMV14, iElem, dgMV, Mf11, Mf12, ruido, Lv0,
+    	  Mf2_anterior, textELS, textB, textoCol1, textoCol2, texto2Col2,
+	  textoDiagM_Mdl, textoAcotM_Mdl, textoDiagV_Mdl, textoAcotV_Mdl,
+	  textoELS_Mdl, MmaxVanos, textoELUM_Mdl, VmaxiElem, VmaxVanos, textoELUV_Mdl,
+	  VvanoAnterior, fd, texto_Mdl;
+	  
+    #ER:=[1,0];
+    variacionU:=[0]:  #No se imprime ELS
+    variacionU:=[1]:  #Se imprime ELS
+    selectSeccion();
+
+    # Los tres siguients se ajustan con la anterior
+    #gammaf:=1.45; 
+    #fy:=275;
+    #gammaM:=1.05;
+
+    #    1                2      
+    #  |------------------------  ... etc, es comun para muchos modelos
+    #                 ^
+    
+    
+    printf("-------------     (viga20Tex)----------------\n");
+
+    nElem:=nops(Ls);
+
+    textoAcotM_Mdl :="%----viga20Tex: inicio textoAcotM_Mdl";
+    textoAcotV_Mdl :="%----viga20Tex: inicio textoAcotV_Mdl";
+    textoDiagM_Mdl :="%----viga20Tex: inicio textoDiagM_Mdl";
+    textoELS_Mdl   :="%----viga20Tex: inicio textoELS_Mdl";
+    textoELUM_Mdl  :="%----viga20Tex: inicio textoELUM_Mdl";
+    textoELUV_Mdl  :="%----viga20Tex: inicio textoELUV_Mdl";
+    textoCol1      :="%----viga20Tex: inicio textoCol1\n";
+    textoCol2      :="%----viga20Tex: inicio textoCol2\n";
+    texto2Col2     :="%----viga20Tex: inicio texto2Col2\n";
+    
+    dgMV1:="";
+    dgMV5:="";
+    dgMV14:="";
+
+
+
+    #----------------- Dimensionado -------------------------------------------
+    # Solo del vano. Se dimensiona para el flector isostático para poder
+    # utilizar viga30 y viga31
+    # para plantear un problema de compatibilidad.
+    # Tambien se usa en viga40 y 41 (test ME) 
+    # y portico80, 81 (segundo test ME).
+    # En este caso ya se ha dimensionado en portico80.
+
+
+    sCODIGO:=sprintf("%a",CODIGO);
+    sCODIGO:=substring(sCODIGO,1..4);
+
+   
+    perfilVano1:=0;
+    i_Wel_Perfil:=0;
+    for iElem from 1 to nElem do
+	dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],variacionesP[iElem],
+			variacionesq[iElem],[1,1]);
+
+    	dim:=dimM(dgMV[3],dgMV[2], dgMV[6], dgMV[4], dgMV[7],0);
+  
+	
+	if (evalb(sCODIGO="V50" or sCODIGO="V60" or sCODIGO="V70")) then #Voladizos
+	   dim:=dimM(max(abs(dgMV[6]),abs(dgMV[7]))*Ls[iElem],dgMV[2], dgMV[6], dgMV[4], dgMV[7],0);
+	fi;
+ 
+
+	printf ("viga20Tex: dim1=%a\n",dim[1]);
+	printf ("viga20Tex: Iy=%a\n",get_Iy_Perfil(dim[1]));
+	# La comparación entre vanos con I, para que sirva para la madera
+	# (aunque la comprobación se haya hecho en plastico en dim)
+	if (get_Wel_Perfil(dim[1]) >i_Wel_Perfil) then
+	   i_Wel_Perfil:=get_Wel_Perfil(dim[1]);
+	   perfilVano1:=dim[1];
+	fi;
+	
+	# chequeo aprox de ELS en soporte
+	if (evalb(sCODIGO="V70")) then
+	   # v(p)=PL^3/3EI=ML^2/3EI; v(q)=qL^4/8EI=ML^2/4EI
+	   Mvol:=(max(abs(dgMV[6]),abs(dgMV[7]))*Ls[iElem]);
+	   ELSnec:=get_m_Iy_M_Perfil(Mvol*Ls[iElem]^2/3/2.1*250/Ls[iElem]);
+	   if (get_Wel_Perfil(ELSnec) >i_Wel_Perfil) then
+	      printf ("Dimensionado por ELS %a->%a\n", i_Wel_Perfil, get_Wel_Perfil(ELSnec));
+	      i_Wel_Perfil:=get_Wel_Perfil(ELSnec);
+	      perfilVano1:=ELSnec;
+	      
+	   fi;
+	fi;
+	#max(dim[1],perfilVano1);
+    od;
+    EIy:=2.1*get_Iy_Perfil(perfilVano1);
+printf( "210404-y");
+#if variacionesM then  # Estas lineas paran el codigo para debug 
+#fi;
+
+    #----------------- fin dimensionado----------------------------------------
+
+    for iElem from 1 to nElem do
+        iElemtxt:=sprintf("%s------------------------------------------\n","%");
+        iElemtxt:=sprintf("%s%s  Vano %d\n",  iElemtxt,"%", iElem);
+	iElemtxt:=sprintf("%s%s  %a\n", iElemtxt, "%", CODIGO );
+        iElemtxt:=sprintf("%s%s------------------------------------------\n",
+				iElemtxt,"%");
+	textoELUM_Mdl  :=sprintf("%s\n%s",textoELUM_Mdl,iElemtxt);
+	textoELUV_Mdl  :=sprintf("%s\n%s",textoELUV_Mdl,iElemtxt);
+	textoAcotM_Mdl  :=sprintf("%s\n%s",textoAcotM_Mdl,iElemtxt);
+	textoAcotV_Mdl  :=sprintf("%s\n%s",textoAcotV_Mdl,iElemtxt);			
+	
+        printf("----------- iElem %d ------------------\n",iElem);
+        printf("-----------  P=%a ------------------\n",variacionesP[iElem]);
+        printf("-----------  q=%a ------------------\n",variacionesq[iElem]);
+        printf("-----------  X=%a ------------------\n",combinacionesX[iElem]);
+        printf("-----------  L=%a ------------------\n",Ls[iElem]);
+        
+        dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],variacionesP[iElem],
+		variacionesq[iElem],[1,1]); 
+        Mf11:=dgMV[12]; Mf12:=dgMV[13];
+
+#printf("190717Tex->Mf11=%a,Mf12=%a, s=%a, s=%a\n", Mf11, Mf12, s[2*iElem-1], s[2*iElem]);
+#printf("-------------  s=%a -------------------\n",s);
+#print (s);
+
+        ruido:=0.00001;
+        dgMV:=diagramaMV(0,Ls[iElem],combinacionesX[iElem],variacionesP[iElem],
+			   variacionesq[iElem],
+		           [(s[2*iElem-1]+ruido)/Mf11,(s[2*iElem]+ruido)/Mf12]);
+
+        # Se comprueba el vano (si se pasa el último parámetro con un perfil)
+	#            Mmax,   Mizq,    Vizq,    Mder,    Vder
+    	dim:=dimM(dgMV[3],dgMV[2], dgMV[6], dgMV[4], dgMV[7],perfilVano1);
+	
+        if (iElem=1) then
+	   dgMV[14]:=sprintf("%f,%f,%f,%f",0,0,Ls[1],0); fi;
+	if (iElem=2) then
+	   dgMV[14]:=sprintf("%f,%f,%f,%f",Ls[1],0,Ls[1]+Ls[2],0); fi;
+	if (iElem=3) then   # viga30 y viga40
+	   dgMV[14]:=sprintf("%f,%f,%f,%f",Ls[1]+Ls[2],0,Ls[1]+Ls[2]+Ls[3],0);
+	   fi;
+	if (iElem=4) then
+	   if CODIGO="P80S11" then   #portico80. Se añade un soporte
+	      	dgMV[14]:=sprintf("%f,%f,%f,%f",Ls[1],-Ls[4],Ls[1],0);
+	   else
+	   	dgMV[14]:=sprintf("%f,%f,%f,%f",Ls[1]+Ls[2]+Ls[3],0,Ls[1]+Ls[2]+Ls[3]+Ls[4],0); fi;
+	fi;	
+	   
+#	if (iElem=4 and CODIGO="P80S11") then   #portico80. Se añade un soporte 
+#	   dgMV[14]:=sprintf("%f,%f,%f,%f",Ls[1],-Ls[4],Ls[1],0); fi;
+
+        if (dgMV1 <> "") then
+           dgMV[1] :=sprintf("%s; %s",  dgMV1, dgMV[1]);
+           dgMV[5] :=sprintf("%s; %s",  dgMV5, dgMV[5]); 
+           dgMV[14]:=sprintf("%s; %s", dgMV14, dgMV[14]);
+	fi;
+
+        dgMV1:=dgMV[1];
+        dgMV5:=dgMV[5];
+        dgMV14:=dgMV[14];
+        Lv0:=Lv0+Lv;
+        Mf2_anterior:=Mf2; 
+                                                     # Solo para el primer vano
+        textELS:=texELS(dgMV,variacionU,textoAmpliado, nElem*0+iElem, iElem,
+			dgVol, VolIzq);
+
+
+        textB:=texBiapoyada(psfrag,dgMV,variacionU,textoAmpliado,dim, 0,
+			    nElem, iElem);
+	
+#if (VariacionesM) then
+# Esto para el guion. Se usa en depuracion
+#fi;
+        #-----------------------------------------------------------------------
+	#if (iElem=1) then
+        textoCol1:=sprintf("%s \n   %s", textoCol1,textB[1]);
+        textoCol2:=textB[2];
+        texto2Col2:=sprintf("%s \n\n %s", texto2Col2,textB[3]);
+        texto2Col2:=sprintf("%s \n\n %s", texto2Col2,textELS[1]);
+     
+        textoDiagM_Mdl :=sprintf("%s \n\n %s", textoDiagM_Mdl, textB[4]);
+        textoAcotM_Mdl :=sprintf("%s \n\n %s", textoAcotM_Mdl, textB[5]);
+        textoDiagV_Mdl :=sprintf("\n\n %s", textB[6]);
+        textoAcotV_Mdl :=sprintf("%s \n\n %s", textoAcotV_Mdl, textB[7]);
+        textoELS_Mdl :=sprintf("%s \n\n %s", textoELS_Mdl, textB[8]);
+        textoELS_Mdl :=sprintf("%s \n\n %s", textoELS_Mdl, textELS[2]);
+
+        if (textoAmpliado =0) then
+            if (dgMV[3]> MmaxVanos) then
+                MmaxVanos:=dgMV[3];
+                textoELUM_Mdl :=sprintf("%s \n\n %s",textoELUM_Mdl,  textB[9]);
+            fi;
+        else 
+            textoELUM_Mdl :=sprintf("%s \n\n %s", textoELUM_Mdl, textB[9]);
+        fi;
+        VmaxiElem:=max(abs(dgMV[6]),abs(dgMV[7]));
+        if (textoAmpliado =0) then
+            if (VmaxiElem > VmaxVanos) then
+               VmaxVanos:=max(abs(dgMV[6]),abs(dgMV[7]));
+               textoELUV_Mdl :=sprintf("%s \n\n %s",textoELUV_Mdl,  textB[10]); 
+            fi;
+        else
+            textoELUV_Mdl :=sprintf("%s \n\n %s", textoELUV_Mdl, textB[10]);
+        fi;
+        VvanoAnterior := textB[11];  # Para calcular las reacciones
+	#fi;
+     od;
+
+ 	#####################Unas ñapas para portico80#########################
+
+        printf ("a 210404: %a\n", textoAcotV_Mdl);
+
+        # Si se define la funcion ampliacionTextoAcotV pueden ampliarse la
+	# 'respuesta' de esta función. Ver viga70.txt
+
+        textoAcotV_Mdl:=sprintf("%s \n %s I=%a, EI=%a, perfil=%a\n",
+				    textoAcotV_Mdl, "%", get_Iy_Perfil(dim[1]) ,EIy,perfilVano1);
+	textoAcotV_Mdl:=sprintf("%s \n%s 210404: ampliacionTextoAcotV \n %s \n",
+				 textoAcotV_Mdl, "%", ampliacionViga20Tex(s, perfilVano1));
+				 
+    
+
+        # Esta ñapa debería ajustarse según lo anterior
+	textoAcotV_Mdl:=sprintf("%s \n%s 231016: ampliacionTextoAcotV  CODIGO=%s %a %a \n",
+				 textoAcotV_Mdl, "%", CODIGO, evalb(CODIGO='P80'), s);
+	if (evalb(CODIGO='P80')) then
+		textoAcotV_Mdl:=sprintf("%s \n%s 231016: ampliacionTextoAcotV  %s %a \n",
+				 textoAcotV_Mdl, "%", CODIGO, s);
+
+
+	textoAcotV_Mdl:=sprintf("%s \n\n \\moodleTxt{ (Datos: $I_v=%a cm^4$, $I_c=%a cm^4$)}\n", textoAcotV_Mdl, s[16],s[17] );
+	
+	textoAcotV_Mdl:=sprintf("%s \n\n Giro del nudo, \$\\theta\$ en rad \n\n \\moodleQue{Giro del nudo, \$\\theta\$ en rad}{%a}{%a*0.05}\n", textoAcotV_Mdl, s[10],s[10] );
+	
+	textoAcotV_Mdl:=sprintf("%s \n\n Movimiento horizontal del dintel, \$u\$ en m \n\n \\moodleQue{Movimiento horizontal del dintel, \$u\$ en m}{%a}{%a*0.05}\n", textoAcotV_Mdl, s[14],s[14] );
+
+ 
+	textoAcotV_Mdl:=sprintf("%s \n\n \\moodleTxt{ (Vector {\\bf u}: $\\theta=%8.8f rad$, $u=%8.8f m$)}\n", textoAcotV_Mdl, s[10],s[14] );
+    	fi;
+
+	####################################################################### 
+
+    #------------------ Fichero tex --------------------------------------------
+    fd:=fopen("tex/".CODIGO."n".FICH.".tex",WRITE);
+    
+    textoCol2:=sprintf("%s \n\n %s", textoCol2,texto2Col2);
+    texto_Mdl:=sprintf("\n\n%s \n\n %s \n\n %s \n\n %s \n\n %s \n\n %s\n\n %s",
+                       textoDiagM_Mdl, textoAcotM_Mdl, textoDiagV_Mdl, textoAcotV_Mdl,
+                       textoELUM_Mdl, textoELUV_Mdl, textoELS_Mdl);
+    fprintf(fd,"%s",texModelo(opcion,textoCol1, textoCol2, texto_Mdl));
+    fclose(fd);
+    
+    printf("------------- fin (viga20Tex)----------------\n");
+
+end;
+#--------------------
+#print(viga20Tex); # Para fijar variables locales
+printf("-------------     (viga20Tex)----------------\n");
+
+
+
+
+
+

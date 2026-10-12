@@ -1,0 +1,69 @@
+printf("------------- read(portico81)----------------\n");
+portico81:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+
+#  ESTADO F,  ESTADO F,  ESTADO F,  ESTADO F, 
+# Portico con las mismas cargas y geometria que viga 40
+# La altura del soporte no varía y no tiene cargas
+# La acción horizontal en el dintes es siempre 20kN
+# El soporte esta articulado en la base
+#
+#  ----------------------------
+#  ^          |           ^
+#             |
+#             |
+#             |
+
+    
+
+ 
+    printf("-------------     (portico81)----------------\n");
+
+
+
+
+    CODIGO:=P81;
+
+    s :=     portico81Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM);
+ variacionesP; variacionesq;
+ 	     VariacionesMt:=VariacionesM;
+	     VariacionesMt[1,2]:=s[2];
+	     VariacionesMt[2,1]:=s[3];
+print(VariacionesMt);
+	  
+   
+	  #   if (VariacionesM_) then
+	  #   fi;
+	     
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print("-----portico81.mws----");
+    print(variacionesP);
+    print(variacionesP[1]);
+    EstadoF:=1;
+    print(display(
+             portico80Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,EstadoF)));
+				 
+    printf("------------- fin (portico81)----------------\n");
+end;
+#--------------------
+#print(portico81); # Para fijar variables locales
+printf("-------------     (portico81)----------------\n");
+
+
+
+
+
+

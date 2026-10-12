@@ -1,0 +1,24 @@
+printf("------------- read(viga26)----------------\n");
+
+viga26:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa)
+
+  
+    printf("-------------     (viga26)----------------\n");
+    _variacionesM:=[ [1,  1], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  	 
+    _VariacionesM:=[ [1,  1], [0,  0]];  # Factor por el que se multiplica el valor que se acota del momento
+
+    viga25(Ls, combinacionesX, variacionesP, variacionesq, _variacionesM, _VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa);
+				 
+    printf("------------- fin (viga26)----------------\n");
+end;
+#--------------------
+#print(viga26); # Para fijar variables locales
+printf("-------------     (viga26)----------------\n");
+
+
+
+
+
+

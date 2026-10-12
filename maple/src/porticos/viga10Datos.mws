@@ -1,0 +1,31 @@
+printf("------------- read(viga10Datos)----------------\n");
+viga10Datos:=proc(N1)
+    
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, VariacionesM, posiPRelativa, CODIGO;
+    local P, q, z, X;
+
+    printf("-------------     (viga10Datos)----------\n");
+    Ls            :=[             5];	 
+    
+    variacionesM:=[ [0,  0], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  	 
+    VariacionesM:=[ [1,  0], [1,  0]];  # Factor por el que se multiplica el valor que se acota del momento
+
+    q:=cargasVano06(40,45);
+    q:=cargasVano07(40,45);
+    # q:=cargasVano16(40,45);
+    # POSTER_CARGAS. NO BORRAR
+    
+    P:=q[1];
+    z:=q[2];
+    X:=q[3];
+    q:=q[4];
+    
+	
+    variacionesP:=Cartesiano(P,[1]);
+    variacionesq:=Cartesiano(q,[1]);
+    combinacionesX:=Cartesiano(X,[1]);
+    posiPRelativa:=Cartesiano(z,[1]);
+    
+    printf("fin: -------------     (viga10Datos)----------\n");	
+end;
+

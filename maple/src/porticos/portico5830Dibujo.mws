@@ -1,0 +1,41 @@
+printf("------------- read(portico5830Dibujo)----------------\n");
+portico5830Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, xArti_)
+    local Lvol, Lv, Lc1, Lc2, nudos, ccont, conex, vigas, apoyo;
+
+
+    #  1           2        3
+    #--------------------------
+    #     |               |
+    #     |            4  |
+    #     |3              |
+    #     |               |
+    #     |
+
+    xArti:=xArti_;
+    printf("-------------     (portico5830Dibujo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lvol :=Ls[1];
+    Lv   :=Ls[2];
+    Lvol1   :=Ls[3];
+    Lc1   :=Ls[4];
+    Lc2   :=Ls[5];
+
+    nudos:=[ [-Lvol,0],  [0,0],     [Lv,0],  [0,-Lc1], [Lv,-Lc2], [Lv+Lvol1,0]]:
+    ccont:=[[nudoiv,0],  [0,0], [nudodv,0],  [Arti,0], [Arti,0],  [nudodv,0]]:
+    conex:=[ [1,2],[2,3],[3,6],[4,2],[5,3]]:
+    if xArti<0.01 then xArti:=.3*escal;    fi;
+    apoyo:=arti(Lv*xArti,0,escal,0):                                               # Apoyos de nudos interiores
+
+    vigas:=[ viga12, viga22, viga21, viga12, viga12]:
+    XYcot:=[      0,      0,      0, Lv+Lvol+2*Lv/4+0.3*escal,0];    # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0,      0,     -1, .5, 0];                    #   Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                                             #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra 
+
+    dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                   escal, escalP, escalq, escalM,
+                   Lv, nudos, ccont, conex, vigas, apoyo, XYcot, xycot, posiPRelativa);  
+end;
+
+printf("-------------     (portico5830Dibujo)----------------\n");

@@ -1,0 +1,48 @@
+printf("------------- read(dibujoPortico3)----------------\n");
+dibujoPortico3:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM)
+    local Lvol, Lv, Lc1, Lc2, nudos, ccont, conex, vigas, apoyo;
+
+    printf("-------------     (dibujoPortico3)----------------\n");
+
+    nElem:=nops(Ls);
+    
+    Lv    :=Ls[1];
+    Lc1   :=Ls[2];
+    Lc2   :=Ls[3];
+
+    nudos:=[ [0,0],     [Lv,0],  [0,-Lc1], [Lv,-Lc2]]:
+    ccont:=[ [0,0], [0,0], [Empo,0], [Empo,0]]:
+    conex:=[ [1,2],[3,1],[4,2]]:
+    apoyo:=[]:                                         # Apoyos de nudos interiores
+
+    vigas:=[ viga22, viga12, viga12]:
+    XYcot:=[      0, -1*escal, Lv+2*Lv/4+1*escal];  # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0, -1      , 1];                  # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                                    #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra 
+    
+#    posiq:=0.6*Lv*escal:  # Estos datos deben coincidir con los de dibujoPortico0 
+
+
+#    iLc1:=2
+#    PmaxLc1:=max(0, op(variacionesP[iLc1]));
+#    #------ Se añade la longitud de la carga puntual 
+#    if (PmaxLc1>0) then
+#        XYcot[iLc1]:=XYcot[iLc1]-2.5*PmaxLc1*escalP;
+#        qadyacente:=max(variacionq[iLc1])*escalq;
+#        if (qadyacente=0) then
+#        
+#            else
+#        XYcot[2]:=XYcot[2]-qadyacente;
+#        fi;
+#    fi;
+#    #------ Se añade la longitud de la carga distribuida
+#    qmaxLc1:=max(0, op(variacionesP[2])); 
+#    XYcot[2]:=XYcot[2]-2.5*PmaxLc1*escalP;
+
+    dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                   escal, escalP, escalq, escalM,
+                   Lv, nudos, ccont, conex, vigas, apoyo, XYcot, xycot);  
+end;
+
+printf("-------------     (dibujoPortico3)----------------\n");

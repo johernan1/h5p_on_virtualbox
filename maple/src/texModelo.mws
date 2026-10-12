@@ -1,0 +1,13 @@
+printf("------------- read(texModelo)---------------------\n");
+texModelo:=proc(opcion, columna1,columna2,apendice)
+   local aux;
+   if (opcion=1) then 
+       aux:= texModelo1(columna1,columna2,apendice);
+   else
+       aux:= texModelo2(columna1,columna2,apendice);
+   fi;
+
+   aux;
+
+end;
+printf("-------------     (texModelo)---------------------\n");

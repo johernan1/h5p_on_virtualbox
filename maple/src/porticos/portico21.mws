@@ -1,0 +1,47 @@
+printf("------------- read(portico21)----------------\n");
+portico21:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo;
+    
+    #         1       2
+    #       --------------
+    #       /     |               
+    #      /      |
+    #     /       |3
+    #    /        |
+    #   /         |
+
+ 
+    printf("-------------     (portico21)----------------\n");
+
+    CODIGO:=P21;
+
+    s :=     portico21Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM);
+
+             portico10Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+             portico10Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print(display(
+             portico21Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa)));
+				 
+    printf("------------- fin (portico21)----------------\n");
+end;
+#--------------------
+print(portico21); # Para fijar variables locales
+printf("-------------     (portico21)----------------\n");
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+Fich:=proc()
+local fich;
+global FICH,CODIGO;
+    if (FICH>0) 
+    then
+        #fich:=cat(convert(f.FICH,string),".ps");
+        fich:=sprintf("f%d_%s.ps", FICH, CODIGO);
+        fich:=cat("tex/",fich);
+        plotsetup(ps, plotoutput=fich,
+                      plotoptions=`color,noborder,portrait`);
+        FICH:=FICH+1;
+    fi;
+end:

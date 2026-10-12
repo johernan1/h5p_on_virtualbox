@@ -1,0 +1,79 @@
+variaciones:=proc(A,n)
+local C,D,i:
+C:=[op(choose(A,n))]:
+D:={}:
+for i from 1 to nops(C)
+do
+D:=D union{op(permute([op(C[i])]))}:
+od:
+D;
+end:
+
+
+#------------------------------------------------------------------------------
+
+cartesiano:=proc(A,B)
+local i,j,C:
+C:={}:
+for i from 1 to nops(A) do
+for j from 1 to nops(B) do
+C:=C union {[[op(A)][i],[op(B)][j]]}
+od:
+od:
+C;
+end:
+
+#------------------------------------------------------------------------------
+
+Cartesiano:=proc(A,B)
+local i,j,C:
+C:=[]:
+for i from 1 to nops(A) do
+for j from 1 to nops(B) do
+C:=[op(C),  [[op(A)][i],[op(B)][j]]]
+od:
+od:
+C;
+end:
+
+CartesianoR:=proc(A,B)
+local i,j,C:
+C:=[]:
+for i from 1 to nops(A) do
+for j from 1 to nops(B) do
+C:=[op(C),  [[op(A)][i],op([op(B)][j])]]
+od:
+od:
+C;
+end:
+
+
+#------------------------------------------------------------------------------
+
+miDot:=proc(A,B)
+local i,j,C:
+C:=[]:
+for i from 1 to nops(A) do
+C:=[op(C),  [[op(A)][i],[op(B)][i]]]
+od:
+C;
+end:
+
+miDotR:=proc(A,B)
+local i,j,C:
+C:=[]:
+for i from 1 to nops(A) do
+C:=[op(C),  [[op(A)][i],op([op(B)][i])]]
+od:
+C;
+end:
+
+miDotRR:=proc(A,B)
+local i,j,C:
+C:=[]:
+for i from 1 to nops(A) do
+C:=[op(C),  [op([op(A)][i]),op([op(B)][i])]]
+od:
+C;
+end:
+

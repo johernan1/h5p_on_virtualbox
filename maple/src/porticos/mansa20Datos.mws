@@ -1,0 +1,15 @@
+printf("------------- read(mansa20Datos)----------------\n");
+mansa20Datos:=proc(bcargas)
+    
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM,
+    	   VariacionesM, posiPRelativa, CODIGO;
+    local P, q, z, X;
+
+    printf("-------------     (mansa20Datos)----------\n");
+    mansa10Datos(bcargas);
+    Ls            :=[        4/0.707,      2/0.707, 4 ];
+
+    
+    printf("fin: -------------     (mansa20Datos)----------\n");	
+end;
+

@@ -1,0 +1,500 @@
+printf("-------------     read(dobleTS275)----------------\n");
+tablaDobleT:=[
+["12x150.8x276.12x75",	12,150,8,276,12,75,	49.08,123.6,6661,539,378,523,261,212,153],
+["12x150.8x276.12x120",	12,150,8,276,12,120,	54.48,140.5,8075,575,506,616,308,242,221],
+["12x160.8x306.12x80",	12,160,8,306,12,80,	53.28,136.4,8757,642,452,624,312,250,180],
+["12x180.8x276.12x150",	12,180,8,276,12,150,	61.68,141.6,9574,676,604,720,360,293,274],
+["12x160.8x306.12x128",	12,160,8,306,12,128,	59.04,154.7,10588,685,604,734,367,285,260],
+["12x203.8x276.12x150",	12,203,8,276,12,150,	64.44,135.8,10060,741,613,755,377,316,285],
+["12x170.8x336.12x85",	12,170,8,336,12,85,	57.48,149.1,11249,754,533,734,367,292,209],
+["12x170.8x336.12x136",	12,170,8,336,12,136,	63.6,168.8,13571,804,710,861,431,332,302],
+["12x192.8x306.12x160",	12,192,8,306,12,160,	66.72,155.8,12538,805,720,856,428,345,323],
+["12x216.8x306.12x160",	12,216,8,306,12,160,	69.6,149.6,13158,879,730,896,448,372,335],
+["12x204.8x336.12x170",	12,204,8,336,12,170,	71.76,170.1,16052,944,845,1003,502,402,375],
+["12x230.8x336.12x170",	12,230,8,336,12,170,	74.88,163.3,16858,1032,857,1051,526,434,389],
+["15x180.8x370.15x90",	15,180,8,370,15,90,	70.1,162.9,17429,1070,735,1014,507,420,310],
+["15x180.8x370.15x144",	15,180,8,370,15,144,	78.2,186.7,21257,1139,997,1204,602,484,445],
+["15x190.10x420.15x95",	15,190,10,420,15,95,	84.75,188.4,25272,1341,966,1332,666,516,362],
+["15x216.8x370.15x180",	15,216,8,370,15,180,	89,188.3,25278,1342,1194,1412,706,586,551],
+["15x190.10x420.15x152",	15,190,10,420,15,152,	93.3,211.7,30287,1431,1271,1551,775,582,526],
+["15x243.8x370.15x180",	15,243,8,370,15,180,	93.05,180.5,26545,1471,1209,1480,740,630,573],
+["15x228.10x420.15x190",	15,228,10,420,15,190,	104.7,213.2,35700,1675,1507,1799,900,703,654],
+["15x257.10x420.15x190",	15,257,10,420,15,190,	109.05,205,37467,1828,1529,1883,942,761,677],
+["20x200.10x460.20x100",	20,200,10,460,20,100,	106,204.7,40518,1979,1372,1899,949,779,571],
+["20x200.10x460.20x160",	20,200,10,460,20,160,	118,233.7,49295,2109,1851,2247,1123,895,820],
+["20x210.12x510.20x105",	20,210,12,510,20,105,	124.2,230.2,55034,2391,1721,2380,1190,925,651],
+["20x240.10x460.20x200",	20,240,10,460,20,200,	134,235.7,58554,2485,2215,2632,1316,1083,1017],
+["20x210.12x510.20x168",	20,210,12,510,20,168,	136.8,258.7,66018,2552,2267,2773,1387,1045,945],
+["20x270.10x460.20x200",	20,270,10,460,20,200,	140,226,61480,2720,2244,2757,1379,1166,1056],
+["20x220.12x560.20x110",	20,220,12,560,20,110,	133.2,252.1,70034,2778,2013,2777,1388,1065,743],
+["20x220.12x560.20x176",	20,220,12,560,20,176,	146.4,282.6,83750,2964,2638,3226,1613,1199,1082],
+["20x252.12x510.20x210",	20,252,12,510,20,210,	153.6,260.5,77861,2989,2690,3219,1610,1263,1174],
+["20x284.12x510.20x210",	20,284,12,510,20,210,	160,250.5,81719,3262,2728,3369,1685,1366,1216],
+["20x264.12x560.20x220",	20,264,12,560,20,220,	164,284.4,98606,3467,3125,3737,1869,1449,1344],
+["20x297.12x560.20x220",	20,297,12,560,20,220,	170.6,273.8,103386,3776,3170,3907,1954,1567,1391],
+["20x263.12x713.20x132",	20,263,12,713,20,132,	164.56,318.1,136785,4299,3146,4308,2154,1621,1122],
+["20x265.15x713.20x133",	20,265,15,713,20,133,	186.55,324.6,147237,4535,3437,4727,2364,1668,1113],
+["20x263.12x713.20x210",	20,263,12,713,20,210,	180.16,354.9,162509,4579,4082,4975,2487,1814,1630],
+["20x267.15x722.20x134",	20,267,15,722,20,134,	188.5,328.6,152294,4634,3514,4832,2416,1702,1135],
+["20x265.15x713.20x212",	20,265,15,713,20,212,	202.35,357.3,172738,4835,4365,5388,2694,1841,1635],
+["20x267.15x722.20x214",	20,267,15,722,20,214,	204.5,361.8,178732,4941,4466,5509,2754,1878,1670],
+["20x316.12x713.20x263",	20,316,12,713,20,263,	201.36,357.2,191081,5349,4828,5753,2877,2194,2029],
+["25x268.15x720.25x134",	25,268,15,720,25,134,	208.5,325.1,178690,5496,4017,5541,2770,2095,1448],
+["20x318.15x713.20x265",	20,318,15,713,20,265,	223.55,359.1,201292,5605,5111,6166,3083,2220,2035],
+["20x320.15x722.20x267",	20,320,15,722,20,267,	225.7,363.6,207990,5721,5220,6296,3148,2263,2074],
+["20x355.12x713.20x263",	20,355,12,713,20,263,	209.16,344.3,200136,5814,4896,6008,3004,2373,2097],
+["25x268.15x720.25x214",	25,268,15,720,25,214,	228.5,363,212813,5863,5229,6410,3205,2348,2111],
+["20x358.15x713.20x265",	20,358,15,713,20,265,	231.55,347.1,210709,6071,5191,6431,3216,2413,2098],
+["20x360.15x722.20x267",	20,360,15,722,20,267,	233.7,351.5,217652,6193,5302,6565,3283,2459,2139],
+["25x322.15x720.25x268",	25,322,15,720,25,268,	255.5,365.3,250409,6855,6188,7418,3709,2840,2628],
+["25x362.15x720.25x268",	25,362,15,720,25,268,	265.5,352,262393,7454,6278,7750,3875,3073,2717]
+
+];
+
+
+hashDobleT["12x150.8x276.12x75"]:=1: hashDobleT[1]:="12x150.8x276.12x75":
+hashDobleT["12x150.8x276.12x120"]:=2: hashDobleT[2]:="12x150.8x276.12x120":
+hashDobleT["12x160.8x306.12x80"]:=3: hashDobleT[3]:="12x160.8x306.12x80":
+hashDobleT["12x180.8x276.12x150"]:=4: hashDobleT[4]:="12x180.8x276.12x150":
+hashDobleT["12x160.8x306.12x128"]:=5: hashDobleT[5]:="12x160.8x306.12x128":
+hashDobleT["12x203.8x276.12x150"]:=6: hashDobleT[6]:="12x203.8x276.12x150":
+hashDobleT["12x170.8x336.12x85"]:=7: hashDobleT[7]:="12x170.8x336.12x85":
+hashDobleT["12x170.8x336.12x136"]:=8: hashDobleT[8]:="12x170.8x336.12x136":
+hashDobleT["12x192.8x306.12x160"]:=9: hashDobleT[9]:="12x192.8x306.12x160":
+hashDobleT["12x216.8x306.12x160"]:=10: hashDobleT[10]:="12x216.8x306.12x160":
+hashDobleT["12x204.8x336.12x170"]:=11: hashDobleT[11]:="12x204.8x336.12x170":
+hashDobleT["12x230.8x336.12x170"]:=12: hashDobleT[12]:="12x230.8x336.12x170":
+hashDobleT["15x180.8x370.15x90"]:=13: hashDobleT[13]:="15x180.8x370.15x90":
+hashDobleT["15x180.8x370.15x144"]:=14: hashDobleT[14]:="15x180.8x370.15x144":
+hashDobleT["15x190.10x420.15x95"]:=15: hashDobleT[15]:="15x190.10x420.15x95":
+hashDobleT["15x216.8x370.15x180"]:=16: hashDobleT[16]:="15x216.8x370.15x180":
+hashDobleT["15x190.10x420.15x152"]:=17: hashDobleT[17]:="15x190.10x420.15x152":
+hashDobleT["15x243.8x370.15x180"]:=18: hashDobleT[18]:="15x243.8x370.15x180":
+hashDobleT["15x228.10x420.15x190"]:=19: hashDobleT[19]:="15x228.10x420.15x190":
+hashDobleT["15x257.10x420.15x190"]:=20: hashDobleT[20]:="15x257.10x420.15x190":
+hashDobleT["20x200.10x460.20x100"]:=21: hashDobleT[21]:="20x200.10x460.20x100":
+hashDobleT["20x200.10x460.20x160"]:=22: hashDobleT[22]:="20x200.10x460.20x160":
+hashDobleT["20x210.12x510.20x105"]:=23: hashDobleT[23]:="20x210.12x510.20x105":
+hashDobleT["20x240.10x460.20x200"]:=24: hashDobleT[24]:="20x240.10x460.20x200":
+hashDobleT["20x210.12x510.20x168"]:=25: hashDobleT[25]:="20x210.12x510.20x168":
+hashDobleT["20x270.10x460.20x200"]:=26: hashDobleT[26]:="20x270.10x460.20x200":
+hashDobleT["20x220.12x560.20x110"]:=27: hashDobleT[27]:="20x220.12x560.20x110":
+hashDobleT["20x220.12x560.20x176"]:=28: hashDobleT[28]:="20x220.12x560.20x176":
+hashDobleT["20x252.12x510.20x210"]:=29: hashDobleT[29]:="20x252.12x510.20x210":
+hashDobleT["20x284.12x510.20x210"]:=30: hashDobleT[30]:="20x284.12x510.20x210":
+hashDobleT["20x264.12x560.20x220"]:=31: hashDobleT[31]:="20x264.12x560.20x220":
+hashDobleT["20x297.12x560.20x220"]:=32: hashDobleT[32]:="20x297.12x560.20x220":
+hashDobleT["20x263.12x713.20x132"]:=33: hashDobleT[33]:="20x263.12x713.20x132":
+hashDobleT["20x265.15x713.20x133"]:=34: hashDobleT[34]:="20x265.15x713.20x133":
+hashDobleT["20x263.12x713.20x210"]:=35: hashDobleT[35]:="20x263.12x713.20x210":
+hashDobleT["20x267.15x722.20x134"]:=36: hashDobleT[36]:="20x267.15x722.20x134":
+hashDobleT["20x265.15x713.20x212"]:=37: hashDobleT[37]:="20x265.15x713.20x212":
+hashDobleT["20x267.15x722.20x214"]:=38: hashDobleT[38]:="20x267.15x722.20x214":
+hashDobleT["20x316.12x713.20x263"]:=39: hashDobleT[39]:="20x316.12x713.20x263":
+hashDobleT["25x268.15x720.25x134"]:=40: hashDobleT[40]:="25x268.15x720.25x134":
+hashDobleT["20x318.15x713.20x265"]:=41: hashDobleT[41]:="20x318.15x713.20x265":
+hashDobleT["20x320.15x722.20x267"]:=42: hashDobleT[42]:="20x320.15x722.20x267":
+hashDobleT["20x355.12x713.20x263"]:=43: hashDobleT[43]:="20x355.12x713.20x263":
+hashDobleT["25x268.15x720.25x214"]:=44: hashDobleT[44]:="25x268.15x720.25x214":
+hashDobleT["20x358.15x713.20x265"]:=45: hashDobleT[45]:="20x358.15x713.20x265":
+hashDobleT["20x360.15x722.20x267"]:=46: hashDobleT[46]:="20x360.15x722.20x267":
+hashDobleT["25x322.15x720.25x268"]:=47: hashDobleT[47]:="25x322.15x720.25x268":
+hashDobleT["25x362.15x720.25x268"]:=48: hashDobleT[48]:="25x362.15x720.25x268":
+
+
+
+get_h_nDobleT:=proc(n) tablaDobleT[n][2]+tablaDobleT[n][5]+tablaDobleT[n][6]; end;
+get_bw_nDobleT:=proc(n) tablaDobleT[n][5]; end;
+get_bf1_nDobleT:=proc(n) tablaDobleT[n][3]; end;
+get_bf2_nDobleT:=proc(n) tablaDobleT[n][7]; end;
+get_tw_nDobleT:=proc(n) tablaDobleT[n][4]; end;
+get_tf1_nDobleT:=proc(n) tablaDobleT[n][2]; end;
+get_tf2_nDobleT:=proc(n) tablaDobleT[n][6]; end;
+get_A_nDobleT:=proc(n) tablaDobleT[n][8]; end;
+get_zcdg_nDobleT:=proc(n) tablaDobleT[n][9]; end;
+get_Iy_nDobleT:=proc(n) tablaDobleT[n][10]; end;
+get_Wel1_nDobleT:=proc(n) tablaDobleT[n][11]; end;
+get_Wel2_nDobleT:=proc(n) tablaDobleT[n][12]; end;
+get_Wel_nDobleT:=proc(n) min(get_Wel1_nDobleT(n),get_Wel2_nDobleT(n)); end;
+get_Wpl_nDobleT:=proc(n) tablaDobleT[n][13]; end;
+get_S_nDobleT:=proc(n) tablaDobleT[n][14]; end;
+get_Sf1_nDobleT:=proc(n) tablaDobleT[n][15]; end;
+get_Sf2_nDobleT:=proc(n) tablaDobleT[n][16]; end;
+get_Av_nDobleT:=proc(n) get_tw_nDobleT(n)*get_h_nDobleT(n)/100; end;
+
+get_id_DobleT:=proc(DobleT)  ; end;
+get_h_DobleT:=proc(DobleT) get_h_nDobleT(hashDobleT[DobleT]); end;
+get_bw_DobleT:=proc(DobleT) get_bw_nDobleT(hashDobleT[DobleT]); end;
+get_bf1_DobleT:=proc(DobleT) get_bf1_nDobleT(hashDobleT[DobleT]); end;
+get_bf2_DobleT:=proc(DobleT) get_bf2_nDobleT(hashDobleT[DobleT]); end;
+get_tw_DobleT:=proc(DobleT) get_tw_nDobleT(hashDobleT[DobleT]); end;
+get_tf1_DobleT:=proc(DobleT) get_tf1_nDobleT(hashDobleT[DobleT]); end;
+get_tf2_DobleT:=proc(DobleT) get_tf2_nDobleT(hashDobleT[DobleT]); end;
+get_A_DobleT:=proc(DobleT) get_A_nDobleT(hashDobleT[DobleT]); end;
+get_zcdg_DobleT:=proc(DobleT) get_zcdg_nDobleT(hashDobleT[DobleT]); end;
+get_Iy_DobleT:=proc(DobleT) get_Iy_nDobleT(hashDobleT[DobleT]); end;
+get_E_DobleT:=210000;
+get_Wel1_DobleT:=proc(DobleT) get_Wel1_nDobleT(hashDobleT[DobleT]); end;
+get_Wel2_DobleT:=proc(DobleT) get_Wel2_nDobleT(hashDobleT[DobleT]); end;
+get_Wel_DobleT:=proc(DobleT) get_Wel_nDobleT(hashDobleT[DobleT]); end;
+get_Wpl_DobleT:=proc(DobleT) get_Wpl_nDobleT(hashDobleT[DobleT]); end;
+get_S_DobleT:=proc(DobleT) get_S_nDobleT(hashDobleT[DobleT]); end;
+get_Sf1_DobleT:=proc(DobleT) get_Sf1_nDobleT(hashDobleT[DobleT]); end;
+get_Sf2_DobleT:=proc(DobleT) get_Sf2_nDobleT(hashDobleT[DobleT]); end;
+get_Av_DobleT:=proc(DobleT) get_Av_nDobleT(hashDobleT[DobleT]); end;
+
+get_m_A_M_DobleT  :=proc(val) local i; for i from 1 to 48 do if (get_A_nDobleT(i)>=val)   then break; fi; od; hashDobleT[i]; end;
+get_m_Iy_M_DobleT :=proc(val) local i; for i from 1 to 48 do if (get_Iy_nDobleT(i)>=val)  then break; fi; od; hashDobleT[i]; end;
+get_m_Wel_M_DobleT:=proc(val) local i; for i from 1 to 48 do if (get_Wel_nDobleT(i)>=val) then break; fi; od; hashDobleT[i]; end;
+get_m_Wpl_M_DobleT:=proc(val) local i; for i from 1 to 48 do if (get_Wpl_nDobleT(i)>=val) then break; fi; od; hashDobleT[i]; end;
+
+
+
+get_id_DobleT:=proc(DobleT)  
+	sprintf("DobleT $f%a\\cdot%a+w%a\\cdot%a+f%a\\cdot%a[S275]$  ", 
+	            get_tf1_DobleT(val), get_bf1_DobleT(val),
+                    get_tw_DobleT(val), get_bw_DobleT(val),
+                    get_tf2_DobleT(val), get_bf2_DobleT(val));
+    end;
+
+get_texto2_datos_DobleT:=proc(val, gammaF)
+    local aux;
+    if (gammaF=0) then
+        aux:=sprintf("DobleT $f%a\\cdot%a+w%a\\cdot%a+f%a\\cdot%a[S275]$,  ".
+                " $t_{1,f}=%a mm$, $b_{1,f}=%a mm$". 
+                " $t_{w}=%a mm$, $b_{w}=%a mm$". 
+                " $t_{2,f}=%a mm$, $b_{2,f}=%a mm$", 
+	            get_tf1_DobleT(val), get_bf1_DobleT(val),
+                    get_tw_DobleT(val), get_bw_DobleT(val),
+                    get_tf2_DobleT(val), get_bf2_DobleT(val),  
+                    get_tf1_DobleT(val), get_bf1_DobleT(val),
+                    get_tw_DobleT(val), get_bw_DobleT(val),
+                    get_tf2_DobleT(val), get_bf2_DobleT(val)
+                    );
+    else
+        aux:=sprintf("DobleT $f%a\\cdot%a+w%a\\cdot%a+f%a\\cdot%a[S275]$,  $\\gamma_F=%0.2f$, $\\gamma_M=1.05$,".
+                " $t_{1,f}=%a mm$, $b_{1,f}=%a mm$". 
+                " $t_{w}=%a mm$, $b_{w}=%a mm$". 
+                " $t_{2,f}=%a mm$, $b_{2,f}=%a mm$", 
+	            get_tf1_DobleT(val), get_bf1_DobleT(val),
+                    get_tw_DobleT(val), get_bw_DobleT(val),
+                    get_tf2_DobleT(val), get_bf2_DobleT(val), gammaF, 
+                    get_tf1_DobleT(val), get_bf1_DobleT(val),
+                    get_tw_DobleT(val), get_bw_DobleT(val),
+                    get_tf2_DobleT(val), get_bf2_DobleT(val)
+                    );
+    fi;
+    aux;
+    end;
+
+
+get_texto2_sigma_DobleT:=proc(texto)
+    sprintf("\n\n Tensiones normales de la sección %s, $\\sigma$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul \\Resul \n\n \\vfill", texto); 
+    end;
+
+get_textoM_Iy_DobleT:=proc(perfil)
+            global signosARIO, textoMER;
+            if (signosARIO=1) then
+                textoMER:= sprintf("\n\n\\moodleQue{\\n\\nDistancia de la fibra superior de la sección a su centro de gravedad, $y_{cdg}$ en $mm$}".
+	    	               "{%f}{0.05*%f}", get_zcdg_DobleT(perfil), get_zcdg_DobleT(perfil));
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento de inercia de la sección respecto a su centro de gravedad, $I_{x}$ en $cm^4$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Iy_DobleT(perfil), get_Iy_DobleT(perfil));
+            else
+                textoMER:= sprintf("\n\n\\moodleQue{\\n\\nDistancia de la fibra superior de la sección a su centro de gravedad, $z_{cdg}$ en $mm$}".
+	    	               "{%f}{0.05*%f}", get_zcdg_DobleT(perfil), get_zcdg_DobleT(perfil));
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento de inercia de la sección respecto a su centro de gravedad, $I_{y}$ en $cm^4$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Iy_DobleT(perfil), get_Iy_DobleT(perfil));
+            fi;
+            textoMER:= sprintf("%s\n\n\\moodleQue{Módulo resistente elástico de la sección, $W_{el,1}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Wel1_DobleT(perfil), get_Wel1_DobleT(perfil));
+            textoMER:= sprintf("%s\n\n\\moodleQue{Módulo resistente elástico de la sección, $W_{el,2}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Wel2_DobleT(perfil), get_Wel2_DobleT(perfil));
+            textoMER:= sprintf("%s\n\n\\moodleQue{Módulo resistente plástico de la sección, $W_{pl}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Wpl_DobleT(perfil), get_Wpl_DobleT(perfil));
+            textoMER;
+    end;
+
+get_textoM_sigma_DobleT:=proc(perfil, Mmax, texto)
+            local M_I, h, tf, zcdg, tf1, tf2, textoMER;
+           
+            M_I:=Mmax/get_Iy_DobleT(perfil)*100;
+            h  :=get_h_DobleT(perfil);
+            zcdg:=get_zcdg_DobleT(perfil);
+            tf1 :=get_tf1_DobleT(perfil);
+            tf2 :=get_tf2_DobleT(perfil);
+            
+            textoMER:= sprintf("\n\n%s\\moodleQue{Tensión normal en la fibra superior de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}", "%", texto, -M_I*(zcdg),-M_I*(zcdg));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra superior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, "%", texto,-M_I*(zcdg-tf1),-M_I*(zcdg-tf1));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h-zcdg-tf2), M_I*(h-zcdg-tf2));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h-zcdg),M_I*(h-zcdg));
+            textoMER;
+    end;
+
+get_texto2_tau_DobleT:=proc(texto)
+    sprintf("\n\n Tensiones tangenciales de la sección %s, $\\tau$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul\n\n \\vfill", texto); 
+    end;
+
+get_textoM_tau_DobleT:=proc(perfil,Vmax, texto)
+            local V_I, h, b, tf, tw, S0, Sf1, Sf2, textoMER;
+            global signosARIO;
+           
+            V_I:=Vmax/get_Iy_DobleT(perfil)*100;
+            h  :=get_h_DobleT(perfil);
+            b  :=get_b_DobleT(perfil);
+            tw :=get_tw_DobleT(perfil);
+            S0 :=get_Wpl_DobleT(perfil)/2;
+            Sf1 :=get_Sf1_DobleT(perfil);
+            Sf2 :=get_Sf2_DobleT(perfil);
+            print("get_textoM_tau_DobleT", S0, Sf1, Sf2);
+            
+            textoMER:="";
+
+            if (signosARIO=1) then 
+                textoMER:= sprintf("%s\n\\moodleQue{Momento estático del ala superior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,x}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, Sf1, Sf1);
+                textoMER:= sprintf("\n\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                               " $S_{x}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0, S0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento estático del ala inferior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,x}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}\n\n",textoMER, Sf2, Sf2);
+           
+	        textoMER:= sprintf("\n%s %s get_textoM_tau_DobleT. Chequeo: V=%a, h=%a,   tw=%a, S0=%a, Sf1=%a, , Sf2=%a", textoMER, "%", Vmax, h,   tw, S0, Sf1, Sf2); 
+                textoMER:= sprintf("%s\n\n\\moodleQue{\\n\\nTensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra superior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, texto,-V_I*Sf1/tw,V_I*Sf1/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, -V_I*S0/tw,V_I*S0/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto,-V_I*Sf2/tw,V_I*Sf2/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            else
+                textoMER:= sprintf("%s\n\\moodleQue{Momento estático del ala superior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, Sf1, Sf1);
+                textoMER:= sprintf("\n\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                               " $S_{y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0, S0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento estático del ala inferior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}\n\n",textoMER, Sf2, Sf2);
+           
+	        textoMER:= sprintf("\n%s %s get_textoM_tau_DobleT. Chequeo: V=%a, h=%a,   tw=%a, S0=%a, Sf1=%a, , Sf2=%a", textoMER, "%", Vmax, h,   tw, S0, Sf1, Sf2); 
+                textoMER:= sprintf("%s\n\n\\moodleQue{\\n\\nTensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra superior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	       	       "{%f}{0.05*%f}",textoMER, texto,V_I*Sf1/tw,V_I*Sf1/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*S0/tw,V_I*S0/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*Sf2/tw,V_I*Sf2/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            fi;
+            textoMER;
+    end;
+
+
+get_texto2_MEMR_DobleT:=proc( texto)
+    local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$ y $M_{Ed}/M_{pl,Rd}$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\Resul \\vfill", texto);
+    fi;
+    mireturn;
+    end;
+
+get_textoM_MEMR_DobleT:=proc(perfil, Mmax, gammaf, texto)
+        local MEd_MRd, textoM, MRd;
+
+
+        MRd:=(275/1.05)*get_Wel_DobleT(perfil)/1000;
+        textoM:=sprintf("\n \n \\moodleQue{Calcular $M_{el,Rd}=W_{el} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", MRd,MRd);
+
+
+        MRd:=(275/1.05)*get_Wpl_DobleT(perfil)/1000;
+        textoM:=sprintf("%s\n \n \\moodleQue{Calcular  $M_{pl,Rd}=W_{pl} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", textoM, MRd,MRd);
+
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_DobleT(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{Calcular $M_{Ed}/M_{el,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wpl_DobleT(perfil)*275/1.05/1000);
+	sprintf("%s \n \n \\moodleQue{Calcular  $M_{Ed}/M_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+    end;
+
+
+
+get_texto2_MEMRVEVR_DobleT:=proc(texto, Mmax)
+   
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        
+
+      if (Mmax=0) then 
+        mireturn:=sprintf("Calcular $V_{Ed}/(V_{pl,Rd})$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+        
+      else
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$, $M_{Ed}/M_{pl,Rd}$ y $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto);
+      fi;
+    fi;
+
+    mireturn;
+
+    end;
+
+get_textoM_MEMRVEVR_DobleT:=proc(perfil, Mmax, gammaf, Vmax, texto)
+    local VEd_VRd, mireturn, Vpl, Vel;
+    global signosARIO;
+
+#print("perfil, Mmax, gammaf, Vmax, texto",perfil, Mmax, gammaf, Vmax, texto); 
+    
+    mireturn:=" ";
+    Vpl:=(get_h_DobleT(perfil)*get_tw_DobleT(perfil)/100)/1.73*275/1.05/10;
+    Vel:=get_Iy_DobleT(perfil)/get_S_DobleT(perfil)*(get_tw_DobleT(perfil)/10)/1.73*275/1.05/10;
+    if (signosARIO=1) then
+        mireturn:=sprintf(" \n \n \\moodleQue{Calcular $V_{el,Rd}=(I_x/S_{x}) t_w  (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      Vel,Vel);
+
+    else
+        mireturn:=sprintf(" \n \n \\moodleQue{Calcular $V_{el,Rd}=(I_y/S_{y}) t_w  (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      Vel,Vel);
+    fi; 
+    mireturn:=sprintf("%s \n \n \\moodleQue{Calcular $V_{pl,Rd}=A_v (f_{yd}/\\sqrt{3})\\approx (h t_w) (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      mireturn, Vpl,Vpl); 
+    if (Mmax<>0) then   
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_DobleT(perfil)/1.73*275/1.05/2)*10;
+        mireturn:=sprintf("%s \n\n %s\n\n  \\moodleQue{Calcular $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.}{%f}{0.05*%f}", 
+                get_textoM_MEMR_DobleT(perfil,Mmax,gammaf, texto), mireturn,texto,VEd_VRd,VEd_VRd);
+    else    
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_DobleT(perfil)/1.73*275/1.05)*10;
+        mireturn:=sprintf(" \n\n \n\n %s  \\moodleQue{Calcular $V_{Ed}/V_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", 
+                mireturn, texto,VEd_VRd,VEd_VRd);
+    fi;
+#print(mireturn); quit;
+
+    mireturn;
+ 
+    end;
+
+
+
+get_texto2_sigEsigR_DobleT:=proc()
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $\\sigma_{Ed}/f_{yd}$ en la sección cuyo momento flector positivo es máximo.".
+            "\n\n \\hfill \\Resul \\vfill");
+    fi;
+    mireturn;
+    end;
+
+get_textoM_sigEsigR_DobleT:=proc(perfil, Mmax, gammaf)
+
+        local MEd_MRd, textoM;
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_DobleT(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{ Calcular $|\\sigma_{Ed}|/f_{yd}$}{%f}{0.05*%f}", "%", MEd_MRd,MEd_MRd);
+ 
+    end;
+
+get_texto2_sigtauEsigtauR_DobleT:=proc(perfil, Mmax, gammaf, Vmax, texto)
+
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+
+      if (Mmax=0) then 
+
+        mireturn:=sprintf("Calcular $\\tau_{Ed}/(f_{yd}/\\sqrt{3})$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\vfill", texto);
+      else
+        mireturn:="Calcular $(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/(f_{yd})^2$ en ".
+                  " los puntos más significativos de la sección %s.".
+                  "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto;
+      fi;
+    fi;
+
+    mireturn;
+    
+    end;
+
+get_textoM_sigtauEsigtauR_DobleT:=proc(perfil, Mmax, gammaf, Vmax, texto)
+            local mireturn, V_I, h, b, tf, tw, S0, S1, textoMER, Sf1, Sf2, Ed_Rd, MEd_MRd, VEd_VRd;
+           
+            V_I:=abs(Vmax)/get_Iy_DobleT(perfil)*100;
+            h  :=get_h_DobleT(perfil);
+            b  :=get_b_DobleT(perfil);
+            tf :=get_tf_DobleT(perfil);
+            tw :=get_tw_DobleT(perfil);
+            Sf1 :=get_Sf1_DobleT(perfil);
+            Sf2 :=get_Sf2_DobleT(perfil);
+            S0 :=get_S_DobleT(perfil);
+            print("get_textoM_tau_DobleT", S0, Sf1, Sf2);
+
+            if (Mmax=0) then 
+                Ed_Rd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                mireturn:=sprintf(" \n \n %s\\moodleQue{ Calcular $|\\tau_{Ed}|/(f_{yd}/\\sqrt{3})$}{%f}{0.05*%f}", 
+                                  "%", Ed_Rd,Ed_Rd);
+            else
+	        textoMER:= sprintf("\n%s get_textoM_tau_DobleT. Chequeo: V=%a, M=%a, h=%a,   tw=%a, S0=%a, Sf1=%a,  Sf2=%a", "%", Vmax, Mmax, h,   tw, S0, Sf1, Sf2); 
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel1_DobleT(perfil)*275/1.05/1000);
+                Ed_Rd:=(MEd_MRd)^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{ Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior de la sección %s}".
+	    	                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_DobleT(perfil)*
+                         (get_zcdg_DobleT(perfil)-get_tf1_DobleT(perfil))/(275/1.05/1000)/10;
+                VEd_VRd:=gammaf*V_I*Sf1/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior del alma de la sección %s}".
+	    	       	           "{%f}{0.05*%f}",textoMER, texto,Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                VEd_VRd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                Ed_Rd:=VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   " en la fibra neutra de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_DobleT(perfil)*(get_h_DobleT(perfil)-get_zcdg_DobleT(perfil)-
+					   get_tf2_DobleT(perfil))/10/(275/1.05/1000);
+                VEd_VRd:=gammaf*V_I*Sf2/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior del alma de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel2_DobleT(perfil)*275/1.05/1000);
+                Ed_Rd:=MEd_MRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                
+                mireturn:=textoMER;
+            fi;
+
+    mireturn;
+
+    end;

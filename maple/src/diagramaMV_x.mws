@@ -1,0 +1,68 @@
+printf("------------- read(diagramaMV_x)-----------\n");
+diagramaMV_x:=proc(diagramaMV_, x)
+    
+
+    print("-----------------------inicio de diagramaMV_x---------------------");
+
+    diagramaMV:=diagramaMV_;
+    print(diagramaMV);
+       
+    diagrama0:=1;
+    diagramaB:=2;
+    diagrama1:=searchtext(";;",diagramaMV);
+    if diagrama1=0 then  diagramaB:=diagramaB-1; fi;
+    iDiag:=0;
+    
+    ## --------------------------------
+    ## Se divide el diagrama en tramos
+    while(diagramaB>0) do
+       iDiag:=iDiag+1;
+       print("-----------------------");
+    
+       subdiagrama:=diagramaMV[diagrama0..diagrama1-1];
+       print ("Diagrama numero", iDiag,":", subdiagrama);
+       valor0:=1;
+       valorB:=2;
+       valor1:=searchtext(",",subdiagrama);
+       iVal:=0;
+       Diag:=[];
+       while(valorB>0) do
+          iVal:=iVal+1;
+          print("             -----------------------");
+	  subVal:=subdiagrama[valor0..valor1-1];
+	  Diag:=[op(Diag), parse(subVal)];
+          print ("   Valor numero", iVal,":", subVal);
+          subdiagrama:=subdiagrama[valor1+1..length(subdiagrama)];      
+          valor1:=searchtext(",",subdiagrama);
+          if valor1=0 then  valorB:=valorB-1; fi;
+       od;
+       ## Aqui se calcula M(x)
+       M:=Diag;
+       X:=Diag;
+       print("x0,x,xi", X[1], x, X[-2]);
+       if (x>=X[1] and x<=X[-2]) then
+          if nops(Diag)=6 then   ### Parabola
+	      S:=solve({a*X[1]^2+b*X[1]+c=M[2],
+	                a*X[3]^2+b*X[3]+c=M[4],
+			a*X[5]^2+b*X[5]+c=M[6]}, {a,b,c});
+	      print(S);
+	      mireturn:=subs(S,a*x^2+b*x+c);
+	      
+	  else                   ### Recta
+	      S:=solve({a*X[1]+b=M[2],
+	                a*X[3]+b=M[4]}, {a,b});
+			print(S);
+	      mireturn:=subs(S,a*x+b);
+	  fi;
+       fi;
+
+       diagramaMV:=diagramaMV[diagrama1+2..length(diagramaMV)];      
+       diagrama1:=searchtext(";;",diagramaMV);
+       if diagrama1=0 then  diagramaB:=diagramaB-1; fi;
+    od;
+    print("-----------------------");
+    print([diagramaMV_, x]);
+    print("-----------------------(fin)     diagramaMV_x---------------------");
+    mireturn;
+end:
+printf("-------------     (diagramaMV_x)-----------\n");

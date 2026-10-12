@@ -1,0 +1,53 @@
+printf("------------- read(viga70)----------------\n");
+viga70:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM,
+		 		 VariacionesM,
+			    	 escal, escalP, escalq, escalM, posiPRelativa)
+				 
+    global CODIGO,ampliacionViga20Tex;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+  
+
+    printf("-------------     (viga70)----------------\n");
+
+    CODIGO:=V70;
+
+    s :=     viga60Calculo(Ls, combinacionesX, variacionesP, variacionesq,
+      	     		       variacionesM, VariacionesM);
+
+             ampliacionViga20Tex:=proc(su, perfilvano)
+	     	EIy:=2.1*get_Iy_Perfil(perfilvano);
+		
+		sprintf("\n %s \\moodleTxt{Datos: %s} \n \\moodleNL{} \n".
+		        "\n \\moodleQue{Desplazamiento horizontal del nudo superior, \$u\$ en m}".
+			    "{%0.12f}{%0.12f*0.05}\n".
+			"\n \\moodleQue{Giro del nudo superior, \$\\theta\$ en rad}".
+			    "{%0.12f}{%0.12f*0.05}\n",
+			"%",get_texto2_datos_Perfil(perfilvano,0) ,
+			s[4]/EIy,s[4]/EIy, s[3]/EIy, s[3]/EIy );
+		end;
+
+             viga70Tex(    Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesM, s);
+
+	     
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq,
+	     		       variacionesM, VariacionesM, s);
+
+    #------------ Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print(display(
+             viga70Dibujo(Ls, combinacionesX, variacionesP, variacionesq,
+	     		      variacionesM, VariacionesM,
+	       	              escal, escalP, escalq, escalM, posiPRelativa)));
+				 
+    printf("------------- fin (viga70)----------------\n");
+end;
+#--------------------
+#print(viga70); # Para fijar variables locales
+printf("-------------     (viga70)----------------\n");
+
+
+
+
+
+

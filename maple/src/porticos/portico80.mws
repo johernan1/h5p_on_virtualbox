@@ -1,0 +1,87 @@
+printf("------------- read(portico80)----------------\n");
+portico80:=proc(Ls, combinacionesX, variacionesP, variacionesq,
+		    variacionesM, VariacionesM,
+		    escal, escalP, escalq, escalM, posiPRelativa 
+                    )
+    global CODIGO, ER, gammaf, fy, gammaM, perfilVano1;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+# Portico con las mismas cargas y geometria que viga 40
+# La altura del soporte no varía y no tiene cargas
+# La acción horizontal en el dintes es siempre 20kN
+# El soporte esta articulado en la base
+#
+#  ----------------------------
+#  ^          |           ^
+#             |
+#             |
+#             |
+
+    
+
+ 
+    printf("-------------     (portico80)----------------\n");
+     
+
+   
+#	     if (VariacionesM_) then
+#	     fi;
+
+    CODIGO:=P80;
+    
+        #----------------- Dimensionado ----------------------------------------------------------------------------------
+	# Solo del vano. Se dimensiona para el flector isostático de la primera viga
+	ER:=[1,1]; 
+        selectSeccion();     
+        gammaf:=1.45;
+        fy:=275;
+        gammaM:=1.05;
+	dgMV:=diagramaMV(0,Ls[1],combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+	perfilVano1:=0;
+        dim:=dimM(dgMV[3],dgMV[2], dgMV[6], dgMV[4], dgMV[7],perfilVano1); # se dimensiona con Mmax
+        perfilVano1:=dim[1];
+	Iv:=get_Iy_Perfil(perfilVano1);
+     CODIGO:=P80;	
+	
+	#----------------- fin dimensionado-------------------------------------------------------------------------------
+	
+    s :=     portico80Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,Iv);
+
+     #printf("nops(s)=%a\n",nops(op(s)));
+     #printf("op(s)=%a\n",op(s));
+     print ("231016", s);
+#if (variacionesM) then
+# Para moodle. Util para debug
+#fi;
+ 	     VariacionesMt:=VariacionesM;#*s[1];
+	  
+	     
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print("-----portico80.mws----");
+    print(variacionesP);
+    print(variacionesP[1]);
+    EstadoF:=0;
+    print(display(
+             portico80Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,EstadoF)));
+				 
+    printf("------------- fin (portico80)----------------\n");
+end;
+#--------------------
+#print(portico80); # Para fijar variables locales
+printf("-------------     (portico80)----------------\n");
+
+
+
+
+
+

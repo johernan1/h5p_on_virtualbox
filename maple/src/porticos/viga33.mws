@@ -1,0 +1,27 @@
+printf("------------- read(viga33)----------------\n");
+viga33:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+
+ 
+    printf("-------------     (viga33)----------------\n");
+    _variacionesM:=[ [0,  0], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  
+  
+    CODIGO:=V33;
+    viga30(Ls, combinacionesX, variacionesP, variacionesq, _variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa );
+
+				 
+    printf("------------- fin (viga33)----------------\n");
+end;
+#--------------------
+#print(viga33); # Para fijar variables locales
+printf("-------------     (viga33)----------------\n");
+
+
+
+
+
+

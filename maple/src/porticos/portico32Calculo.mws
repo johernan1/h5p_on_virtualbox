@@ -1,0 +1,97 @@
+printf("------------- read(portico32Calculo)----------------\n");
+portico32Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                      xArti)
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+
+
+    #  1           2
+    #----------------------
+    #     |               |
+    #     |            4  |
+    #     |3              |
+    #     |               |
+    #     |
+
+    printf("-------------     (portico32Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lvol :=Ls[1];
+    Lv   :=Ls[2];
+    Lc3  :=Ls[3];
+    Lc4  :=Ls[4];
+
+
+    dgMV:=diagramaMV(0,Lvol,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    dgMV:=diagramaMV(0,  Lv,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];
+    dgMVv:=dgMV[1];
+
+    dgMV:=diagramaMV(0, Lc3,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+    
+    dgMV:=diagramaMV(0, Lc4,combinacionesX[4],variacionesP[4],variacionesq[4],[1,1]); 
+    V41:=dgMV[6]; V42:=dgMV[7]; Mf41:=dgMV[12]; Mf42:=dgMV[13];
+
+    mH:=[[      1,       0, 0, 0, 0,         0,     0,     0],
+         [      0,       1, 1, 0, 0,         1,     0,     0],
+         [      0,       0, 0, 1, 0,         0,     0,     1],
+         [      0,       0, 0, 0, 1,         0,     0,     0],
+         [      0,       0, 0, 0, 0,         0,     1,     0],
+	 [      0,       0, 0, 0, 1/Lc3, 1/Lc3, 1/Lc4, 1/Lc4],
+	 [-1/Lvol, -1/Lvol, 0, 0, 0,         0,     0,     0]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    alpha:=xArti;
+    beta:=1-xArti;
+    
+    mdA:=evalm(3/(alpha^3+beta^3)*[[alpha^2, alpha*beta],[alpha*beta, beta^2]]);
+    
+    print(mdA);
+
+    MArti:=diagramaMV_x(dgMVv, xArti);
+    print("MArti=",MArti);
+    phiMArti:=MArti*Lv/2;
+
+    mfA:=evalm(mdA/Lv &* [phiMArti,-phiMArti]);
+    print(mdA);
+    print([Mf21, Mf22]);
+    Mf21:=Mf21+MArti-mfA[1];
+    Mf22:=Mf22-MArti-mfA[2];
+
+    print([Mf21, Mf22, MArti, mfA[1], mfA[2]]);#quit;
+    
+    
+    mD:=evalm(diag(evalm(cddc/Lvol), evalm(mdA/Lv), evalm(cddc/Lc3), evalm(cddc/Lc4))):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12, Mf21, Mf22, Mf31, Mf32, Mf41, Mf42]:
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0,0,0,0, -V32-V42-evalm(vf[6]), V11-evalm(vf[7])];
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    print (evalm(mK));
+    print (sf);
+    print (vf);
+    print (u);
+    print (s);
+    
+    printf("------------- fin (portico32Calculo)---------------- %d\n", FICH);
+    s;
+    
+end;
+#--------------------
+#print(portico32Calculo); # Para fijar variables locales
+printf("-------------     (portico32Calculo)----------------\n");
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+printf("------------- read(viga36)----------------\n");
+viga36:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM_, VariacionesM_,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+
+
+ 
+    printf("-------------     (viga36)----------------\n");
+   
+    CODIGO:=V36;
+	     # Se modifican los valores de viga30Datos (viga empotrada-apoyada)
+	     variacionesM:=[ [0,  0], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  	 
+             VariacionesM:=[ [0,  0], [0,  0]];  # Factor por el que se multiplica el valor que se acota del momento
+    s :=     viga36Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM);
+ variacionesP; variacionesq;
+ 	     VariacionesMt:=VariacionesM*s[3];
+	     
+
+	     
+             viga20Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+             viga20Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	                         s);
+
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print("-----viga36.mws----");
+    print(variacionesM);
+    print(VariacionesM);
+    Empotrado_apoyado:=0;
+    print(display(
+             viga35Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesMt,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,Empotrado_apoyado)));
+				 
+    printf("------------- fin (viga36)----------------\n");
+end;
+#--------------------
+#print(viga36); # Para fijar variables locales
+printf("-------------     (viga36)----------------\n");
+
+
+
+
+
+

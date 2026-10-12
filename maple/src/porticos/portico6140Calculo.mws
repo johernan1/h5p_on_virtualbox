@@ -1,0 +1,93 @@
+printf("------------- read(portico6140Calculo)----------------\n");
+portico6140Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+
+    #             
+    #      2    /\    5
+    #  1     /      \    4
+    #_____/           \____
+    #    |             |
+    #  3 |             | 6
+    #    |             |
+
+
+    printf("-------------     (portico6140Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lvol :=Ls[1];
+    Lv   :=Ls[2];
+    Lc   :=Ls[3];
+
+    c:=0.970142500145332;
+    s:=0.242535625036333;
+
+    dgMV:=diagramaMV(0,Lvol,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    # Los M y V del estado f se calculan con la Lx de la zanca 
+    dgMV:=diagramaMV(0,  Lv*c,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];
+    
+    dgMV:=diagramaMV(0,  Lc,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+    
+    dgMV:=diagramaMV(0,  Lvol,combinacionesX[4],variacionesP[4],variacionesq[4],[1,1]); 
+    V41:=dgMV[6]; V42:=dgMV[7]; Mf41:=dgMV[12]; Mf42:=dgMV[13];
+    
+    # Los M y V del estado f se calculan con la 
+    dgMV:=diagramaMV(0,  Lv*c,combinacionesX[5],variacionesP[5],variacionesq[5],[1,1]); 
+    V51:=dgMV[6]; V52:=dgMV[7]; Mf51:=dgMV[12]; Mf52:=dgMV[13];
+    
+    dgMV:=diagramaMV(0,  Lc,combinacionesX[6],variacionesP[6],variacionesq[6],[1,1]); 
+    V61:=dgMV[6]; V62:=dgMV[7]; Mf61:=dgMV[12]; Mf62:=dgMV[13];
+
+    ####        1 2        3 4         5 6       7 8       9 10       11 12         13 14
+    mH:=[[      1,0,       0,0,        0,0,      0,0,      0,0,        0,0,          0, 0],
+         [      0,1,       1,0,        0,1,      0,0,      0,0,        0,0,          0, 0],
+         
+         [      0,0,       0,1,        0,0,      0,0,      1,0,        0,0,          0, 0],
+         [      0,0,       0,0,        0,0,      1,0,      0,1,        0,1,          0, 0],
+         [      0,0,       0,0,        0,0,      0,1,      0,0,        0,0,          0, 0],
+         [      0,0,       0,0,        1,0,      0,0,      0,0,        0,0,          0, 0],
+         [      0,0,       0,0,        0,0,      0,0,      0,0,        1,0,          0, 0],
+	 [-1/Lvol,-1/Lvol, 0,0,        0,0,      0,0,      0,0,        0,0,          0, 0],
+	 [      0,0,       0,0,        0,0, 1/Lvol,1/Lvol, 0,0,        0,0,          0, 0],
+	 [      0,0,   -s/Lv,-s/Lv, 1/Lc,1/Lc,   0,0,      0,0,        0,0,         -c, 0],
+	 [      0,0,       0,0,        0,0,      0,0,  -s/Lv,-s/Lv, 1/Lc,1/Lc,       0, c],
+	 [      0,0,    s/Lv, s/Lv,    0,0,      0,0,   s/Lv, s/Lv,    0,0,          c,-c],  
+	 [      0,0,    c/Lv, c/Lv,    0,0,      0,0,  -c/Lv,-c/Lv,    0,0,         -s,-s]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    mD:=evalm(diag(evalm(cddc/Lvol), evalm(cddc/Lv), evalm(cddc/Lc),evalm(cddc/Lvol), evalm(cddc/Lv), evalm(cddc/Lc),100000,100000)):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12, Mf21, Mf22, Mf31, Mf32, Mf41, Mf42, Mf51, Mf52, Mf61, Mf62,0,0]:
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0,0,0,0,0,0, V11-vf[8], -V42-vf[9],-V32-vf[10],-V62-vf[11],-vf[12],-V22+V51-vf[13] ]; # Vij es el hiperestático. Hay que restarle el término de H*sf
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    #print (evalm(mD));
+    printf("\n\n-210927-------------------------H=\n%a\n",mH);
+    #print (evalm(mK));
+    printf ("--------------------------sf=\n%a\n",sf);
+    print ("--------------------------vf=\n%a\n",vf);
+    print ("--------------------------vf=\n%a\n",u);
+    print ("--------------------------s=\n%a\n",s);
+    
+    printf("------------- fin (portico6140Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(portico6140Calculo); # Para fijar variables locales
+printf("-------------     (portico6140Calculo)----------------\n");
+
+
+
+
+
+

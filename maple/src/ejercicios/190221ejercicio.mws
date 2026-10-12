@@ -1,0 +1,103 @@
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#- La funcion Cartesiano es equivalente a cartesiano pero usando listas en lugar 
+#- de conjuntos. Comprobar que esta definida la funcion
+#-------------------------------------------------------------------------------
+ejercicio190221:=proc()
+    # Gerber 1819
+
+    global  cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU,
+            Lvig, VolIzq, opcion, ER, minIncL, Nv, volXPq, escalP, textoAmpliado, 
+	    perfilVano1, valoresM, signosARIO, Gerber;
+
+
+    escalP:=1;
+    ER:=[6,3];
+
+    Lvig:=proc(i)
+       global VolIzq, ER, perfilVano1;
+       
+       VolIzq:=0;
+       textoAmpliado:=0;
+       
+
+       incL:=(i mod 2)*0.6; 
+       6.0-incL;
+       #6.0
+    end;
+
+
+    valoresM:=[0,1]:
+    abscisasP:=[0.25,0.5,0.75];
+    abscisasP:=[0.33333,0.666667];
+    combinacionesAbscisasP:=convert(choose(abscisasP,2),set);
+    #abscisasP1:=[0.333,0.5,0.667];
+    #combinacionesAbscisasP1:=convert(choose(abscisasP1,3),set);
+    #combinacionesAbscisasP:=combinacionesAbscisasP union combinacionesAbscisasP1;
+ 
+    # Puntuales y distribuidas
+    valoresP:=[0,0,45,45,55];
+    valoresP:=[0,0,25,25,30];
+    valoresP:=[0,0,25,25,25];
+    valoresq:=[0,0,0,40,40,40,50];
+    valoresq:=[0,40,40,40];
+    variacionesP:=variaciones(valoresP,2): # Como hay dos vigas se hace un producto cartesiano de las variaciones 
+    variacionesP:=map(op, convert(cartesiano(variacionesP, variacionesP),list));
+    variacionesq:=variaciones(valoresq,3): # Como hay dos vigas se hace un producto cartesiano de las variaciones 
+    variacionesq:=map(op, convert(cartesiano(variacionesq, variacionesq),list));
+    variacionesM:=variaciones(valoresM,2):
+    variacionesM:={[0,0]}:
+
+    cartesianoVariacionesPCombinacionesX:=
+	cartesiano(variacionesP,combinacionesAbscisasP):
+
+    cartesianoVariacionesPCombinacionesXVariacionesq:=
+	Cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+	Cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+		   variacionesM):
+
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1:=
+	Cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+		   variacionesU):
+	
+
+
+#    # Solo puntuales
+#    valoresP:=[45,45,45,55,55,55,50,50,50,0];
+#    valoresq:=[0,0,0,0];
+#    variacionesP:=variaciones(valoresP,2):
+#    variacionesq:=variaciones(valoresq,3):
+#    variacionesM:=variaciones(valoresM,2);
+#
+#
+#    cartesianoVariacionesPCombinacionesX:=
+#	cartesiano(variacionesP,combinacionesAbscisasP):
+#    cartesianoVariacionesPCombinacionesXVariacionesq:=
+#	cartesiano(cartesianoVariacionesPCombinacionesX,variacionesq):
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM:=
+#	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesq,
+#		   variacionesM):
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:=
+#	cartesiano(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesM,
+#		   variacionesU):
+#
+#    # Se unen cargas solo puntuales y puntuales+distribuidas
+#    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+#       [op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU) , op(cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1)];
+
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU:= 
+    cartesianoVariacionesPCombinacionesXVariacionesqVariacionesMVariacionesU1; 
+
+
+#signosARIO:=1;
+
+    minIncL:=0.0;
+    opcion:=2;
+    Nv:=2;
+    Gerber:=[[],[1]];
+end;
+#-------------------------------------------------------------------------------
+#- Crear enlace a EEjercicios
+#-------------------------------------------------------------------------------

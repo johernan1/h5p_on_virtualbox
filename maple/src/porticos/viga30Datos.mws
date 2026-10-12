@@ -1,0 +1,47 @@
+printf("------------- read(viga30Datos)----------------\n");
+viga30Datos:=proc(N1)
+    # Datos para viga30
+    global Ls, variacionesP, variacionesq, combinacionesX, variacionesM, VariacionesM, posiPRelativa, CODIGO;
+
+    printf("-------------     (viga30Datos)----------\n");
+    Ls            :=[           5,       1.25];	 
+    variacionesM:=[ [1,  0], [0,  0]];  # Escala del dibujo. Si 0 no se dibuja  	 
+    VariacionesM:=[ [1,  0], [0,  0]];  # Factor por el que se multiplica el valor que se acota del momento
+    
+  
+    #-----------------------------------------Voladizo derecho
+   
+    q:=unionCargas(cargasVold03(40,45),
+		   cargasVold00());        
+    q:=cargasVold03(40,45);       
+    q:=cargasVold02(40,45);
+    
+    P2:=q[1];
+    z2:=q[2];
+    X2:=q[3];
+    q2:=q[4];
+
+    #-----------------------------------------Viga
+
+    q:=cargasVano07(40,45);
+#    q:=cargasVano04(40,45);
+#    q:=cargasVano16(40,45); #
+#    q:=unionCargas(cargasVano00(),  # CUIDADO. SE INVIERTE EL SIGNO DE M
+#		   cargasVano06(40,45));
+	
+    P1:=q[1];
+    z1:=q[2];
+    X1:=q[3];
+    q1:=q[4];
+
+   
+
+
+    variacionesP  :=Cartesiano(P1,P2);
+    variacionesq  :=Cartesiano(q1,q2);
+    combinacionesX:=Cartesiano(X1,X2);
+    posiPRelativa :=Cartesiano(z1,z2);
+    
+    printf("fin: -------------     (viga30Datos)----------\n");	
+end;
+

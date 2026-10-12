@@ -1,0 +1,489 @@
+printf("-------------     read(dobleTS275)----------------\n");
+tablaTinvertida:=[
+
+["8x210.10x80",		0,0,8,210,10,80,	24.8,140.5,1274,91,160,158,79,0,60],
+["8x210.10x100",	0,0,8,210,10,100,	26.8,146,1377,94,186,171,85,0,69],
+["8x210.10x110",	0,0,8,210,10,110,	27.8,148.5,1423,96,199,176,88,0,73],
+["8x230.10x90",		0,0,8,230,10,90,	27.4,154.4,1682,109,197,191,95,0,73],
+["8x230.10x110",	0,0,8,230,10,110,	29.4,159.9,1803,113,225,205,102,0,83],
+["8x230.10x120",	0,0,8,230,10,120,	30.4,162.4,1858,114,239,211,105,0,87],
+["8x260.10x110",	0,0,8,260,10,110,	31.8,176.7,2484,141,266,250,125,0,97],
+["8x260.10x135",	0,0,8,260,10,135,	34.3,183.1,2665,146,307,268,134,0,111],
+["8x260.10x150",	0,0,8,260,10,150,	35.8,186.6,2761,148,331,278,139,0,118],
+["8x290.10x120",	0,0,8,290,10,120,	35.2,196.1,3406,174,328,308,154,0,119],
+["8x288.12x120",	0,0,8,288,12,120,	37.44,201.7,3588,178,365,325,163,0,133],
+["8x290.10x150",	0,0,8,290,10,150,	38.2,203.9,3677,180,383,333,166,0,137],
+["8x290.10x170",	0,0,8,290,10,170,	40.2,208.4,3835,184,419,348,174,0,147],
+["8x288.12x150",	0,0,8,288,12,150,	41.04,209.8,3868,184,429,352,176,0,152],
+["8x288.12x170",	0,0,8,288,12,170,	43.44,214.4,4029,188,471,368,184,0,162],
+["8x318.12x130",	0,0,8,318,12,130,	41.04,221.7,4778,216,441,393,197,0,160],
+["8x318.12x160",	0,0,8,318,12,160,	44.64,230,5125,223,512,423,212,0,181],
+["8x318.12x180",	0,0,8,318,12,180,	47.04,234.8,5327,227,559,441,220,0,193],
+["8x348.12x140",	0,0,8,348,12,140,	44.64,241.7,6206,257,525,468,234,0,189],
+["8x348.12x170",	0,0,8,348,12,170,	48.24,250.1,6627,265,603,500,250,0,212],
+["8x348.12x190",	0,0,8,348,12,190,	50.64,255,6874,270,655,520,260,0,226],
+["8x385.15x140",	0,0,8,385,15,140,	51.8,273.6,8803,322,696,599,299,0,250],
+["8x385.15x180",	0,0,8,385,15,180,	57.8,285.9,9565,335,838,654,327,0,288],
+["8x385.15x200",	0,0,8,385,15,200,	60.8,291.2,9889,340,909,678,339,0,304],
+["10x435.15x150",	0,0,10,435,15,150,	66,294.2,14371,488,922,866,433,0,334],
+["10x435.15x190",	0,0,10,435,15,190,	72,306.6,15582,508,1086,940,470,0,387],
+["10x435.15x210",	0,0,10,435,15,210,	75,312,16115,516,1168,973,487,0,411],
+["10x480.20x160",	0,0,10,480,20,160,	80,340,21227,624,1327,1156,578,0,480],
+["10x480.20x200",	0,0,10,480,20,200,	88,353.6,22866,647,1562,1251,625,0,545],
+["10x480.20x220",	0,0,10,480,20,220,	92,359.6,23578,656,1679,1293,646,0,574],
+["12x530.20x170",	0,0,12,530,20,170,	97.6,360.8,31654,877,1673,1562,781,0,609],
+["12x530.20x210",	0,0,12,530,20,210,	105.6,374.4,34031,909,1938,1682,841,0,696],
+["12x530.20x230",	0,0,12,530,20,230,	109.6,380.4,35090,922,2069,1737,868,0,734],
+["12x580.20x180",	0,0,12,580,20,180,	105.6,392.3,40878,1042,1968,1847,923,0,712],
+["12x580.20x220",	0,0,12,580,20,220,	113.6,406.2,43788,1078,2259,1980,990,0,809],
+["12x580.20x240",	0,0,12,580,20,240,	117.6,412.4,45095,1093,2404,2041,1021,0,852],
+["12x730.20x200",	0,0,12,730,20,200,	127.6,482.6,77532,1607,2899,2794,1397,0,1030],
+["12x730.20x250",	0,0,12,730,20,250,	137.6,501.3,83681,1669,3364,3015,1508,0,1194],
+["12x730.20x280",	0,0,12,730,20,280,	143.6,511.2,86960,1701,3642,3136,1568,0,1281],
+["15x730.20x210",	0,0,15,730,20,210,	151.5,469,91330,1947,3250,3299,1649,0,1138],
+["15x740.20x210",	0,0,15,740,20,210,	153,474.3,94667,1996,3314,3375,1687,0,1158],
+["15x730.20x265",	0,0,15,730,20,265,	162.5,487.3,98867,2029,3764,3562,1781,0,1339],
+["15x740.20x265",	0,0,15,740,20,265,	164,492.8,102470,2079,3835,3643,1821,0,1363],
+["15x730.20x290",	0,0,15,730,20,290,	167.5,494.9,101966,2061,3996,3673,1837,0,1422],
+["15x745.25x210",	0,0,15,745,25,210,	164.25,495.6,104659,2112,3814,3684,1842,0,1375],
+["15x740.20x290",	0,0,15,740,20,290,	169,500.4,105681,2112,4071,3756,1878,0,1448],
+["15x745.25x265",	0,0,15,745,25,265,	178,515.8,113371,2198,4460,3991,1995,0,1601]
+
+
+];
+
+
+hashTinvertida["8x210.10x80"]:=1: hashTinvertida[1]:="8x210.10x80":
+hashTinvertida["8x210.10x100"]:=2: hashTinvertida[2]:="8x210.10x100":
+hashTinvertida["8x210.10x110"]:=3: hashTinvertida[3]:="8x210.10x110":
+hashTinvertida["8x230.10x90"]:=4: hashTinvertida[4]:="8x230.10x90":
+hashTinvertida["8x230.10x110"]:=5: hashTinvertida[5]:="8x230.10x110":
+hashTinvertida["8x230.10x120"]:=6: hashTinvertida[6]:="8x230.10x120":
+hashTinvertida["8x260.10x110"]:=7: hashTinvertida[7]:="8x260.10x110":
+hashTinvertida["8x260.10x135"]:=8: hashTinvertida[8]:="8x260.10x135":
+hashTinvertida["8x260.10x150"]:=9: hashTinvertida[9]:="8x260.10x150":
+hashTinvertida["8x290.10x120"]:=10: hashTinvertida[10]:="8x290.10x120":
+hashTinvertida["8x288.12x120"]:=11: hashTinvertida[11]:="8x288.12x120":
+hashTinvertida["8x290.10x150"]:=12: hashTinvertida[12]:="8x290.10x150":
+hashTinvertida["8x290.10x170"]:=13: hashTinvertida[13]:="8x290.10x170":
+hashTinvertida["8x288.12x150"]:=14: hashTinvertida[14]:="8x288.12x150":
+hashTinvertida["8x288.12x170"]:=15: hashTinvertida[15]:="8x288.12x170":
+hashTinvertida["8x318.12x130"]:=16: hashTinvertida[16]:="8x318.12x130":
+hashTinvertida["8x318.12x160"]:=17: hashTinvertida[17]:="8x318.12x160":
+hashTinvertida["8x318.12x180"]:=18: hashTinvertida[18]:="8x318.12x180":
+hashTinvertida["8x348.12x140"]:=19: hashTinvertida[19]:="8x348.12x140":
+hashTinvertida["8x348.12x170"]:=20: hashTinvertida[20]:="8x348.12x170":
+hashTinvertida["8x348.12x190"]:=21: hashTinvertida[21]:="8x348.12x190":
+hashTinvertida["8x385.15x140"]:=22: hashTinvertida[22]:="8x385.15x140":
+hashTinvertida["8x385.15x180"]:=23: hashTinvertida[23]:="8x385.15x180":
+hashTinvertida["8x385.15x200"]:=24: hashTinvertida[24]:="8x385.15x200":
+hashTinvertida["10x435.15x150"]:=25: hashTinvertida[25]:="10x435.15x150":
+hashTinvertida["10x435.15x190"]:=26: hashTinvertida[26]:="10x435.15x190":
+hashTinvertida["10x435.15x210"]:=27: hashTinvertida[27]:="10x435.15x210":
+hashTinvertida["10x480.20x160"]:=28: hashTinvertida[28]:="10x480.20x160":
+hashTinvertida["10x480.20x200"]:=29: hashTinvertida[29]:="10x480.20x200":
+hashTinvertida["10x480.20x220"]:=30: hashTinvertida[30]:="10x480.20x220":
+hashTinvertida["12x530.20x170"]:=31: hashTinvertida[31]:="12x530.20x170":
+hashTinvertida["12x530.20x210"]:=32: hashTinvertida[32]:="12x530.20x210":
+hashTinvertida["12x530.20x230"]:=33: hashTinvertida[33]:="12x530.20x230":
+hashTinvertida["12x580.20x180"]:=34: hashTinvertida[34]:="12x580.20x180":
+hashTinvertida["12x580.20x220"]:=35: hashTinvertida[35]:="12x580.20x220":
+hashTinvertida["12x580.20x240"]:=36: hashTinvertida[36]:="12x580.20x240":
+hashTinvertida["12x730.20x200"]:=37: hashTinvertida[37]:="12x730.20x200":
+hashTinvertida["12x730.20x250"]:=38: hashTinvertida[38]:="12x730.20x250":
+hashTinvertida["12x730.20x280"]:=39: hashTinvertida[39]:="12x730.20x280":
+hashTinvertida["15x730.20x210"]:=40: hashTinvertida[40]:="15x730.20x210":
+hashTinvertida["15x740.20x210"]:=41: hashTinvertida[41]:="15x740.20x210":
+hashTinvertida["15x730.20x265"]:=42: hashTinvertida[42]:="15x730.20x265":
+hashTinvertida["15x740.20x265"]:=43: hashTinvertida[43]:="15x740.20x265":
+hashTinvertida["15x730.20x290"]:=44: hashTinvertida[44]:="15x730.20x290":
+hashTinvertida["15x745.25x210"]:=45: hashTinvertida[45]:="15x745.25x210":
+hashTinvertida["15x740.20x290"]:=46: hashTinvertida[46]:="15x740.20x290":
+hashTinvertida["15x745.25x265"]:=47: hashTinvertida[47]:="15x745.25x265":
+
+
+
+
+get_h_nTinvertida:=proc(n) tablaTinvertida[n][2]+tablaTinvertida[n][5]+tablaTinvertida[n][6]; end;
+get_bw_nTinvertida:=proc(n) tablaTinvertida[n][5]; end;
+get_bf1_nTinvertida:=proc(n) tablaTinvertida[n][3]; end;
+get_bf2_nTinvertida:=proc(n) tablaTinvertida[n][7]; end;
+get_tw_nTinvertida:=proc(n) tablaTinvertida[n][4]; end;
+get_tf1_nTinvertida:=proc(n) tablaTinvertida[n][2]; end;
+get_tf2_nTinvertida:=proc(n) tablaTinvertida[n][6]; end;
+get_A_nTinvertida:=proc(n) tablaTinvertida[n][8]; end;
+get_zcdg_nTinvertida:=proc(n) tablaTinvertida[n][9]; end;
+get_Iy_nTinvertida:=proc(n) tablaTinvertida[n][10]; end;
+get_Wel1_nTinvertida:=proc(n) tablaTinvertida[n][11]; end;
+get_Wel2_nTinvertida:=proc(n) tablaTinvertida[n][12]; end;
+get_Wel_nTinvertida:=proc(n) min(get_Wel1_nTinvertida(n),get_Wel2_nTinvertida(n)); end;
+get_Wpl_nTinvertida:=proc(n) tablaTinvertida[n][13]; end;
+get_S_nTinvertida:=proc(n) tablaTinvertida[n][14]; end;
+get_Sf1_nTinvertida:=proc(n) tablaTinvertida[n][15]; end;
+get_Sf2_nTinvertida:=proc(n) tablaTinvertida[n][16]; end;
+get_Av_nTinvertida:=proc(n) get_tw_nTinvertida(n)*get_h_nTinvertida(n)/100; end;
+
+get_id_Tinvertida:=proc(Tinvertida)  ; end;
+get_h_Tinvertida:=proc(Tinvertida) get_h_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_bw_Tinvertida:=proc(Tinvertida) get_bw_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_bf1_Tinvertida:=proc(Tinvertida) get_bf1_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_bf2_Tinvertida:=proc(Tinvertida) get_bf2_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_tw_Tinvertida:=proc(Tinvertida) get_tw_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_tf1_Tinvertida:=proc(Tinvertida) get_tf1_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_tf2_Tinvertida:=proc(Tinvertida) get_tf2_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_A_Tinvertida:=proc(Tinvertida) get_A_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_zcdg_Tinvertida:=proc(Tinvertida) get_zcdg_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Iy_Tinvertida:=proc(Tinvertida) get_Iy_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_E_Tinvertida:=210000;
+get_Wel1_Tinvertida:=proc(Tinvertida) get_Wel1_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Wel2_Tinvertida:=proc(Tinvertida) get_Wel2_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Wel_Tinvertida:=proc(Tinvertida) get_Wel_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Wpl_Tinvertida:=proc(Tinvertida) get_Wpl_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_S_Tinvertida:=proc(Tinvertida) get_S_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Sf1_Tinvertida:=proc(Tinvertida) get_Sf1_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Sf2_Tinvertida:=proc(Tinvertida) get_Sf2_nTinvertida(hashTinvertida[Tinvertida]); end;
+get_Av_Tinvertida:=proc(Tinvertida) get_Av_nTinvertida(hashTinvertida[Tinvertida]); end;
+
+get_m_A_M_Tinvertida  :=proc(val) local i; for i from 1 to 47 do if (get_A_nTinvertida(i)>=val)   then break; fi; od; hashTinvertida[i]; end;
+get_m_Iy_M_Tinvertida :=proc(val) local i; for i from 1 to 47 do if (get_Iy_nTinvertida(i)>=val)  then break; fi; od; hashTinvertida[i]; end;
+get_m_Wel_M_Tinvertida:=proc(val) local i; for i from 1 to 47 do if (get_Wel_nTinvertida(i)>=val) then break; fi; od; hashTinvertida[i]; end;
+get_m_Wpl_M_Tinvertida:=proc(val) local i; for i from 1 to 47 do if (get_Wpl_nTinvertida(i)>=val) then break; fi; od; hashTinvertida[i]; end;
+
+
+
+get_id_Tinvertida:=proc(Tinvertida)  
+	sprintf("Tinvertida $f%a\\cdot%a+w%a\\cdot%a+f%a\\cdot%a[S275]$  ", 
+	            get_tf1_Tinvertida(val), get_bf1_Tinvertida(val),
+                    get_tw_Tinvertida(val), get_bw_Tinvertida(val),
+                    get_tf2_Tinvertida(val), get_bf2_Tinvertida(val));
+    end;
+
+get_texto2_datos_Tinvertida:=proc(val, gammaF)
+    local aux;
+    if (gammaF=0) then
+        aux:=sprintf("Tinvertida $w%a\\cdot%a+f%a\\cdot%a[S275]$,  ".
+                " $t_{w}=%a mm$, $b_{w}=%a mm$". 
+                " $t_{2,f}=%a mm$, $b_{2,f}=%a mm$", 
+	            
+                    get_tw_Tinvertida(val), get_bw_Tinvertida(val),
+                    get_tf2_Tinvertida(val), get_bf2_Tinvertida(val),  
+                    
+                    get_tw_Tinvertida(val), get_bw_Tinvertida(val),
+                    get_tf2_Tinvertida(val), get_bf2_Tinvertida(val)
+                    );
+    else
+        aux:=sprintf("Tinvertida $w%a\\cdot%a+f%a\\cdot%a[S275]$,  $\\gamma_F=%0.2f$, $\\gamma_M=1.05$,".
+                
+                " $t_{w}=%a mm$, $b_{w}=%a mm$". 
+                " $t_{2,f}=%a mm$, $b_{2,f}=%a mm$", 
+	            
+                    get_tw_Tinvertida(val), get_bw_Tinvertida(val),
+                    get_tf2_Tinvertida(val), get_bf2_Tinvertida(val), gammaF, 
+                    get_tw_Tinvertida(val), get_bw_Tinvertida(val),
+                    get_tf2_Tinvertida(val), get_bf2_Tinvertida(val)
+                    );
+    fi;
+    aux;
+    end;
+
+
+get_texto2_sigma_Tinvertida:=proc(texto)
+    sprintf("\n\n Tensiones normales de la sección %s, $\\sigma$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul \\Resul \n\n \\vfill", texto); 
+    end;
+
+get_textoM_Iy_Tinvertida:=proc(perfil)
+            global signosARIO, textoMER;
+            if (signosARIO=1) then
+                textoMER:= sprintf("\n\n\\moodleQue{\\n\\nDistancia de la fibra superior de la sección a su centro de gravedad, $y_{cdg}$ en $mm$}".
+	    	               "{%f}{0.05*%f}", get_zcdg_Tinvertida(perfil), get_zcdg_Tinvertida(perfil));
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento de inercia de la sección respecto a su centro de gravedad, $I_{x}$ en $cm^4$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Iy_Tinvertida(perfil), get_Iy_Tinvertida(perfil));
+            else
+                textoMER:= sprintf("\n\n\\moodleQue{\\n\\nDistancia de la fibra superior de la sección a su centro de gravedad, $z_{cdg}$ en $mm$}".
+	    	               "{%f}{0.05*%f}", get_zcdg_Tinvertida(perfil), get_zcdg_Tinvertida(perfil));
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento de inercia de la sección respecto a su centro de gravedad, $I_{y}$ en $cm^4$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Iy_Tinvertida(perfil), get_Iy_Tinvertida(perfil));
+            fi;
+            textoMER:= sprintf("%s\n\n\\moodleQue{Módulo resistente elástico de la sección, $W_{el,1}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Wel1_Tinvertida(perfil), get_Wel1_Tinvertida(perfil));
+            textoMER:= sprintf("%s\n\n\\moodleQue{Módulo resistente elástico de la sección, $W_{el,2}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Wel2_Tinvertida(perfil), get_Wel2_Tinvertida(perfil));
+            textoMER:= sprintf("%s\n\n\\moodleQue{Módulo resistente plástico de la sección, $W_{pl}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, get_Wpl_Tinvertida(perfil), get_Wpl_Tinvertida(perfil));
+            textoMER;
+    end;
+
+get_textoM_sigma_Tinvertida:=proc(perfil, Mmax, texto)
+            local M_I, h, tf, zcdg, tf1, tf2, textoMER;
+           
+            M_I:=Mmax/get_Iy_Tinvertida(perfil)*100;
+            h  :=get_h_Tinvertida(perfil);
+            zcdg:=get_zcdg_Tinvertida(perfil);
+            tf1 :=get_tf1_Tinvertida(perfil);
+            tf2 :=get_tf2_Tinvertida(perfil);
+            
+            textoMER:= sprintf("\n\n%s\\moodleQue{Tensión normal en la fibra superior de la sección %s, $\\sigma$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}", "%", texto, -M_I*(zcdg),-M_I*(zcdg));
+            
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior del alma de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h-zcdg-tf2), M_I*(h-zcdg-tf2));
+            textoMER:= sprintf("%s\n\n%s\\moodleQue{Tensión normal en la fibra inferior de la sección %s, $\\sigma$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, "%", texto, M_I*(h-zcdg),M_I*(h-zcdg));
+            textoMER;
+    end;
+
+get_texto2_tau_Tinvertida:=proc(texto)
+    sprintf("\n\n Tensiones tangenciales de la sección %s, $\\tau$ en $N/mm^2$".
+            "\n\n \\hfill \\Resul \\Resul \\Resul\n\n \\vfill", texto); 
+    end;
+
+get_textoM_tau_Tinvertida:=proc(perfil,Vmax, texto)
+            local V_I, h, b, tf, tw, S0, Sf1, Sf2, textoMER;
+            global signosARIO;
+           
+            V_I:=Vmax/get_Iy_Tinvertida(perfil)*100;
+            h  :=get_h_Tinvertida(perfil);
+            b  :=get_b_Tinvertida(perfil);
+            tw :=get_tw_Tinvertida(perfil);
+            S0 :=get_Wpl_Tinvertida(perfil)/2;
+            Sf1 :=get_Sf1_Tinvertida(perfil);
+            Sf2 :=get_Sf2_Tinvertida(perfil);
+            print("get_textoM_tau_Tinvertida", S0, Sf1, Sf2);
+            
+            textoMER:="";
+
+            if (signosARIO=1) then 
+                textoMER:= sprintf("\n\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                               " $S_{x}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0, S0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento estático del ala inferior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,x}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}\n\n",textoMER, Sf2, Sf2);
+           
+	        textoMER:= sprintf("\n%s %s get_textoM_tau_Tinvertida. Chequeo: V=%a, h=%a,   tw=%a, S0=%a, Sf1=%a, , Sf2=%a", textoMER, "%", Vmax, h,   tw, S0, Sf1, Sf2); 
+                textoMER:= sprintf("%s\n\n\\moodleQue{\\n\\nTensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+                
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, -V_I*S0/tw,V_I*S0/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto,-V_I*Sf2/tw,V_I*Sf2/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            else
+                textoMER:= sprintf("\n\n%s\n\\moodleQue{Momento estático de media sección respecto a su centro de gravedad, ".
+                               " $S_{y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}",textoMER, S0, S0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Momento estático del ala inferior de la sección respecto a su centro de gravedad, ".
+                               " $S_{f,y}$ en $cm^3$}".
+	    	               "{%f}{0.05*%f}\n\n",textoMER, Sf2, Sf2);
+           
+	        textoMER:= sprintf("\n%s %s get_textoM_tau_Tinvertida. Chequeo: V=%a, h=%a,   tw=%a, S0=%a, Sf1=%a, , Sf2=%a", textoMER, "%", Vmax, h,   tw, S0, Sf1, Sf2); 
+                textoMER:= sprintf("%s\n\n\\moodleQue{\\n\\nTensión tangencial en la fibra superior de la sección %s, $\\tau$ en $N/mm^2$}".
+	    	               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra neutra de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*S0/tw,V_I*S0/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior del alma de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, V_I*Sf2/tw,V_I*Sf2/tw);
+                textoMER:= sprintf("%s\n\n\\moodleQue{Tensión tangencial en la fibra inferior de la sección %s, $\\tau$ en $N/mm^2$}".
+                               "{%f}{0.05*%f}",textoMER, texto, 0,0);
+            fi;
+            textoMER;
+    end;
+
+
+get_texto2_MEMR_Tinvertida:=proc( texto)
+    local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$ y $M_{Ed}/M_{pl,Rd}$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\Resul \\vfill", texto);
+    fi;
+    mireturn;
+    end;
+
+get_textoM_MEMR_Tinvertida:=proc(perfil, Mmax, gammaf, texto)
+        local MEd_MRd, textoM, MRd;
+
+
+        MRd:=(275/1.05)*get_Wel_Tinvertida(perfil)/1000;
+        textoM:=sprintf("\n \n \\moodleQue{Calcular $M_{el,Rd}=W_{el} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", MRd,MRd);
+
+
+        MRd:=(275/1.05)*get_Wpl_Tinvertida(perfil)/1000;
+        textoM:=sprintf("%s\n \n \\moodleQue{Calcular  $M_{pl,Rd}=W_{pl} f_{yd}$ en $kN m$ }{%f}{0.05*%f}", textoM, MRd,MRd);
+
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_Tinvertida(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{Calcular $M_{Ed}/M_{el,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wpl_Tinvertida(perfil)*275/1.05/1000);
+	sprintf("%s \n \n \\moodleQue{Calcular  $M_{Ed}/M_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", textoM, texto, MEd_MRd,MEd_MRd); 
+    end;
+
+
+
+get_texto2_MEMRVEVR_Tinvertida:=proc(texto, Mmax)
+   
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        
+
+      if (Mmax=0) then 
+        mireturn:=sprintf("Calcular $V_{Ed}/(V_{pl,Rd})$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\vfill", texto);
+        
+      else
+        mireturn:=sprintf("Calcular $M_{Ed}/M_{el,Rd}$, $M_{Ed}/M_{pl,Rd}$ y $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.".
+                          "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto);
+      fi;
+    fi;
+
+    mireturn;
+
+    end;
+
+get_textoM_MEMRVEVR_Tinvertida:=proc(perfil, Mmax, gammaf, Vmax, texto)
+    local VEd_VRd, mireturn, Vpl, Vel;
+    global signosARIO;
+
+#print("perfil, Mmax, gammaf, Vmax, texto",perfil, Mmax, gammaf, Vmax, texto); 
+    
+    mireturn:=" ";
+    Vpl:=(get_h_Tinvertida(perfil)*get_tw_Tinvertida(perfil)/100)/1.73*275/1.05/10;
+    Vel:=get_Iy_Tinvertida(perfil)/get_S_Tinvertida(perfil)*(get_tw_Tinvertida(perfil)/10)/1.73*275/1.05/10;
+    if (signosARIO=1) then
+        mireturn:=sprintf(" \n \n \\moodleQue{Calcular $V_{el,Rd}=(I_x/S_{x}) t_w  (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      Vel,Vel);
+
+    else
+        mireturn:=sprintf(" \n \n \\moodleQue{Calcular $V_{el,Rd}=(I_y/S_{y}) t_w  (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      Vel,Vel);
+    fi; 
+    mireturn:=sprintf("%s \n \n \\moodleQue{Calcular $V_{pl,Rd}=A_v (f_{yd}/\\sqrt{3})\\approx (h t_w) (f_{yd}/\\sqrt{3})$ en $kN$.}{%f}{0.05*%f} \n\n\n",
+                      mireturn, Vpl,Vpl); 
+    if (Mmax<>0) then   
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_Tinvertida(perfil)/1.73*275/1.05/2)*10;
+        mireturn:=sprintf("%s \n\n %s\n\n  \\moodleQue{Calcular $V_{Ed}/(V_{pl,Rd}/2)$ en la sección %s.}{%f}{0.05*%f}", 
+                get_textoM_MEMR_Tinvertida(perfil,Mmax,gammaf, texto), mireturn,texto,VEd_VRd,VEd_VRd);
+    else    
+        VEd_VRd:=abs(Vmax)*gammaf/(get_Av_Tinvertida(perfil)/1.73*275/1.05)*10;
+        mireturn:=sprintf(" \n\n \n\n %s  \\moodleQue{Calcular $V_{Ed}/V_{pl,Rd}$ en la sección %s.}{%f}{0.05*%f}", 
+                mireturn, texto,VEd_VRd,VEd_VRd);
+    fi;
+#print(mireturn); quit;
+
+    mireturn;
+ 
+    end;
+
+
+
+get_texto2_sigEsigR_Tinvertida:=proc()
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+        mireturn:=sprintf("Calcular $\\sigma_{Ed}/f_{yd}$ en la sección cuyo momento flector positivo es máximo.".
+            "\n\n \\hfill \\Resul \\vfill");
+    fi;
+    mireturn;
+    end;
+
+get_textoM_sigEsigR_Tinvertida:=proc(perfil, Mmax, gammaf)
+
+        local MEd_MRd, textoM;
+	MEd_MRd:=abs(Mmax)*gammaf/(get_Wel_Tinvertida(perfil)*275/1.05/1000);
+	textoM:=sprintf("%s \n \n \\moodleQue{ Calcular $|\\sigma_{Ed}|/f_{yd}$}{%f}{0.05*%f}", "%", MEd_MRd,MEd_MRd);
+ 
+    end;
+
+get_texto2_sigtauEsigtauR_Tinvertida:=proc(perfil, Mmax, gammaf, Vmax, texto)
+
+   local mireturn;
+
+    mireturn:=" ";
+    if (textoAmpliado=1) then
+
+      if (Mmax=0) then 
+
+        mireturn:=sprintf("Calcular $\\tau_{Ed}/(f_{yd}/\\sqrt{3})$ en la sección %s.".
+            "\n\n \\hfill \\Resul \\vfill", texto);
+      else
+        mireturn:="Calcular $(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/(f_{yd})^2$ en ".
+                  " los puntos más significativos de la sección %s.".
+                  "\n\n \\hfill \\Resul \\Resul \\Resul \\vfill", texto;
+      fi;
+    fi;
+
+    mireturn;
+    
+    end;
+
+get_textoM_sigtauEsigtauR_Tinvertida:=proc(perfil, Mmax, gammaf, Vmax, texto)
+            local mireturn, V_I, h, b, tf, tw, S0, S1, textoMER, Sf1, Sf2, Ed_Rd, MEd_MRd, VEd_VRd;
+           
+            V_I:=abs(Vmax)/get_Iy_Tinvertida(perfil)*100;
+            h  :=get_h_Tinvertida(perfil);
+            b  :=get_b_Tinvertida(perfil);
+            tf :=get_tf_Tinvertida(perfil);
+            tw :=get_tw_Tinvertida(perfil);
+            Sf1 :=get_Sf1_Tinvertida(perfil);
+            Sf2 :=get_Sf2_Tinvertida(perfil);
+            S0 :=get_S_Tinvertida(perfil);
+            print("get_textoM_tau_Tinvertida", S0, Sf1, Sf2);
+
+            if (Mmax=0) then 
+                Ed_Rd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                mireturn:=sprintf(" \n \n %s\\moodleQue{ Calcular $|\\tau_{Ed}|/(f_{yd}/\\sqrt{3})$}{%f}{0.05*%f}", 
+                                  "%", Ed_Rd,Ed_Rd);
+            else
+	        textoMER:= sprintf("\n%s get_textoM_tau_Tinvertida. Chequeo: V=%a, M=%a, h=%a,   tw=%a, S0=%a, Sf1=%a,  Sf2=%a", "%", Vmax, Mmax, h,   tw, S0, Sf1, Sf2); 
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel1_Tinvertida(perfil)*275/1.05/1000);
+                Ed_Rd:=(MEd_MRd)^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{ Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior de la sección %s}".
+	    	                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_Tinvertida(perfil)*
+                         (get_zcdg_Tinvertida(perfil)-get_tf1_Tinvertida(perfil))/(275/1.05/1000)/10;
+                VEd_VRd:=gammaf*V_I*Sf1/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra superior del alma de la sección %s}".
+	    	       	           "{%f}{0.05*%f}",textoMER, texto,Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                VEd_VRd:=gammaf*V_I*S0/tw/(275/1.05/1.732050);
+                Ed_Rd:=VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   " en la fibra neutra de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd,Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/get_Iy_Tinvertida(perfil)*(get_h_Tinvertida(perfil)-get_zcdg_Tinvertida(perfil)-
+					   get_tf2_Tinvertida(perfil))/10/(275/1.05/1000);
+                VEd_VRd:=gammaf*V_I*Sf2/tw/(275/1.05/1.732050);
+                Ed_Rd:=MEd_MRd^2+VEd_VRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior del alma de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                #-------------------------------------------------------------------------------------
+                MEd_MRd:=abs(Mmax)*gammaf/(get_Wel2_Tinvertida(perfil)*275/1.05/1000);
+                Ed_Rd:=MEd_MRd^2;
+                textoMER:= sprintf("%s\n\n\\moodleQue{Calcular ".
+                                   "$(\\sigma_{Ed}/f_{yd})^2+3 (\\tau_{Ed}/f_{yd})^2$ ".
+                                   "en la fibra inferior de la sección %s}".
+                                   "{%f}{0.05*%f}",textoMER, texto, Ed_Rd, Ed_Rd);
+                
+                mireturn:=textoMER;
+            fi;
+
+    mireturn;
+
+    end;

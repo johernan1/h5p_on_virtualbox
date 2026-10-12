@@ -1,0 +1,17 @@
+funicular:=proc(O,L0,combinacionX,variacionP,variacionq,variacionM)
+    local aux, Mmax,gammaf;
+    printf("Inicio funicular\n"); 
+    aux:=diagramaMV(O,L0,combinacionX,variacionP,variacionq,variacionM);
+    Mmax:=max(abs(aux[2]),abs(aux[3]),abs(aux[4]));
+    zi:=0.5*L0/(10.8/3.2);  ### 0.5 y (10.8/3.2) ajusta escala x e y de grifos
+    gammaf:=zi/Mmax;
+                             
+    aux1:=diagramaMV(O,L0,combinacionX,gammaf*variacionP,gammaf*variacionq,variacionM);
+    aux1[6]:=aux[6]; ### Reacciones (las previas a "ponderar" las cargas)
+    aux1[7]:=aux[7];
+    [[zi,Mmax/zi,variacionP,combinacionX],aux1];
+    #[moodleM,M0,Mmax,M1,moodleV,-faz,V2,MmaxIso,phi1,phi2,v,M1f,M2f,moodleTopoGeom];
+end;
+
+
+

@@ -1,0 +1,50 @@
+printf("------------- read(portico6610)----------------\n");
+portico6610:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+			    	escal, escalP, escalq, escalM, posiPRelativa 
+                     )
+    global CODIGO, subestructura;
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, s;
+    
+    #                
+    #   |8             |9           |10         11|                
+    #   |              |            |             |         
+    #   --------------------------------------------
+    #   |     1        |     2      |     3       |               
+    #   |              |            |             | 
+    #   |4             | 5          |6            |7 
+
+ 
+    printf("-------------     (portico6610)----------------\n");
+    printf("211013 subestructura=%a\n", subestructura);
+    
+    CODIGO:=P6610;
+
+    s :=     portico6610Calculo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+             subestructura);
+
+             portico10Psfrag( Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+             portico6610Tex(    Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	                         s);
+
+ 
+
+    #------------------- Lo último es el dibujo para actualizar la variable global FICH
+    Fich();
+    print(display(
+             portico6610Dibujo(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM,
+	       	                 escal, escalP, escalq, escalM, posiPRelativa,
+				 subestructura)));
+				 
+    printf("------------- fin (portico6610)----------------\n");
+end;
+#--------------------
+#print(portico6610); # Para fijar variables locales
+printf("-------------     (portico6610)----------------\n");
+
+
+
+
+
+

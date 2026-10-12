@@ -1,0 +1,314 @@
+printf("------------- read(texBiapoyada)------------------\n");
+texBiapoyada:=proc(psfrag,MV,variacionU,textoAmpliado, dim, reaccVolIzq, Nv, ivano)
+global ER;
+local textoCol1, textoCol2, texto2Col2, idReaccion, texto1Mdl, coorX, M_x,
+L0, textoVano, texto2Mdl, i, texto3Mdl, arioMV5, posicioncoma,
+posicionpuntoycoma, posicion2puntoycoma, nvalor, newMV5, posicionseparador,
+ivalor, separador, signoV, texto4Mdl, V_x, texto5Mdl, texto6Mdl, texto7Mdl;
+
+print("---------------Inicio texBiapoyada -------------------------");
+
+#----------------------------------------------------------------------
+textoCol1:="";
+texto2Col2:="%--------- texBiapoyada: inicio texto2Col2\n";
+if (ivano=1) then
+textoCol1:="    Para la viga representada, se pide: valor y signo de las reacciones.".
+    "\\medskip	    \\hfill \\Resul   ";
+fi;
+
+   textoCol1:=sprintf("%s \\Resul", textoCol1);
+if ((ivano  mod 4) = 3) then
+   textoCol1:=sprintf("%s \n\n \\medskip \n\n \\hfill", textoCol1);
+fi;
+if (ivano=Nv) then 
+
+   textoCol1:=sprintf("%s \\Resul \n\n \\vfill \n", textoCol1);
+fi;
+
+if (Nv>1 and ivano=Nv) then
+
+   textoCol1:=sprintf("%s\n". 
+       "Diagrama acotado de esfuerzos cortantes\n\n       \\vfill\n\n".
+       "Diagrama acotado de momentos flectores\n\n        \\vfill", textoCol1);
+
+fi;
+
+#----------------------------------------------------------------------
+if (Nv=1) then
+   textoCol2:="\n       Diagrama acotado de esfuerzos cortantes\n\n       \\vfill".
+              "\n       Diagrama acotado de momentos flectores\n\n       \\vfill";
+else
+   textoCol2:="";
+    
+fi;
+
+texto2Col2:="";
+if (ER[2] <>0 and ivano=1) then
+    texto2Col2:=sprintf("%s\n%s", texto2Col2, dim[2,1]);
+fi;
+#print(textoCol2); quit;
+
+##----------------Solo funciona, de momento, para vigas de 1 vano, para evitar problemas con gerber
+#if (variacionU[1]=1 and Nv=1) then
+#    if (ER[1]=1) then   #IPE
+#        textoPerfilIy:=sprintf("(%s, $I_y=%a cm^4$)",get_id_Perfil(perfilVano1), get_Iy_Perfil(perfilVano1)); 
+#    else
+#	textoPerfilIy:=sprintf("(%s)",get_id_Perfil(perfilVano1));
+#    fi;
+#    texto2Col2:=sprintf("%s
+#
+#        Valor y signo de los giros en los extremos de la viga y 
+#        flecha en su centro %s
+#
+#        \\medskip
+#
+#        \\hfill \\Resul \\Resul \\Resul
+#   
+#        \\medskip
+#
+#        Comprobación del ELS: daños en elementos constructivos ''no fragiles'' $v_{lim}=L_v/400$; 
+#                        $v_{ac}$=flecha ''activa'' descontando el peso propio (aproximadamente 1/3 de la carga total). 
+#                        Se pide $|v_{ac}|/v_{lim}$.
+#
+#
+#        \\medskip
+#
+#        \\hfill \\Resul
+#   
+#        \\medskip
+#
+#   
+#        ", texto2Col2, textoPerfilIy);
+#fi;
+#----------------------------------------------------------------------
+
+idReaccion:=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q"];
+texto1Mdl:="";
+if (ivano=1) then 
+    texto1Mdl:="%\\moodleTxt{Para la viga representada, se pide: valor y signo de las reacciones.}\n\n           %\\moodleNL{}";
+    texto1Mdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{ax}$ en $kN$}{0}{.01}",
+           texto1Mdl, "%");
+ 
+fi;
+    if(signosARIO=1) then
+        texto1Mdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{%sy}$ en $kN$}{%f}{%f*0.05}",
+	       texto1Mdl,"%",idReaccion[ivano],-(-MV[6]+reaccVolIzq),-(-MV[6]+reaccVolIzq));
+    else
+        texto1Mdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{%sz}$ en $kN$}{%f}{%f*0.05}",
+	       texto1Mdl,"%",idReaccion[ivano],-MV[6]+reaccVolIzq,-MV[6]+reaccVolIzq);
+    fi;
+
+
+if (ivano = Nv) then
+    if(signosARIO=1) then
+        texto1Mdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{%sy}$ en $kN$}{%f}{%f*.05}",
+	   texto1Mdl,"%",idReaccion[ivano+1],-(MV[7]),-(MV[7]));
+    else
+        texto1Mdl:=sprintf("%s\n\n%s\\moodleQue{Reacción $f_{%sz}$ en $kN$}{%f}{%f*.05}",
+	   texto1Mdl,"%",idReaccion[ivano+1],MV[7],MV[7]);
+    fi;   
+    texto1Mdl:=sprintf("%s\n\n%s\\moodleDiagrama{".
+           "Dibujar el diagrama de flectores de la viga representada}{%s}{%s}{6}{.6}{1}\n\n",
+           texto1Mdl,"%",MV[14],MV[1]);
+fi;
+    #------------------------------------------------------
+
+coorX:=MV[18];
+M_x:=MV[16];
+L0:=MV[15];
+
+if(Nv>1) then
+   textoVano:=sprintf("%s \\moodleTxt{<hr/>Vano %a<hr/>}","%", ivano);
+else
+   textoVano:="";
+fi;
+
+
+texto2Mdl:=textoVano;
+texto2Mdl:=sprintf("%s%s\n\n%s\\moodleTxt{Acotar el diagrama de momentos flectores:}\n\n          \\moodleNL{}\\moodleNL{}",
+           "%",texto2Mdl,"%");
+texto2Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del momento flector máximo, $M_{max}$ en $kNm$}{%f}{%f*.05}",
+           texto2Mdl,"%",MV[3],MV[3]);
+
+for i from 1 to nops(coorX) 
+do
+    texto2Mdl:=sprintf("%s\n\n%s\\moodleque{Momento flector en $x=%4.3f$, $M(%4.3f)$ en $kNm$}{%f}{%f*.05}",
+	   texto2Mdl,"%",coorX[i]*L0,coorX[i]*L0,M_x[i],M_x[i]);
+od;
+    #------------------------------------------------------
+
+
+texto3Mdl:="";
+if (signosARIO=1 and ivano = Nv) then
+    print("Cambiando signos a diagramaV:", MV[5]);
+    arioMV5:=MV[5];
+    posicioncoma:=searchtext(",",arioMV5);
+    posicionpuntoycoma:=searchtext(";",arioMV5);
+    posicion2puntoycoma:=searchtext(";;",arioMV5);
+    nvalor:=1;
+    newMV5:="";
+    for i from 1 while (0<posicionpuntoycoma or 0<posicioncoma) do
+print("nvalor", nvalor, [posicioncoma, posicionpuntoycoma, posicion2puntoycoma]);
+        nvalor:=nvalor+1;
+        posicionseparador:=min(posicioncoma, posicionpuntoycoma);
+        if (posicionseparador=0) then 
+            posicionseparador:=max(posicioncoma, posicionpuntoycoma);
+        fi;
+print("posicion separador",posicionseparador); 
+#        if (posicionseparador=0) then ## solo queda el último valor
+#           ivalor:=parse(arioMV5);
+#           newMV5:=sprintf("%s %f ",newMV5,ivalor);
+#        else
+print("ivalor",substring(arioMV5, 1..posicionseparador-1)); 
+           ivalor:=parse(substring(
+                         arioMV5, 1..posicionseparador-1));
+           if ((nvalor mod 2)=1) then ivalor:=-ivalor; fi; 
+           separador:=substring(arioMV5, posicionseparador..posicionseparador);
+           newMV5:=sprintf("%s %f %s",newMV5,ivalor, separador);
+           if (posicionseparador=posicion2puntoycoma) then
+              newMV5:=sprintf("%s%s",newMV5, separador);   
+#           fi;
+           
+        fi;
+        
+        arioMV5:=substring(arioMV5, posicionseparador+1..length(arioMV5));
+        if (posicionseparador=posicion2puntoycoma) then
+            arioMV5:=substring(arioMV5, 2..length(arioMV5));  
+        fi;
+        posicioncoma:=searchtext(",",arioMV5);
+        posicionpuntoycoma:=searchtext(";",arioMV5);
+        posicion2puntoycoma:=searchtext(";;",arioMV5);
+    od;
+    ## el ultimo valor
+    ivalor:=parse(arioMV5);
+    newMV5:=sprintf("%s %f ",newMV5,-ivalor);
+
+#    arioMV5:=MV[5];
+#    posicionpuntoycoma:=searchtext(";;",arioMV5);
+#    arioMV5_:=[];
+#    for i from 1 while 0<posicionpuntoycoma do
+#        arioMV5_:=[op(arioMV5_),substring(arioMV5, 1..posicionpuntoycoma-1)];
+#        arioMV5:=substring(arioMV5, posicionpuntoycoma+2..length(arioMV5));
+#print("*****arioMV5_[i]",arioMV5_[i] );
+#        posicionpuntoycoma:=searchtext(";;",arioMV5); 
+#    od; 
+#    arioMV5_:=[op(arioMV5_),arioMV5];
+#  
+#    newMV5:="";
+#    #arioMV5__:=[];
+#    for i in arioMV5_ do
+#print("------i=",i);
+#        arioMV5__:=parse("[".i."]");
+#print("arioMV5__",  arioMV5__);
+#        newMV5:=sprintf("%s %f, %f",newMV5, arioMV5__[1], -arioMV5__[2]);
+#        for j from 3 to nops(arioMV5__) by 2 do
+#            newMV5:=sprintf("%s, %f, %f",newMV5, arioMV5__[j], -arioMV5__[j+1]);
+#        od;
+#        newMV5:=sprintf("%s ;;",newMV5);
+#        
+#    od;
+#    newMV5:=substring(newMV5,1..-3);
+#    print("xxxxxxxxxx",MV[5]);
+#    print("xxxxxxxxxx", newMV5);
+#    #quit;
+#    #quit;
+    
+    texto3Mdl:=sprintf("%s\n\n%s\\moodleDiagrama{Dibujar el diagrama de esfuerzos cortantes de la viga representada}{%s}{%s}{6}{.6}{1}\n\n",
+           texto3Mdl,"%",MV[14],newMV5);
+    print("resto arioMV5", arioMV5); print("original", MV[5]); print("newMV5",newMV5);#quit;
+else
+    texto3Mdl:=sprintf("%s\n\n%s\\moodleDiagrama{Dibujar el diagrama de esfuerzos cortantes de la viga representada}{%s}{%s}{6}{.6}{1}\n\n",
+           texto3Mdl,"%",MV[14],MV[5]);
+fi;
+
+    #------------------------------------------------------
+signoV:=1;
+if (signosARIO=1) then
+  signoV:=-1;
+fi;
+texto4Mdl:=textoVano;
+texto4Mdl:=sprintf("%s%s\n\n%s\\moodleTxt{Acotar el diagrama de esfuerzos cortantes:}\n\n          \\moodleNL{}\\moodleNL{}",
+           "%",texto4Mdl,"%");
+
+
+texto4Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del esfuerzo cortante en el apoyo izquierdo de la viga, $V_1$ en $kN$}{%f}{%f*.05}",
+           texto4Mdl,"%",signoV*MV[6],signoV*MV[6]);   
+
+V_x:=MV[17];
+
+            #------------------------------------------------------
+for i from 2 to nops(coorX)-1 
+do
+    if (nops(V_x[i])=2) then
+        texto4Mdl:=sprintf("%s\n\n%s\\moodleque{Esfuerzo cortante en la cara dorsal de la sección situada en $x=%4.3f$, $V_d(%4.3f)$ en $kN$}{%f}{%f*.05}",
+	       texto4Mdl,"%",coorX[i]*L0,coorX[i]*L0,signoV*V_x[i,1],signoV*V_x[i,1]);
+        texto4Mdl:=sprintf("%s\n\n%s\\moodleque{Esfuerzo cortante en la cara frontal de la sección situada en $x=%4.3f$, $V_f(%4.3f)$ en $kN$}{%f}{%f*.05}",
+	       texto4Mdl,"%",coorX[i]*L0,coorX[i]*L0,signoV*V_x[i,2],signoV*V_x[i,2]);
+    else
+        texto4Mdl:=sprintf("%s\n\n%s\\moodleque{Esfuerzo cortante en $x=%4.3f$, $V(%4.3f)$ en $kN$}{%f}{%f*.05}",
+	       texto4Mdl,"%",coorX[i]*L0,coorX[i]*L0,signoV*V_x[i,1],signoV*V_x[i,1]);
+    fi
+od;
+           #------------------------------------------------------
+
+texto4Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del esfuerzo cortante en el apoyo derecho de la viga, $V_2$ en $kN$}{%f}{%f*.05}",
+           texto4Mdl,"%",signoV*MV[7],signoV*MV[7]);
+
+    #------------------------------------------------------
+
+texto5Mdl:="";
+#if (variacionU[1]=1 and Nv=1) then  
+#
+#    if (ER[1]=1) then   #IPE
+#        textoPerfilIy:=sprintf("(%s, $I_y=%a cm^4$)",get_id_Perfil(perfilVano1), get_Iy_Perfil(perfilVano1)); 
+#    else
+#	textoPerfilIy:=sprintf("(%s)",get_id_Perfil(perfilVano1));
+#    fi;
+#
+#    texto5Mdl:=textoVano;
+#    print("Ojo get_E_Perfil definido solo, de momento, para secciones metálicas", get_E_Perfil);
+#    EI:=get_E_Perfil*get_Iy_Perfil(perfilVano1)/100000;
+#    Lv:=MV[15];
+#    texto5Mdl:=sprintf("%s\n\n%sEI*(phi1, phi2, v)=%a,%a,%a, EI=%a*%a, Lv=%a\n\n", 
+#	                texto5Mdl, "%", MV[9], MV[10], MV[11], get_E_Perfil, get_Iy_Perfil(perfilVano1), Lv); 
+#    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del giro en el apoyo izquierdo de la viga %s, ".
+#                       "$\\varphi_1$ en $rad$}{%f}{%f*.05}",
+#                       texto5Mdl,"%",textoPerfilIy, MV[9]/EI,MV[9]/EI);
+#  
+#    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo del giro en el apoyo derecho de la viga %s, ".
+#                       "$\\varphi_2$ en $rad$}{%f}{%f*.05}",
+#                        texto5Mdl,"%",textoPerfilIy, MV[10]/EI,MV[10]/EI);
+#  
+#    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Valor y signo de la flecha  de la viga %s, ".
+#                       "$v$ en $m$}{%f}{%f*.05}",
+#                       texto5Mdl,"%",textoPerfilIy, MV[11]/EI,MV[11]/EI);
+#
+#
+#    texto5Mdl:=sprintf("%s\n\n%s\\moodleQue{Comprobación del ELS: ".
+#                       "daños en elementos constructivos ''no fragiles'' $v_{lim}=L_v/400$; ".
+#                       "$v_{ac}$=flecha ''activa'' descontando el peso propio (aproximadamente 1/3 de la carga total). ".
+#                       "Se pide $|v_{ac}|/v_{lim}$}{%f}{%f*.05}",
+#                       texto5Mdl,"%", abs(0.667*MV[11])/EI/(Lv/400),0.667*MV[11]/EI/(Lv/400));    
+#    
+#    
+#fi;
+    #-------------------------------------------------------
+
+texto6Mdl:="";
+if (ER[2] <>0) then
+    if(textoAmpliado<>0) then   ## En la version reducida se pide Mmax y Vmax de todos los vanos
+        texto6Mdl:=textoVano;
+    fi;
+    texto6Mdl:=sprintf("%s\n%s", texto6Mdl, dim[2,2]);
+fi;
+texto7Mdl:=textoVano;
+if (ER[2] <>0) then
+    texto7Mdl:=sprintf("%s\n%s", texto7Mdl, dim[2,3]);
+fi;
+#print(textoCol2); quit;
+
+
+[textoCol1, textoCol2, texto2Col2, texto1Mdl, texto2Mdl, texto3Mdl, texto4Mdl, texto5Mdl, texto6Mdl, texto7Mdl, MV[7]];
+
+end;
+printf("-------------     (texBiapoyada)------------------\n");

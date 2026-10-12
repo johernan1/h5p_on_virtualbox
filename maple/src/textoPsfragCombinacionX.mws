@@ -1,0 +1,44 @@
+printf("------------- read(textoPsfragCombinacionX)-------\n");
+textoPsfragCombinacionX:=proc(L0, combinacionX)
+    local psfrag, psfrag0, psfrag1, combinacionX0L, texto, iX;
+
+    print("inicio textoPsfragCombinacionX", L0, combinacionX, nops(combinacionX));
+    psfrag :="\\psfrag{%s}[c][c]{\\scriptsize \\mipsfrag{0}{0}{$%05.3f m$}}\n";
+    psfrag0:="\\psfrag{%s}[c][c]{\\scriptsize \\mipsfrag{0}{0}{$%05.3f$}}\n";
+    psfrag1:="\\psfrag{%s}[c][c]{\\scriptsize \\mipsfrag{0}{0}{$ $}}\n";
+    
+    combinacionX0L:=[0,op(combinacionX),1]:
+    
+    texto:= sprintf(psfrag, convert(L0, string),L0):
+    ### Las posibles longitudes de los voladizos. Ver diagramaMVvol
+    texto:= sprintf("%s".psfrag, texto, convert(L0*.2, string),L0*.2):
+    texto:= sprintf("%s".psfrag, texto, convert(L0*.25, string),L0*.25):
+
+    for iX from 1 to nops(combinacionX)+1 do
+      if (L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX]>0.5) then   # se imprimen las unidades     
+        texto:=
+	     sprintf("%s".psfrag,texto,
+	                convert(L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+	                        string),
+	  	        L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX]):
+      elif (L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX]>0.01) then   # no se imprimen las unidades
+        texto:=
+	     sprintf("%s".psfrag0,texto,
+	                convert(L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+	                        string),
+	  	        L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX]):
+      else                                                           # no se imprime nada
+	texto:=
+	     sprintf("%s".psfrag1,texto,
+	                convert(L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX],
+	                        string),
+	  	        L0*combinacionX0L[iX+1]-L0*combinacionX0L[iX]):			
+      
+      fi;
+    od:
+    print(texto);
+
+    texto;    #return. NO BORRAR
+
+end:
+printf("-------------     (textoPsfragCombinacionX)-------\n");

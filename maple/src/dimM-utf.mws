@@ -1,0 +1,78 @@
+dimM:=proc(Mmax, Mizq, Vizq, Mder, Vder)
+    global ER, CODIGO, gammaf;
+    print ("---Inicio de dimM-----------------------------------------------------");
+    CODIGO:=sprintf("%sS%d",CODIGO,ER[1]+ER[2]*10);
+    print ("Mmax, Mizq, Vizq, Mder, Vder",Mmax, Mizq, Vizq, Mder, Vder,CODIGO);
+    #### IPE #############
+    if (ER[1]=1) then
+
+        Wcm3:=max(Mmax,abs(Mizq), abs(Mder))*gammaf/(255/1.05)*1000;
+        perfil:=get_m_Wpl_M_IPE(Wcm3);
+	print ("Wcm3=",Wcm3,"IPE",perfil, get_Wpl_IPE(perfil)); #quit;
+    fi;
+    #### Texto que se añade después de diagrama de esfuerzos cortantes
+    if (ER[2] <> 0) then
+        texAuxMmax:=texERMmax(Mmax, perfil);
+        comentario:=sprintf("\n%s dimM: ER[2]=%a, %s ", "%", ER[2],"Chequeo de tau en:");
+        #--------------------------------------------------------------------------------
+        if(ER[2]<=100) then
+            if (Vizq>-Vder) then
+		comentario:=sprintf("%s Vizq=%a, Mizq=%a, (Vder=%a, Mder=%a)\n\n", comentario, Vizq, -Mizq, Vder, Mder);
+                texAuxVmax:=texERVmax(Vizq, -Mizq, perfil, " cuyo esfuerzo cortante es máximo ");
+            else
+                texAuxVmax:=texERVmax(Vder, Mder, perfil, " cuyo esfuerzo cortante es máximo ");
+		comentario:=sprintf("%s Vder=%a, Mder=%a, (Vizq=%a, Mizq=%a)\n\n", comentario, Vder, Mder, Vizq, -Mizq);
+            fi;
+        fi;
+        #--------------------------------------------------------------------------------
+        if(ER[2]>=100 and ER[2]<=199) then 
+	    comentario:=sprintf("%s apoyo izquierdo (100<ER[2]<200) Vizq=%a, Mizq=%a, (Vder=%a, Mder=%a)\n\n", comentario, Vizq, -Mizq, Vder, Mder);
+            texAuxVmax:=texERVmax(Vizq, -Mizq, perfil, " del extremo izquierdo de la barra ");
+        fi;
+        #--------------------------------------------------------------------------------
+        if(ER[2]>=200 and ER[2]<=299) then
+	    comentario:=sprintf("%s apoyo derecho (200<ER[2]<300) Vder=%a, Mder=%a, (Vizq=%a, Mizq=%a)\n\n", comentario, Vder, Mder, Vizq, -Mizq); 
+            texAuxVmax:=texERVmax(Vder, Mder, perfil, " del extremo derecho de la barra ");
+        fi;
+        #--------------------------------------------------------------------------------
+        if(ER[2]>=300 and ER[2]<=400) then
+            #if (abs(Mder) < abs(Mizq)) then
+		comentario:=sprintf("%s extremo con M=0 o el de Vmax (300<ER[2]<400)  Vder=%a, Mder=%a, (Vizq=%a, Mizq=%a)\n\n", comentario, Vder, Mder, Vizq, -Mizq);
+        #        texAuxVmax:=texERVmax(Vder, Mder, perfil, " del extremo derecho de la barra");
+                if (abs(Mder)<0.1 and abs(Mizq)>0.1) then
+                   comentario:=sprintf("%s\n%s ......extremo derecho con M=0\n\n", comentario,"%");
+                   texAuxVmax:=texERVmax(Vder, Mder, perfil, " del extremo derecho de la barra");
+                fi;
+                if (abs(Mizq)<0.1 and abs(Mder)>0.1) then
+                   comentario:=sprintf("%s\n%s ......extremo izquierdo con M=0\n\n", comentario,"%");
+                   texAuxVmax:=texERVmax(Vizq, Mizq, perfil, " del extremo izquierdo de la barra");
+                fi;
+   
+                
+                if (not(abs(Mder)<0.1 and abs(Mizq)>0.1) and not(abs(Mizq)<0.1 and abs(Mder)>0.1)) then 
+                   comentario:=sprintf("%s \n%s ......extremo con Vmax. ", comentario,"%");
+			############################
+                   if (Vizq>-Vder) then
+		       comentario:=sprintf("%s  Vizq=%a, Mizq=%a, (Vder=%a, Mder=%a)\n\n", comentario,  Vizq, -Mizq, Vder, Mder);
+                       texAuxVmax:=texERVmax(Vizq, -Mizq, perfil, " cuyo esfuerzo cortante es Máximo ");
+                   else
+                       texAuxVmax:=texERVmax(Vder, Mder, perfil, " cuyo esfuerzo cortante es Máximo ");
+		       comentario:=sprintf("%s  Vder=%a, Mder=%a, (Vizq=%a, Mizq=%a)\n\n", comentario,  Vder, Mder, Vizq, -Mizq);
+                   fi;
+                fi;
+        #    else
+	#	comentario:=sprintf("extremo con M=0 o el menor (300<ER[2]<400) %s Vizq=%a, Mizq=%a, (Vder=%a, Mder=%a)\n\n", comentario, Vizq, -Mizq, Vder, Mder);
+            #    texAuxVmax:=texERVmax(Vizq, -Mizq, perfil, " del extremo izquierdo de la barra "); 
+#print("dimM: hola %s", comentario);quit;
+	    #fi;
+             
+            #texAuxVmax:=texERVmax(Vmax, MVmax, perfil, "  del extremo derecho de la barra ");
+        fi;
+    fi; 
+    texAux:=[sprintf(" %s\n %s \n %s",texAuxMmax[1],comentario, texAuxVmax[1]),
+             sprintf(" %s\n %s \n %s",texAuxMmax[2],comentario, texAuxVmax[2])];
+    #texAux:=texAuxMmax;
+
+    [perfil, texAux];
+end:
+

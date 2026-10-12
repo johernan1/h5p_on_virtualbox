@@ -1,0 +1,61 @@
+printf("------------- read(viga35Dibujo)----------------\n");
+viga35Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, emp_apo)
+
+    local Lviga, Lvol, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+ 
+    #           1         2
+    #  ---------------------|
+    #      ^
+
+    printf("-------------     (viga35Dibujo)----------------\n");
+    print (emp_apo);
+
+
+    nElem:=nops(Ls);
+    Lvol   :=Ls[1];
+    Lviga :=Ls[2];
+
+    nudos:=[ [-Lvol,0],  [0,0],     [Lviga,0]]:
+    angul:=[         0,      0,          0  ]:
+    despl:=[     [0,0],  [0,0],      [0,0]]:
+    
+    if (emp_apo=0) then
+       ccont:=[ [nudoiv,0],  [0,0], [nudodvAF,0]]:
+    else
+       ccont:=[ [nudoiv,0],  [0,0], [Empo,3.141592654/2]]:
+    fi;
+    nombr:=[       " ",    " ",        " "]:
+    aux:=0.5:
+    postx:=[       aux,    aux,        aux]:
+    conex:=[ [1,2],[2,3]]:
+
+    vigas:=[ viga12, viga21]:
+    XYcot:=[      0,  0];            # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0,  0];            # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                     # Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra 
+    apoyo:= [Apoyodes(0,-escal,0.6*escal,0)]:      # Apoyos de nudos interiores
+
+
+    if type(xArti,numeric) then            #Gerber
+	#apoyo:=[op(apoyo), arti(Lviga*xArti,0,escal,0)]:
+        apoyo:=[op(apoyo),
+	        op(vigaDibujoGerber(Lviga,xArti,opcionC,0,escal))];
+    fi;
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+               		  escal, escalP, escalq, escalM,
+                          Lviga, nudos, ccont, conex, vigas, apoyo, XYcot, xycot, posiPRelativa);
+
+    printf("------------- fin (viga35Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (viga35Dibujo)----------------\n");
+
+
+
+
+
+
+
+

@@ -1,0 +1,98 @@
+printf("------------- read(portico6310Dibujo)----------------\n");
+portico6310Dibujo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+                     escal, escalP, escalq, escalM, posiPRelativa, subestructura)
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, aux,
+          nElem, angul, despl , nombr, postx, xycot, XYcot;
+
+    #              
+    #   ------------------------------
+    #   |               |            |               
+    #   |               |            | 
+    #   |               |            | 
+    #   |               |            | 
+    #   |               |            |           
+    #   ------------------------------
+    #   |               |            |               
+    #   |               |            |
+    #   |               |            |
+    #   |               |            |
+    #   |               |            |           
+    #   ------------------------------
+    #   |      4        |     5      |               
+    #   |               |            |
+    #   |1              | 2          |3
+    #   |               |            |
+    #   |               |            |
+
+
+    printf("-------------     (portico6310Dibujo)----------------\n");
+    printf("211013 subestructura=%a\n", subestructura);
+    
+    nElem:=nops(Ls);
+    Lc   :=Ls[1];
+    Lv1  :=Ls[4];
+    Lv2  :=Ls[5];
+
+    nudos:=[   [-Lv1,0*Lc],  [0,0*Lc],       [Lv2,0*Lc],
+               [-Lv1,1*Lc],  [0,1*Lc],       [Lv2,1*Lc],
+               [-Lv1,2*Lc],  [0,2*Lc],       [Lv2,2*Lc],
+               [-Lv1,3*Lc],  [0,3*Lc],       [Lv2,3*Lc] ]:
+    angul:=[         0,      0,             0,
+                     0,      0,             0,
+                     0,      0,             0,
+                     0,      0,             0]:
+    despl:=[     [0,0],  [0,0],         [0,0],
+                 [0,0],  [0,0],         [0,0],
+                 [0,0],  [0,0],         [0,0],
+                 [0,0],  [0,0],         [0,0]]:
+    ccont:=[[Empo,0],  [Empo,0],      [Empo,0],
+                 [0,0],  [0,0],         [0,0],
+                 [0,0],  [0,0],         [0,0],
+                 [0,0],  [0,0],         [0,0]]:
+    nombr:=[       " ",    " ",           " ",
+                   " ",    " ",           " ",
+                   " ",    " ",           " ",
+                   " ",    " ",           " "]:
+    aux:=0.1:
+    postx:=[       aux,    aux,           aux,
+                   aux,    aux,           aux, 
+                   aux,    aux,           aux,  
+                   aux,    aux,           aux  ]:
+    conex:=[ [1,4],[2,5], [3,6], [4,5], [5,6],
+             [4,7],[5,8], [6,9], [7,8], [8,9],
+             [7,10],[8,11], [9,12], [10,11], [11,12]]:
+
+    vigas:=[ viga12,  viga12,  viga12,  viga22,  viga22,
+             viga22,  viga22,  viga22,  viga22,  viga22,
+             viga22,  viga22,  viga22,  viga22,  viga22]:
+    XYcot:=[      -.25      ,-.25,  -.25, 0, 0,
+                  -.25      ,-.25,  -.25, 0, 0,
+                  -.25      ,-.25,  -.25, 0, 0];          # Desplazamiento ABSOLUTO de las cotas respecto posicion estandar 
+    xycot:=[      0      ,  0,  0,  0 ,0,
+                  0      ,  0,  0,  0 ,0,
+                  0      ,  0,  0,  0 ,0];                  # Desplazamiento RELATIVO (% del desplazamiento de las cargas)
+                                                            #   Es decir, si +-1 se desplazan las cotas el valor de las cargas de la barra
+    if (subestructura=0) then							    
+       	apoyo:= [];         # Apoyos de nudos interiores
+    else
+	apoyo:=[	arti(-Lv1,1.5*Lc,escal,0),arti(0,1.5*Lc,escal,0),arti(Lv2,1.5*Lc,escal,0),
+			arti(-Lv1,2.5*Lc,escal,0),arti(0,2.5*Lc,escal,0),arti(Lv2,2.5*Lc,escal,0)];
+    fi;
+
+    aux := dibujoPortico0(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM, 
+               		  escal, escalP, escalq, escalM,
+                          Lv1/1.2, nudos, ccont, conex, vigas, apoyo, XYcot, xycot, posiPRelativa);
+
+    printf("------------- fin (portico6310Dibujo)----------------\n");
+    aux;
+end;
+printf("-------------     (portico6310Dibujo)----------------\n");
+
+
+
+
+
+
+
+

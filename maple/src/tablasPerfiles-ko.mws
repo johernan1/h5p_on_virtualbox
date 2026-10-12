@@ -1,0 +1,194 @@
+read("src/IPES275.mws"); 
+read("src/IPNS275.mws"); 
+read("src/bxhC20.mws");   
+read("src/bxh_bxhC20.mws");    
+read("src/dobleTS275.mws");   
+
+selectSeccion:=proc()
+    global ER, gammaF, gammaM, fy, fmk, kmod, fvk, 
+           get_m_Wpl_M_Perfil,
+           get_Wpl_Perfil,
+           get_Iy_Perfil,
+           get_E_Perfil,
+           get_id_Perfil,
+           get_texto2_datos_Perfil,
+           get_texto2_sigma_Perfil,
+           get_textoM_Iy_Perfil,
+           get_textoM_sigma_Perfil,
+           get_texto2_sigEsigR_Perfil,
+           get_textoM_sigEsigR_Perfil,
+           get_texto2_MEMR_Perfil, 
+           get_textoM_MEMR_Perfil,
+           get_texto2_tau_Perfil,
+           get_textoM_tau_Perfil,
+           get_texto2_MEMRVEVR_Perfil,
+           get_textoM_MEMRVEVR_Perfil,
+           get_texto2_sigtauEsigtauR_Perfil,
+	   get_textoM_sigtauEsigtauR_Perfil;
+
+    if (ER[1]=6) then
+        gammaF:=1.45;
+        gammaM:=1.05;
+        fy:=275;
+        kmod:=1;
+        hashPerfil:=hashDobleT;
+        get_m_A_M_Perfil:=get_m_A_M_DobleT;
+	get_m_Iy_M_Perfil:=get_m_Iy_M_DobleT;
+	get_m_Wel_M_Perfil:=get_m_Wel_M_DobleT;
+	get_m_Wpl_M_Perfil:=get_m_Wpl_M_DobleT;
+
+        get_Wpl_Perfil:=get_Wpl_DobleT;
+        get_Iy_Perfil:=get_Iy_DobleT;
+        get_E_Perfil:=get_E_DobleT;
+        get_id_Perfil:=get_id_DobleT;
+        get_texto2_datos_Perfil:=get_texto2_datos_DobleT;
+        get_texto2_sigma_Perfil:=get_texto2_sigma_DobleT;
+        get_textoM_Iy_Perfil:=get_textoM_Iy_DobleT;
+        get_textoM_sigma_Perfil:=get_textoM_sigma_DobleT;
+        get_texto2_sigEsigR_Perfil:=get_texto2_sigEsigR_DobleT;
+        get_textoM_sigEsigR_Perfil:=get_textoM_sigEsigR_DobleT;
+        get_texto2_MEMR_Perfil:=get_texto2_MEMR_DobleT; 
+        get_textoM_MEMR_Perfil:=get_textoM_MEMR_DobleT;
+        get_texto2_tau_Perfil:=get_texto2_tau_DobleT;
+        get_textoM_tau_Perfil:=get_textoM_tau_DobleT;
+        get_texto2_MEMRVEVR_Perfil:=get_texto2_MEMRVEVR_DobleT; 
+        get_textoM_MEMRVEVR_Perfil:=get_textoM_MEMRVEVR_DobleT; 
+        get_texto2_sigtauEsigtauR_Perfil:=get_texto2_sigtauEsigtauR_DobleT;
+	get_textoM_sigtauEsigtauR_Perfil:=get_textoM_sigtauEsigtauR_DobleT;
+    fi;    
+    if (ER[1]=1) then
+        gammaF:=1.45;
+        gammaM:=1.05;
+        fy:=275;
+        kmod:=1;
+        hashPerfil:=hashIPE;
+        get_m_A_M_Perfil:=get_m_A_M_IPE;
+	get_m_Iy_M_Perfil:=get_m_Iy_M_IPE;
+	get_m_Wel_M_Perfil:=get_m_Wel_M_IPE;
+	get_m_Wpl_M_Perfil:=get_m_Wpl_M_IPE;
+
+        get_Wpl_Perfil:=get_Wpl_IPE;
+        get_Iy_Perfil:=get_Iy_IPE;
+        get_E_Perfil:=get_E_IPE;
+        get_id_Perfil:=get_id_IPE;
+        get_texto2_datos_Perfil:=get_texto2_datos_IPE;
+        get_texto2_sigma_Perfil:=get_texto2_sigma_IPE;
+        get_textoM_Iy_Perfil:=get_textoM_Iy_IPE;
+        get_textoM_sigma_Perfil:=get_textoM_sigma_IPE;
+        get_texto2_sigEsigR_Perfil:=get_texto2_sigEsigR_IPE;
+        get_textoM_sigEsigR_Perfil:=get_textoM_sigEsigR_IPE;
+        get_texto2_MEMR_Perfil:=get_texto2_MEMR_IPE; 
+        get_textoM_MEMR_Perfil:=get_textoM_MEMR_IPE;
+        get_texto2_tau_Perfil:=get_texto2_tau_IPE;
+        get_textoM_tau_Perfil:=get_textoM_tau_IPE;
+        get_texto2_MEMRVEVR_Perfil:=get_texto2_MEMRVEVR_IPE; 
+        get_textoM_MEMRVEVR_Perfil:=get_textoM_MEMRVEVR_IPE; 
+        get_texto2_sigtauEsigtauR_Perfil:=get_texto2_sigtauEsigtauR_IPE;
+	get_textoM_sigtauEsigtauR_Perfil:=get_textoM_sigtauEsigtauR_IPE;
+    fi;    
+
+    
+    if (ER[1]=7) then
+        gammaF:=1.45;
+        gammaM:=1.05;
+        fy:=275;
+        kmod:=1;
+        hashPerfil:=hashIPN;
+        get_m_A_M_Perfil:=get_m_A_M_IPN;
+	get_m_Iy_M_Perfil:=get_m_Iy_M_IPN;
+	get_m_Wel_M_Perfil:=get_m_Wel_M_IPN;
+	get_m_Wpl_M_Perfil:=get_m_Wpl_M_IPN;
+
+        get_Wpl_Perfil:=get_Wpl_IPN;
+        get_Iy_Perfil:=get_Iy_IPN;
+        get_E_Perfil:=get_E_IPN;
+        get_id_Perfil:=get_id_IPN;
+        get_texto2_datos_Perfil:=get_texto2_datos_IPN;
+        get_texto2_sigma_Perfil:=get_texto2_sigma_IPN;
+        get_textoM_Iy_Perfil:=get_textoM_Iy_IPN;
+        get_textoM_sigma_Perfil:=get_textoM_sigma_IPN;
+        get_texto2_sigEsigR_Perfil:=get_texto2_sigEsigR_IPN;
+        get_textoM_sigEsigR_Perfil:=get_textoM_sigEsigR_IPN;
+        get_texto2_MEMR_Perfil:=get_texto2_MEMR_IPN; 
+        get_textoM_MEMR_Perfil:=get_textoM_MEMR_IPN;
+        get_texto2_tau_Perfil:=get_texto2_tau_IPN;
+        get_textoM_tau_Perfil:=get_textoM_tau_IPN;
+        get_texto2_MEMRVEVR_Perfil:=get_texto2_MEMRVEVR_IPN; 
+        get_textoM_MEMRVEVR_Perfil:=get_textoM_MEMRVEVR_IPN; 
+        get_texto2_sigtauEsigtauR_Perfil:=get_texto2_sigtauEsigtauR_IPN;
+	get_textoM_sigtauEsigtauR_Perfil:=get_textoM_sigtauEsigtauR_IPN;
+    fi;        
+  
+    if (ER[1]=4) then
+        gammaF:=1.45;
+        gammaM:=1.30;
+        fmk:=20;
+        fvk:=2.2;
+        kmod:=0.8;
+        fy:=fmk*kmod;  ### Chapuza para dimensionar en dimM.mws
+        hashPerfil:=hashbxh;
+
+        get_m_A_M_Perfil:=get_m_A_M_bxh;
+	get_m_Iy_M_Perfil:=get_m_Iy_M_bxh;
+	get_m_Wel_M_Perfil:=get_m_Wel_M_bxh;
+	get_m_Wpl_M_Perfil:=get_m_Wpl_M_bxh;
+
+        get_Wpl_Perfil:=get_Wpl_bxh;
+        get_Iy_Perfil:=get_Iy_bxh;
+        get_E_Perfil:=get_E_bxh;
+        get_id_Perfil:=get_id_bxh;
+        get_texto2_datos_Perfil:=get_texto2_datos_bxh;
+        get_textoM_Iy_Perfil:=get_textoM_Iy_bxh;
+        get_texto2_sigma_Perfil:=get_texto2_sigma_bxh;
+        get_textoM_sigma_Perfil:=get_textoM_sigma_bxh;
+
+        get_texto2_sigEsigR_Perfil:=get_texto2_sigEsigR_bxh;
+        get_textoM_sigEsigR_Perfil:=get_textoM_sigEsigR_bxh;
+        get_texto2_MEMR_Perfil:=get_texto2_MEMR_bxh; 
+        get_textoM_MEMR_Perfil:=get_textoM_MEMR_bxh;
+        get_texto2_tau_Perfil:=get_texto2_tau_bxh;
+        get_textoM_tau_Perfil:=get_textoM_tau_bxh;
+        get_texto2_MEMRVEVR_Perfil:=get_texto2_MEMRVEVR_bxh; 
+        get_textoM_MEMRVEVR_Perfil:=get_textoM_MEMRVEVR_bxh; 
+        get_texto2_sigtauEsigtauR_Perfil:=get_texto2_sigtauEsigtauR_bxh;
+	get_textoM_sigtauEsigtauR_Perfil:=get_textoM_sigtauEsigtauR_bxh;    
+    fi;
+    if (ER[1]=5) then
+        gammaF:=1.45;
+        gammaM:=1.30;
+        fmk:=20;
+        fvk:=2.2;
+        kmod:=0.8;
+        fy:=fmk*kmod;  ### Chapuza para dimensionar en dimM.mws
+        hashPerfil:=hashbxhxbxh;
+
+        get_m_A_M_Perfil:=get_m_A_M_bxhxbxh;
+	get_m_Iy_M_Perfil:=get_m_Iy_M_bxhxbxh;
+	get_m_Wel_M_Perfil:=get_m_Wel_M_bxhxbxh;
+	get_m_Wpl_M_Perfil:=get_m_Wpl_M_bxhxbxh;
+
+        get_Wpl_Perfil:=get_Wpl_bxhxbxh;
+        get_Iy_Perfil:=get_Iy_bxhxbxh;
+        get_E_Perfil:=get_E_bxhxbxh;
+        get_id_Perfil:=get_id_bxhxbxh;
+        get_texto2_datos_Perfil:=get_texto2_datos_bxhxbxh;
+        get_textoM_Iy_Perfil:=get_textoM_Iy_bxhxbxh;
+        get_texto2_sigma_Perfil:=get_texto2_sigma_bxhxbxh;
+        get_textoM_sigma_Perfil:=get_textoM_sigma_bxhxbxh;
+
+        get_texto2_sigEsigR_Perfil:=get_texto2_sigEsigR_bxhxbxh;
+        get_textoM_sigEsigR_Perfil:=get_textoM_sigEsigR_bxhxbxh;
+        get_texto2_MEMR_Perfil:=get_texto2_MEMR_bxhxbxh; 
+        get_textoM_MEMR_Perfil:=get_textoM_MEMR_bxhxbxh;
+        get_texto2_tau_Perfil:=get_texto2_tau_bxhxbxh;
+        get_textoM_tau_Perfil:=get_textoM_tau_bxhxbxh;
+        get_texto2_MEMRVEVR_Perfil:=get_texto2_MEMRVEVR_bxhxbxh; 
+        get_textoM_MEMRVEVR_Perfil:=get_textoM_MEMRVEVR_bxhxbxh; 
+        get_texto2_sigtauEsigtauR_Perfil:=get_texto2_sigtauEsigtauR_bxhxbxh;
+	get_textoM_sigtauEsigtauR_Perfil:=get_textoM_sigtauEsigtauR_bxhxbxh;    
+    fi;
+    
+        #print("get_texto2_datos_Perfil", get_texto2_datos_Perfil);quit;
+end;
+
+

@@ -1,0 +1,39 @@
+printf("------------- read(posicionM0Biapoyada)-----------\n");
+posicionM0Biapoyada:=proc(L0, combinacionX, variacionP, variacionq, variacionM, VariacionM, dgM)
+    local sx, combinacion0XL, iq,S, iS;
+
+    print("-----------------------inicio de posicionM0Biapoyada---------------------");
+
+
+    sx:=[];
+    combinacion0XL:=[0,op(combinacionX),1];
+    for iq from 1 to nops(variacionq) do
+       print("Buscando M=0 en tramo ", iq);
+       print("variacionq=",variacionq[iq]);
+       print("combinacion0XL=",combinacion0XL[iq], combinacion0XL[iq+1]);
+       print("M=",dgM[iq], dgM[iq+1]);
+
+       print({      dgM[iq]=-variacionq[iq]/2*combinacion0XL[iq]^2  +b*combinacion0XL[iq]  +c,
+                  dgM[iq+1]=-variacionq[iq]/2*combinacion0XL[iq+1]^2+b*combinacion0XL[iq+1]+c,
+                  0        =-variacionq[iq]/2*x^2                   +b*x                   +c},
+                 {b,c,x});
+       S:=[solve({dgM[iq]  =-variacionq[iq]/2*combinacion0XL[iq]^2*L0^2  +b*combinacion0XL[iq]*L0  +c,
+                  dgM[iq+1]=-variacionq[iq]/2*combinacion0XL[iq+1]^2*L0^2+b*combinacion0XL[iq+1]*L0+c,
+                  0        =-variacionq[iq]/2*x^2*L0^2                   +b*x*L0                   +c},
+                 {b,c,x})];
+       print(S, S[1]);
+       for iS from 1 to nops(S) do
+           if (Im(subs(S[iS],x)) =0 ) then  ## Se descartan soluciones no reales
+               if (subs(S[iS],x)>=combinacion0XL[iq] and 
+                   subs(S[iS],x)<=combinacion0XL[iq+1]) then
+                   print("bingo");
+                   sx:=[op(sx), subs(S[iS],x)];
+               fi;
+           fi;
+       od;
+    od;
+    print("Fin:",sx);
+    sx;
+
+end:
+printf("-------------     (posicionM0Biapoyada)-----------\n");

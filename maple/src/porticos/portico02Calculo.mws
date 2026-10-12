@@ -1,0 +1,64 @@
+printf("------------- read(portico02Calculo)----------------\n");
+portico02Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lvol, Lv, Lc, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+
+    #  1           
+    #----------------
+    #               |               
+    #               |
+    #               |2
+    #               |
+    #               |
+
+
+    printf("-------------     (portico02Calculo)----------------\n");
+
+    nElem:=nops(Ls);
+    Lv   :=Ls[1];
+    Lc   :=Ls[2];
+
+
+    dgMV:=diagramaMV(0,Lv,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    dgMV:=diagramaMV(0,  Lc,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+
+    mH:=[[      1,       0, 0, 0],
+         [      0,       1, 0, 1],
+	 [      0,       0, 1/Lc, 1/Lc]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    mD:=evalm(diag( evalm(cddc/Lv), evalm(cddc/Lc))):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12,  Mf31, Mf32]:
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0, -V32-vf[3]]; # Vij es el hiperestático. Hay que restarle el término de H*sf
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    #print (evalm(mD));
+    #printf("\n\nH=%a\n",mH);
+    #print (evalm(mK));
+    #print (sf);
+    #print (vf);
+    #print (u);
+    #print (s);
+    
+    printf("------------- fin (portico02Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(portico02Calculo); # Para fijar variables locales
+printf("-------------     (portico02Calculo)----------------\n");
+
+
+
+
+
+

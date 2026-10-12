@@ -1,0 +1,51 @@
+texER:=proc(Mmax, Vmax, perfil)
+    global ER, CODIGO, gammaf;
+    print ("---Inicio de texER-----------------------------------------------------");
+    #### IPE #############
+    if (ER[1]=1) then
+       tipo:= "IPE";
+       Wpl:= get_Wpl_IPE(perfil); 
+       Iy:= get_Iy_IPE(perfil);  
+       Av:= get_Av_IPE(perfil); 
+    fi;
+    ####
+    textoER2:=" Comprobación del ELU.  Datos: ";
+    textoER2:=sprintf("%s $%s%d[S275]$, $\gamma_F=%0.2f$, $\gamma_M=1.05$, $W_{pl,y}=%a cm^3$, $I_{y}=%a cm^4$, $A_v= %acm^2$.", 
+	      textoER2, tipo, perfil, gammaf, Wpl, Iy, Av);
+    introER:=textoER2;
+	
+    #### Texto tensiones normales
+#    if (ER[2] =2 || ER[2]=4) then
+#        x:=0;
+#    fi;	
+    
+    #### Texto tensiones tangenciales
+#    if (ER[2] =3 || ER[2]=4) then
+#        x:=0;
+#    fi;	
+
+    #### Texto E/R
+    MEd_MRd:=Mmax*gammaf/(Wpl*275/1.05/1000);
+    VEd_VRd:=Vmax*gammaf/(Av/1.73*275/1.05);
+    if (ER[2] <> 0) then
+        textoER2:=sprintf("%s
+ 
+                          Calcular $M_{Ed}/M_{Rd}$ y $V_{Ed}/(V_{Rd}/2)$ en las secciones más solicitadas.  
+                          
+                          \\hfill \\Resul \\Resul
+                         
+                          ", 
+                  textoER2);
+    
+	if (ER[2]=1) then 
+            textoMER:= sprintf("\moodleQue{%s \n $M_{Ed}/M_{Rd}$}{%f}{0.05*%f}",introER,MEd_MRd,MEd_MRd);
+        else
+            textoMER:= sprintf("\moodleQue{%s \n $M_{Ed}/M_{Rd}$}{%f}{0.05*%f}",textoMER,MEd_MRd,MEd_MRd); 
+        fi;
+        textoMER:= sprintf("%s \n \n \moodleQue{ $V_{Ed}/(V_{Rd}/2)$}{%f}{0.05*%f}",textoMER,VEd_VRd,VEd_VRd); 	
+    fi;
+
+    
+    [textoER2, textoMER];
+end:
+

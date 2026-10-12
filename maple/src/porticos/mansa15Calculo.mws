@@ -1,0 +1,82 @@
+printf("------------- read(mansa15Calculo)----------------\n");
+mansa15Calculo:=proc(Ls, combinacionesX, variacionesP, variacionesq, variacionesM, VariacionesM 
+                     )
+
+    local Lcol1, Lcol2, Lbeam, nudos, ccont, conex, vigas, apoyo, nElem, dgMV, V11,
+    	  V12, Mf11, Mf12, V21, V22, Mf21, Mf22, V31, V32, Mf31, Mf32, mH, cddc, mD,
+	  mK, sf, vf, u, s;
+    global FICH;
+
+    #    1     3     2
+    #       -------  
+    #      /       \           
+    #     /         \ 
+    #    /           \
+    #   /             \       
+    #  /               \
+    #
+  
+
+    printf("-------------     (mansa15Calculo)----------------\n");
+    
+    nElem:=nops(Ls);
+    Lcol1 :=Ls[1];
+    Lcol2   :=Ls[2];
+    Lbeam   :=Ls[3];
+
+    # Los M y V del estado f se calculan con la Lx de la zanca 
+    dgMV:=diagramaMV(0,Lcol1*0.707,combinacionesX[1],variacionesP[1],variacionesq[1],[1,1]); 
+    V11:=dgMV[6]; V12:=dgMV[7]; Mf11:=dgMV[12]; Mf12:=dgMV[13]; 
+
+    dgMV:=diagramaMV(0,  Lcol2*0.707,combinacionesX[2],variacionesP[2],variacionesq[2],[1,1]); 
+    V21:=dgMV[6]; V22:=dgMV[7]; Mf21:=dgMV[12]; Mf22:=dgMV[13];  
+
+   
+    dgMV:=diagramaMV(0,  Lbeam,combinacionesX[3],variacionesP[3],variacionesq[3],[1,1]); 
+    V31:=dgMV[6]; V32:=dgMV[7]; Mf31:=dgMV[12]; Mf32:=dgMV[13];
+
+    c:=0.707;
+    s:=0.707;
+    mH:=[[      1,       0,     0,     0,             0,    0, 0, 0],
+         [      0,       1,     0,     0,             1,    0, 0, 0],
+         [      0,       0,     1,     0,             0,    1, 0, 0],
+	 [  1/Lcol1*c,   1/Lcol1*c,     0,     0, -1/Lbeam, -1/Lbeam, -s,0],
+	 [      0,       0,         -1/Lcol2*c, -1/Lcol2*c, 1/Lbeam, 1/Lbeam,  0,-s],
+	 [  1/Lcol1*s,   1/Lcol1*s,  1/Lcol2*s,  1/Lcol2*s,0,0,  c, -c],
+	 [      0,       0,         -1/Lcol2*s, -1/Lcol2*s, 0, 0,  0,c]]:
+
+    cddc:=evalm([[4,2],[2,4]]):
+    mD:=evalm(diag(evalm(cddc/Lcol1), evalm(cddc/Lcol2), evalm(cddc/Lbeam), 100000, 100000)):
+    mK:=evalm(mH &* mD &* transpose(mH)):
+    sf:=[Mf11, Mf12, Mf21, Mf22, Mf31, Mf32,0,0]:
+    vf:=evalm(-mH&*sf);
+    vf:=-evalm(mH&*sf) + [0,0,0,-V12+V31-evalm(vf[4]),-V32+V21-evalm(vf[5]),-evalm(vf[6]),-evalm(vf[7])];
+    u:=evalm(mK^(-1)&*vf);
+    s:=evalm(sf+mD &* transpose(mH) &* u);
+
+    print (evalm(mD));
+    printf("\n\nH=%a\n",mH);
+    #print (evalm(mD));
+    #printf ("210920xxxx%a\n", FICH);
+    print ("Ls=----------------");
+    print (Ls);
+    print ("sf=----------------");
+    print (sf);
+    print ("vf=----------------");
+    print (vf);
+    #print (u);
+    print (s);
+    
+    printf("------------- fin (mansa15Calculo)----------------\n");
+    s;
+    
+end;
+#--------------------
+#print(mansa15Calculo); # Para fijar variables locales
+printf("-------------     (mansa15Calculo)----------------\n");
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+printf("------------- read(textoPsfragVariacionPq)--------\n");
+textoPsfragVariacionPq:=proc(variacionP, unidad, formato, angulo, incx, incz)
+    local texto, psfrag, iP;
+
+    print("inicio textoPsfragVariacionPq", variacionP, unidad, formato, incx, incz, angulo);
+    texto:=" ";
+    psfrag:="%s\\psfrag{%s}[c][c][1][%f]{\\scriptsize \\mipsfrag{%f}{%f}{$%s%s %s$}}\n";
+    #printf("%s", psfrag);
+    psfrag:=sprintf(psfrag,"%s","%s",angulo,incx,incz,"%",formato,"%s");
+    #print(psfrag); quit;
+    for iP from 1 to nops(variacionP) do
+        texto:=sprintf(psfrag,texto,
+	            convert(variacionP[iP],string),
+                    #angulo,
+                    #incx, incz,
+		    variacionP[iP],
+                    unidad);
+	if abs(variacionP[iP])<0.01 then
+	   psfrag0:="%s\\psfrag{%s}[c][c][1][0]{\\scriptsize \\mipsfrag{0}{0}{}}\n";
+           texto:=sprintf(psfrag0,texto,
+	            convert(variacionP[iP],string));
+	
+	fi
+    od;
+    print (texto);
+    texto;   #return. NO BORRAR
+end:
+printf("-------------     (textoPsfragVariacionPq)--------\n");
