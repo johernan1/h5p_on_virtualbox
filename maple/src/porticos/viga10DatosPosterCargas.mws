@@ -12,7 +12,7 @@ viga10DatosPosterCargas:=proc(N1)
 
     q:=cargasVano07(40,45);
     q:=cargasVano16(40,45);
-q:=cargasVano16(40,45);
+    #q:=cargasVano05(40,45);
     
     P:=q[1];
     z:=q[2];
