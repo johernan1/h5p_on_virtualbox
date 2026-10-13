@@ -160,11 +160,12 @@ sub preparar_lanzar_y_recuperarSalida_maple {
     titulo("Se hace sh rmTmpMimapleScp.sh aux.mws");
     my $puerto = get_vm_port("'$NOMBRE_VM'");
     ejecutar_comando("ssh localhost -p $puerto $SSH_COMMON_OPTS $SSH_LEGACY_OPTS 'cd vigas1vano; pwd; grep ^NP aux.mws; sh rmTmpMimapleScp.sh aux.mws'");
-    print "El -posible- error anterior, lost connection, es intrascendente";
+    #print "El -posible- error anterior, lost connection, es intrascendente";
             
     #-------------------------Se copian los ficheros de VirtualBox--------------
     titulo("Se copian los ficheros de VirtualBox a /tmp/tmp");
-    system("rm -rf /tmp/tmp; scp -r -P 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa localhost:/tmp /tmp");
+    ejecutar_comando("rm -rf /tmp/\$USER-tmp");
+    ejecutar_comando("scp -r -P $puerto $SSH_COMMON_OPTS $SSH_LEGACY_OPTS localhost:/tmp/ /tmp/\$USER-tmp");
 }
 
 sub preparar_ficheros_tex {

@@ -8,9 +8,11 @@ titulo() {
     echo >&2
 }
 
+#------------------------------------------------------------------------------
 titulo "        se lanza maple -b /usr/local/maple/lib -b /usr/local/maple/lib/libTSAM $1"
 maple -b /usr/local/maple/lib -b /usr/local/maple/lib/libTSAM $1 || { echo 'Error al hacer maple ... desde $1'; exit 1; }
 
+#------------------------------------------------------------------------------
 titulo "        se comprueba que 'tex' es un enlace simbolico a /tmp"
 if [ ! -L "tex" ] || [ "$(readlink "tex")" != "/tmp" ]; then
     echo "Error en $0. 'tex' NO es un enlace simbolico a /tmp"
@@ -18,10 +20,11 @@ if [ ! -L "tex" ] || [ "$(readlink "tex")" != "/tmp" ]; then
     exit 1
 fi
 
-
+#------------------------------------------------------------------------------
 titulo "        se copia 'cp pre-graf.sh tex/$USER-pre-graf.sh'"
 cp pre-graf.sh tex/$USER-pre-graf.sh || { echo "Error al hacer 'cp pre-graf.sh tex' desde $0"; exit 1; }
 
+#------------------------------------------------------------------------------
 titulo "        se lanza sh $USER-pre-graf.sh"
 cd tex
 sh $USER-pre-graf.sh || { echo 'Error al hacer "sh pre-graf.sh" desde $1'; exit 1; }
