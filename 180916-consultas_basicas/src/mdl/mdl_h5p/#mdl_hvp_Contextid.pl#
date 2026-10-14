@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+#
+
+print "Incluyendo fichero: mdl_hvp_Contextid\n";
+
+sub mdl_hvp_Contextid{
+    my $name=shift;
+    my $Sub="mdl_hvp_Contextid";
+    iniSub($Sub);
+    
+    #my $consulta="select id from mdl_course_modules where instance='$name'";  
+    #printT "$consulta\n"; 
+    #my $sth=$dbh->prepare($consulta);
+    #$sth->execute();
+    #($contextid)=$sth->fetchrow_array() || 
+#	die {Pausa("Tenemos un problema con el nombre '$name' el hv5")};
+   # 
+    #while(siono("contextid=$contextid; pulsar y para continuar",'si','no') eq 'si') {};#
+    $contextid=last_insert_Id("mdl_context");
+    $contextid=$contextid+1; # Esto es una chapuza habría que "update" cuando
+                             # se haga mdl_course_modules_insert
+    
+    finSub($Sub);
+    return $contextid;
+}
+
+sub mdl_hvp_id{
+    my $name=shift;
+    my $Sub="mdl_hvp_id";
+    iniSub($Sub);
+    
+    my $consulta="select id from mdl_hvp where name='$name'";  
+    printT "$consulta\n"; 
+    my $sth=$dbh->prepare($consulta);
+    $sth->execute();
+    ($contextid)=$sth->fetchrow_array() || 
+	die {Pausa("Tenemos un problema con el nombre '$name' el hv5")};
+    
+#while(siono("contextid=$contextid; pulsar y para continuar",'si','no') eq 'si') {}; 
+    finSub($Sub);
+    return $contextid;
+}
+

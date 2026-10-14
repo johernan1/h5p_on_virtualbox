@@ -1,0 +1,84 @@
+
+1. Instalar los siguientes paquetes:
+	 MoodleWindowsInstaler-latest-19.zip
+	 strawberry-perl-5.12.3.0	 
+
+-------------------------------------------------------------------------------
+
+2. En lo sucesivo se supone que en la instalación de MoodleWindowsInstaler se 
+han adoptado los siguientes valores:       
+      
+mysql
+     USUARIO root
+     PASSWD  platero
+moodle
+     USUARIO admin
+     PASSWD  P1atero@yo
+
+SI CON E4.bat SE "RESTAURA LA BASE" EL USUARIO admin DE MOODLE TENDRA EL
+PASSWD ANTERIOR. Puede ajustarse modificando o sustituyendo el fichero 
+dat/backupE4.sql
+
+------------------------------------------------------------------------------
+
+3. Instalar los siguientes paquetes de perl:
+perl -MCPAN -e shell
+    install Spreadsheet::WriteExcel
+    install Spreadsheet::ParseExcel
+    install Term::ANSIColor
+    install Win32::Console::ANSI 
+    install DBD::Excel
+exit
+
+------------------------------------------------------------------------------
+
+4. Sustituir el fichero 
+C:\strawberry\perl\site\lib\DBD\Excel.pl
+por 
+Excel.pl incluido en el directorio dat
+
+------------------------------------------------------------------------------
+
+5. Ajustar la siguiente variable de entorno
+MI PC+ BOTON DERECHO+PROPIEDADES+OPCIONES AVANZADAS+VARIABLES DE ENTORNO 
+PATH=..."C:\Documents and Settings\etsam\Escritorio\moodle\server\mysql\bin"
+
+------------------------------------------------------------------------------
+
+6. Ajustar las siguientes variables en el código
+------------------------------------------------ 
+
+src/excel/excel_variables.pl:    $moodledata='C:\Documents and Settings\etsam\Escritorio\moodle\server\moodledata';
+
+src/auxi/auxi.pl:            my $user="root";       
+src/auxi/auxi.pl:            my $password="platero";    
+src/auxi/auxi.pl:            my $mysqlexe="\"C:\\Documents and Settings\\etsam\\Escritorio\\moodle\\server\\mysql\\bin\\mysql.exe\""; 
+
+src/mdl/inicioDbi.pl:        my $dbname="moodle";
+src/mdl/inicioDbi.pl:        my $user="root";
+src/mdl/inicioDbi.pl:        my $password="platero";
+
+
+------------------------------------------------------------------------------
+
+7. Uso de grupos
+----------------
+
+Si se desea utilizar esta opción debe marcarse en moodle:
+
+/  Administration/  Miscellaneous/  Experimental
+
+   Enable groupings (marcar)
+
+------------------------------------------------------------------------------
+
+7. Uso de la aplicación
+-----------------------
+
+Boton derecho sobre el fichero de excel
+      Abrir con
+      Buscar E4.bat
+
+ 
+
+

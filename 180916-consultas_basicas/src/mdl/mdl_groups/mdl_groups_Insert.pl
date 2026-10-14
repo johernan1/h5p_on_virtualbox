@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+#
+
+print "Incluyendo fichero: mdl_groups_Insert\n";
+
+sub mdl_groups_Insert{
+    my $name=shift;
+    my $courseid=shift;
+    my $Sub="mdl_groups_Insert";
+    iniSub($Sub);
+    
+    $id=mdl_groups_Id($name,$courseid);
+    if (!defined($id)) {
+
+	my $consulta="insert into mdl_groups (name,courseid) VALUES ('$name',$courseid)";  
+	printT "$consulta\n";
+	$dbh->do($consulta)||die "$consulta";
+        $id=last_insert_Id("mdl_groups");
+    }
+    
+    finSub($Sub);
+    return $id;   
+}

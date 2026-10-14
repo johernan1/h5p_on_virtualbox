@@ -1,0 +1,21 @@
+#!/usr/bin/perl
+#
+
+print "Incluyendo fichero: mdl_context_Id\n";
+
+sub mdl_context_Id{
+    my $instanceid=shift;
+    my $Sub="mdl_context_Id";
+    iniSub($Sub);
+    
+    my $consulta="select id from mdl_context where instanceid='".$instanceid."'";  
+    printT "$consulta\n";  
+
+    my $sth=$dbh->prepare($consulta);
+    $sth->execute();
+    ($id)=$sth->fetchrow_array(); 
+    if (!defined($id)) {die "No existe el context.instanceid '$instanceid' en el curso '$course'";}    
+    
+    finSub($Sub);
+    return ($id);
+}
