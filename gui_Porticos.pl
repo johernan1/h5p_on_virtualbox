@@ -4,6 +4,7 @@ use warnings;
 use Tk;
 use Term::ANSIColor;
 use Cwd qw(cwd);
+require "./gui_opciones.pl";
 
 my $dir = cwd();
 # ---------------------------------------------------------------------
@@ -14,6 +15,21 @@ our $NOMBRE_VM       ="debian vigas1vanoMaple";
 our $SSH_COMMON_OPTS = " -o ConnectTimeout=2 -o ServerAliveInterval=2 -o ServerAliveCountMax=1 -o KexAlgorithms=+diffie-hellman-group1-sha1";
 our $SSH_LEGACY_OPTS = " -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa";
 our $SSH_BATCH_OPTS  = " -n -o BatchMode=yes";
+
+# Variables globales de las opciones y valores por efec 
+our ($opcionC, $opcion_tex, $textoAmpliado);
+our ($escal, $escalP, $escalq, $escalM);
+our ($perfiles, $comprobaciones);
+
+$opcionC       = 1;
+$opcion_tex    = 1;
+$textoAmpliado = 1;
+$escal         = "0.15";
+$escalP        = "0.4";
+$escalq        = "0.2";
+$escalM        = "1";
+$perfiles      = 1;
+$comprobaciones= 0;
 # ---------------------------------------------------------------------
 
 # --- INTERFAZ GRÁFICA (Tk) ---
@@ -64,6 +80,9 @@ $f_entry_btn->Button(
 
 $f_input->Label(-text => "Opciones adicionales / Join / Título Póster:", -anchor => 'w')->pack(-fill => 'x');
 $f_input->Entry(-textvariable => \$extra_entry)->pack(-fill => 'x');
+
+# --- OPCIONES
+crear_panel_opciones_extra($mw);
 
 # --- CHECKBOXES DE TAREAS ---
 my $f_checks =$mw->Labelframe(-text => " Tareas a ejecutar ", -padx => 10, -pady => 10);
