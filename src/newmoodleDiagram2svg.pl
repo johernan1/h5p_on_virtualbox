@@ -32,7 +32,7 @@ sub moodleDiagram2svg2file {
 				  $sW
 	);
 	print "    261011 Creado diagrama en formato svg\n";
-    open(OFILE,  "> /tmp/xxx.svg")
+    open(OFILE,  "> /tmp/$ENV{USER}/xxx.svg")
 	or die "Could not open file '$of' $!";
     print OFILE @dsvg;
     close (OFILE);
@@ -44,14 +44,14 @@ sub moodleDiagram2svg2file {
     # parábola. No he sido capaz de reproducir &Q con perl
     # & es aprox la exprexion regular ()->$1
     
-    system " sed 's/path d=.C[e 0-9.\-]*,/&Q/g' /tmp/xxx.svg | 
-	     sed 's/=\"C/=\"M/g'  | sed 's/,Q/Q/g' > /tmp/xxx2.svg;";
+    system " sed 's/path d=.C[e 0-9.\-]*,/&Q/g' /tmp/$ENV{USER}/xxx.svg | 
+	     sed 's/=\"C/=\"M/g'  | sed 's/,Q/Q/g' > /tmp/$ENV{USER}/xxx2.svg;";
 
     # Se ajustan ("quitan") los margenes
-	print "    inkscape /tmp/xxx2.svg  --export-plain-svg=/tmp/xxx3.svg --export-area-drawing\n";
-    system "inkscape /tmp/xxx2.svg  --export-plain-svg=/tmp/xxx3.svg --export-area-drawing";
+	print "    inkscape /tmp/$ENV{USER}/xxx2.svg  --export-plain-svg=/tmp/$ENV{USER}/xxx3.svg --export-area-drawing\n";
+    system "inkscape /tmp/$ENV{USER}/xxx2.svg  --export-plain-svg=/tmp/$ENV{USER}/xxx3.svg --export-area-drawing";
     # Y se vuelve ajustar el ancho
-    mvsvg ("/tmp/xxx3.svg", $of, $margenes, $margenes, $margenes, $margenes,
+    mvsvg ("/tmp/$ENV{USER}/xxx3.svg", $of, $margenes, $margenes, $margenes, $margenes,
 	   $width-2*$margenes);
     
     # Y ahora se comprueba la altura
@@ -60,26 +60,26 @@ sub moodleDiagram2svg2file {
     print "    hdibujo=$hdibujo\n";
     my $escala=1;
     if ($hdibujo>$hmax) {
-	#system ("cp $of /tmp/xxx4.svg");
+	#system ("cp $of /tmp/$ENV{USER}/xxx4.svg");
 	#$aux="identify -format %w $of";	    
 	#my $wdibujo=qx($aux);
-	system "inkscape $of  --export-plain-svg=/tmp/xxx4.svg --export-area-drawing;";
-	$aux="identify -format %h /tmp/xxx4.svg";
+	system "inkscape $of  --export-plain-svg=/tmp/$ENV{USER}/xxx4.svg --export-area-drawing;";
+	$aux="identify -format %h /tmp/$ENV{USER}/xxx4.svg";
 	$hdibujo=qx($aux);
-	$aux="identify -format %w /tmp/xxx4.svg";	    
+	$aux="identify -format %w /tmp/$ENV{USER}/xxx4.svg";	    
 	my $wdibujo=qx($aux);
 	
 	# Ahora se busca el ancho del dibujo para que $hdibujo=$hmax-2*margenes
 	my $newAncho=$wdibujo*($hmax-2*$margenes)/$hdibujo;
 	$escala=($hmax-2*$margenes)/$hdibujo; #para return
 	print "    escala para latex: $escala=($hmax-2*$margenes)/$hdibujo\n";
-	mvsvg ("/tmp/xxx4.svg",$of,$margenes, $margenes, $margenes, $margenes, 
+	mvsvg ("/tmp/$ENV{USER}/xxx4.svg",$of,$margenes, $margenes, $margenes, $margenes, 
 	       $newAncho);
 	#
 	#my $newmar=($width-$newAncho)/2;
 	#print "    Se ajusta ancho: $wdibujo->";
 	#
-	#mvsvg ("/tmp/xxx4.svg",$of,$newmar, $newmar, $margenes, $margenes, 
+	#mvsvg ("/tmp/$ENV{USER}/xxx4.svg",$of,$newmar, $newmar, $margenes, $margenes, 
 	#       $width-2*$newmar);
     }
     print "---------- fin    moodleDiagram2svg2file\n"; #exit;

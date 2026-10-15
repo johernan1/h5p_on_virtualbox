@@ -19,10 +19,11 @@ sub postGrifos {
 
     foreach $file (@FILES) {
 	if ($file=~/tex/) {
+	    print "-----------      postGrifos $file------------------\n";
 	    if (postGrifo("$dir/$file") eq 1) {
 		print "-----------      postGrifos $file------------------\n";
-		system ("diff /tmp/of.tex $dir/$file");
-		system ("cp /tmp/of.tex $dir/$file");
+		system ("diff /tmp/$ENV{USER}/of.tex $dir/$file");
+		system ("cp /tmp/$ENV{USER}/of.tex $dir/$file");
 		print "-----------(fin) postGrifos $file------------------\n";
 	    }
 	}
@@ -37,8 +38,8 @@ sub postGrifo {
     $cambios=0;
     open(IFILE, "$file")
 	    or die "Could not open file '$file' $!";
-    open(OFILE, "> /tmp/of.tex")
-	    or die "Could not open file '> /tmp/of.tex' $!";
+    open(OFILE, "> /tmp/$ENV{USER}/of.tex")
+	    or die "Could not open file '> /tmp/$ENV{USER}/of.tex' $!";
     while (my $row = <IFILE>) {
 	if ($row=~/moodleDiagram/) {
 	    # El valor de Xcer y Xuno esta calibrado en cargas.mws

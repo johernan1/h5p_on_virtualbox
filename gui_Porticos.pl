@@ -163,20 +163,27 @@ sub preparar_lanzar_y_recuperarSalida_maple {
     #print "El -posible- error anterior, lost connection, es intrascendente";
             
     #-------------------------Se copian los ficheros de VirtualBox--------------
-    titulo("Se copian los ficheros de VirtualBox a /tmp/tmp");
-    ejecutar_comando("rm -rf /tmp/\$USER-tmp");
-    ejecutar_comando("scp -r -P $puerto $SSH_COMMON_OPTS $SSH_LEGACY_OPTS localhost:/tmp/ /tmp/\$USER-tmp");
+    titulo("Se copian los ficheros de VirtualBox a /tmp/\$USER/tmp");
+    ejecutar_comando("rm -rf /tmp/\$USER/tmp");
+    ejecutar_comando("mkdir -p /tmp/\$USER/tmp");
+    ejecutar_comando("scp -r -P $puerto $SSH_COMMON_OPTS $SSH_LEGACY_OPTS localhost:/tmp/[!.]* /tmp/\$USER/tmp/");
 }
 
 sub preparar_ficheros_tex {
-    titulo("1. Se borra/crea $Porticos$NP\n   Se mueve /tmp/tmp a $Porticos$NP/tex");
-    system("rm -rf $Porticos$NP; mkdir $Porticos$NP; mv /tmp/tmp $Porticos$NP; mv $Porticos$NP/tmp $Porticos$NP/tex; rm -f $Porticos$NP/tex/.X64-lock; cd $Porticos$NP; perl ../src/postGrifos.pl");
+    titulo("1. Se borra/crea $Porticos$NP\n   Se mueve /tmp/\$USER/tmp a $Porticos$NP/tex");
+    #system("rm -rf $Porticos$NP; mkdir $Porticos$NP; mv /tmp/tmp $Porticos$NP; mv $Porticos$NP/tmp $Porticos$NP/tex; rm -f $Porticos$NP/tex/.X64-lock; cd $Porticos$NP; perl ../src/postGrifos.pl");
+    ejecutar_comando("rm -rf $Porticos$NP");
+    ejecutar_comando("mkdir $Porticos$NP");
+    ejecutar_comando("mv /tmp/\$USER/tmp $Porticos$NP");
+    ejecutar_comando("mv $Porticos$NP/tmp $Porticos$NP/tex");
+    #rm -f $Porticos$NP/tex/.X64-lock;
+    ejecutar_comando("cd $Porticos$NP; perl ../src/postGrifos.pl");
 }
 
 sub generar_imagenes_gif {
     $dd = "mc";
     titulo("2. Se crea $Porticos$NP/drag_drop\n   Se hace tex2gif.pl $dd $dondeestoy");
-    system("cd $Porticos$NP; mkdir drag_drop; perl ../src/tex2gif.pl $dd $dondeestoy;");
+    ejecutar_comando("cd $Porticos$NP; mkdir -p drag_drop; perl ../src/tex2gif.pl $dd $dondeestoy");
 }
 
 sub generar_datos_dragdrop {

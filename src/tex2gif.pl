@@ -60,9 +60,9 @@ foreach $file (@FILES) {
 				        $ancho, $alto, $margenes, $grosorL
 		    );
 		# Se crea el gif
-		#system "inkscape $fileout -e /tmp/xxx.png; 
-		#        convert /tmp/xxx.png $filegif;
-                #        #rm $fileout /tmp/xxx.png /tmp/xxx.svg;
+		#system "inkscape $fileout -e /tmp/$ENV{USER}/xxx.png; 
+		#        convert /tmp/$ENV{USER}/xxx.png $filegif;
+                #        #rm $fileout /tmp/$ENV{USER}/xxx.png /tmp/$ENV{USER}/xxx.svg;
 		#";
 		
                 #----Idem para dibujo 'grande'----------------------------------
@@ -77,27 +77,27 @@ foreach $file (@FILES) {
 	        $escala=moodleDiagram2svg2file($fileout, $topo, $diag, 
 				        $ancho, $alto, $margenes, $grosorL
 		    );
-		print "inkscape $fileout -e /tmp/xxx.png; 
-		        convert /tmp/xxx.png $filegif;
+		print "inkscape $fileout -e /tmp/$ENV{USER}/xxx.png; 
+		        convert /tmp/$ENV{USER}/xxx.png $filegif;
 		       ";	
-		system "inkscape $fileout -e /tmp/xxx.png || 
-				inkscape $fileout --export-type=png --export-filename=/tmp/xxx.png; 
-				convert /tmp/xxx.png $filegif;
+		system "inkscape $fileout -e /tmp/$ENV{USER}/xxx.png || 
+				inkscape $fileout --export-type=png --export-filename=/tmp/$ENV{USER}/xxx.png; 
+				convert /tmp/$ENV{USER}/xxx.png $filegif;
 		       ";	
 		if ($escala<1) {
 		    # Se ajusta el ancho del dibujo.
 		    # moodleDiagram2svg2file reduce el ancho del dibujo para
 		    # ajustar la altura si es preciso
-		    cambiaAnchosvg($fileout, "/tmp/xxx5.svg", $ancho);
-		    system ("cp /tmp/xxx5.svg $fileout");
+		    cambiaAnchosvg($fileout, "/tmp/$ENV{USER}/xxx5.svg", $ancho);
+		    system ("cp /tmp/$ENV{USER}/xxx5.svg $fileout");
 		    #exit;
-		    #system ("convert $filegif -background white -gravity center -extent $ancho /tmp/xxx7.gif; cp /tmp/xxx7.gif $filegif"); 
+		    #system ("convert $filegif -background white -gravity center -extent $ancho /tmp/$ENV{USER}/xxx7.gif; cp /tmp/$ENV{USER}/xxx7.gif $filegif"); 
 		}
 		if ($dd eq "dd") {
-		    margenessvg($fileout, "/tmp/xxx6.svg",600-$ancho,0);
-		    system ("cp /tmp/xxx6.svg $fileout");
+		    margenessvg($fileout, "/tmp/$ENV{USER}/xxx6.svg",600-$ancho,0);
+		    system ("cp /tmp/$ENV{USER}/xxx6.svg $fileout");
 		    #exit;
-		    #system ("cp $filegif /tmp/xxx8.gif; convert  /tmp/xxx8.gif  -background white -gravity east -extent 600x $filegif");
+		    #system ("cp $filegif /tmp/$ENV{USER}/xxx8.gif; convert  /tmp/$ENV{USER}/xxx8.gif  -background white -gravity east -extent 600x $filegif");
 		}
 		
 		
