@@ -25,8 +25,8 @@ $opcionC       = 1;
 $opcion_tex    = 1;
 $textoAmpliado = 1;
 $escal         = "0.15";
-$escalP        = "0.4";
-$escalq        = "0.2";
+$escalP        = "0.008";
+$escalq        = "0.01";
 $escalM        = "1";
 $perfiles      = 1;
 $comprobaciones= 0;
@@ -35,7 +35,7 @@ $comprobaciones= 0;
 # --- INTERFAZ GRÁFICA (Tk) ---
 my $mw = MainWindow->new;
 $mw->title("Gestor Pórticos - Interfaz Gráfica");
-$mw->geometry("500x550");
+$mw->geometry("500x650");
 
 # Variables vinculadas a la GUI
 my $modelos_entry = "2001";
@@ -43,8 +43,8 @@ my $extra_entry   = "";
 
 # Configuración de subrutinas a ejecutar (Checkboxes)
 my %ejecutar = (
-    opcion_1        => 0, # [x] Preparar ficheros TeX
-    opcion_2        => 0, # [x] Generar imágenes GIF
+    opcion_1        => 0, # [ ] Preparar ficheros TeX
+    opcion_2        => 0, # [ ] Generar imágenes GIF
     opcion_dragdrop => 0, # [ ] Generar datos Drag&Drop
     opcion_3        => 0, # [ ] Compilar ejercicios H5P
     opcion_4        => 0, # [ ] Subir preguntas MultiChoice
@@ -158,23 +158,33 @@ sub ejecutar_proceso {
 }
 
 # --- SUBRUTINAS AUXILIARES Y OPERATIVAS ---
+sub modificar_variable_en_aux_mws {
+    my ($nombre, $valor) = @_;
 
+    ejecutar_comando("(sed -i -E 's/(".$nombre."[[:space:]]*:=)[^;]*;/\\1$valor;/g' $dirMaple/aux.mws)");
+}
 sub preparar_lanzar_y_recuperarSalida_maple {
     $Porticos = "newPorticos_";
-    
+
     #------------------------Se modifica el fichero de Maple--------------------
+    # El procedimiento para 'pasar' las opciones (burdo pero simple)
+    # es cambiar las variables del fichero newPortico.mws (el codigo
+    # original 'cutre' pero 'robusto' y 'chequeado') que se reescribe como
+    # aux.mws. Finalmente no se lanza newPortico.mws sino aux.mws
     titulo("Se prepara newPortico.mws > aux.mws para procesar $NP");
     $dirMaple = "$dir/maple";
     
-    #$salida=system("cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws");
-    #$codigo_retorno=$? >> 8; # Peculiaridades de perl
-    #if ($codigo_retorno !=0) {
-#	print "\n[AVISO] El comando $cmd0 fallo con código $codigo_retorno\n";
-#	print "          Se sale completamente el script '$0'\n";
-#	exit(1);
-    #   }
-    #ejecutar_comando("(cat $dirMaple/newPortico.mws| sed 's/NP:=.*/NP:=$NP;/' >$dirMaple/aux.mws)");
     ejecutar_comando("(sed 's/NP:=.*/NP:=$NP;/'< $dirMaple/newPortico.mws > $dirMaple/aux.mws)");
+    modificar_variable_en_aux_mws("opcionC",       $opcionC);
+    modificar_variable_en_aux_mws("opcion",        $opcion_tex+1); # No se definio como bool. Toma valores 1 o 2 ¿?
+    modificar_variable_en_aux_mws("textoAmpliado", $textoAmpliado);
+    modificar_variable_en_aux_mws("escal",         $escal);
+    modificar_variable_en_aux_mws("escalP",        $escalP);
+    modificar_variable_en_aux_mws("escalq",        $escalq);
+    modificar_variable_en_aux_mws("escalM",        $escalM);
+    my $ER="[".$perfiles.",".$comprobaciones."]";
+    modificar_variable_en_aux_mws("ER",            $ER);
+    
     #-------------------------Maple en VirtualBox-------------------------------
     titulo("Se hace sh rmTmpMimapleScp.sh aux.mws");
     my $puerto = get_vm_port("'$NOMBRE_VM'");

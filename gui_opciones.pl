@@ -16,19 +16,25 @@ sub crear_panel_opciones_extra {
     my $f_opt_f1 = $f_opciones_extra->Frame->pack(-fill => 'x', -pady => 2);
 
     $f_opt_f1->Checkbutton(
-        -text     => "Imprimir Cotas (opcionC)",
+        -text     => "Imprimir Cotas",
         -variable => \$main::opcionC
-    )->pack(-side => 'left');
+	)->pack(-side => 'left');
 
     $f_opt_f1->Checkbutton(
         -text     => "Texto Ampliado",
         -variable => \$main::textoAmpliado
-    )->pack(-side => 'left', -padx => 10);
+	)->pack(-side => 'left', -padx => 10);
 
-    my $f_opt_f2 = $f_opciones_extra->Frame->pack(-fill => 'x', -pady => 2);
-    $f_opt_f2->Label(-text => "Fichero TeX:")->pack(-side => 'left');
-    $f_opt_f2->Radiobutton(-text => "Procesar (1)", -value => 1, -variable => \$main::opcion_tex)->pack(-side => 'left');
-    $f_opt_f2->Radiobutton(-text => "Incluir (2)",  -value => 2, -variable => \$main::opcion_tex)->pack(-side => 'left');
+    $f_opt_f1->Checkbutton(
+        -text     => "Incluir/Procesar",
+        -variable => \$main::opcion_tex
+	)->pack(-side => 'left', -padx => 10);
+
+
+    #my $f_opt_f2 = $f_opciones_extra->Frame->pack(-fill => 'x', -pady => 2);
+    #$f_opt_f2->Label(-text => "Fichero TeX:")->pack(-side => 'left');
+    #$f_opt_f2->Radiobutton(-text => "Procesar (1)", -value => 1, -variable => \$main::opcion_tex)->pack(-side => 'left');
+    #$f_opt_f2->Radiobutton(-text => "Incluir (2)",  -value => 2, -variable => \$main::opcion_tex)->pack(-side => 'left');
 
     # Fila 2: Escalas (Entradas alineadas)
     my $f_escalas = $f_opciones_extra->Frame->pack(-fill => 'x', -pady => 4);
@@ -53,6 +59,7 @@ sub crear_panel_opciones_extra {
     $f_combos->Label(-text => "Perfil:", -anchor => 'w')->pack(-side => 'left');
     $f_combos->Optionmenu(
         -variable => \$main::perfiles,
+	-width    => 20,
         -options  => [
             ['1. IPE'                       => 1],
             ['2. IPE+1f (pendiente)'        => 2],
@@ -70,6 +77,7 @@ sub crear_panel_opciones_extra {
     $f_combos->Label(-text => "Comprobacion:", -anchor => 'w')->pack(-side => 'left');
     $f_combos->Optionmenu(
         -variable => \$main::comprobaciones,
+	-width    => 30,
         -options  => [
             ['x,0  Solo dimensionamiento'               => 0],
             ['x,1  E/R'                                 => 1],
