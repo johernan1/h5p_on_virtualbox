@@ -207,6 +207,7 @@ sub preparar_ficheros_tex {
     ejecutar_comando("mv $Porticos$NP/tmp $Porticos$NP/tex");
     #rm -f $Porticos$NP/tex/.X64-lock;
     ejecutar_comando("cd $Porticos$NP; perl ../src/postGrifos.pl");
+    ejecutar_comando("cd $Porticos$NP; perl ../src/latin12utf8.pl");
 }
 
 sub generar_imagenes_gif {

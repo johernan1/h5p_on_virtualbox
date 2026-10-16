@@ -7,9 +7,10 @@ printf("texModelo1-------------------------------------------------------");
     texto:=sprintf("\n".
 "\\documentclass[10pt,a4paper]{report}\n".
 "\\usepackage{graphicx}\n".
-"\\usepackage[latin1]{inputenc}\n".
+"\\usepackage[utf8]{inputenc}\n".
 "\\usepackage[spanish]{babel}\n".
 "\\usepackage{epsf,graphicx,psfrag,calc}\n".
+"\\usepackage{setspace}\n".
 "\\usepackage{rotating}\n\n\n".
 
 
